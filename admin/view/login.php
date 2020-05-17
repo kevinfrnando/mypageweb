@@ -1,4 +1,9 @@
-<body class="bg-gradient-primary">
+<?php
+include 'partials/header.php';
+?>
+
+
+    <body class="bg-gradient-primary">
 
 <div class="container">
 
@@ -17,7 +22,7 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Bienvenido</h1>
                                 </div>
-                                <form class="user" action="validation.php" id="loginForm" method="post">
+                                <form class="user" action="../controller/authentification.php" id="loginForm" method="post">
                                     <div class="form-group">
                                         <input type="email" class="form-control form-control-user" required autofocus id="auth_email" aria-describedby="emailHelp" name="formEmail" placeholder="Igresa tu email aqui">
                                     </div>
@@ -52,14 +57,9 @@
 
 </div>
 
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
-
 </body>
+
+
+<?php
+include 'partials/footer.php';
+?>

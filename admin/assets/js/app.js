@@ -16,7 +16,7 @@ $(document).ready(function(){
                         type: "success",
                         message: "Conectando! :D",
                         callback : function () {
-                            window.location.href = "pages/dashboard.php"
+                            window.location.href = "index.php"
                         }
                     });
                 }else{
