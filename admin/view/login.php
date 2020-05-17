@@ -3,7 +3,7 @@ include 'partials/header.php';
 ?>
 
 
-    <body class="bg-gradient-primary">
+<body class="bg-gradient-primary">
 
 <div class="container">
 
@@ -57,9 +57,6 @@ include 'partials/header.php';
 
 </div>
 
-</body>
-
-
 <?php
-include 'partials/footer.php';
+include 'partials/footerScripts.php';
 ?>
