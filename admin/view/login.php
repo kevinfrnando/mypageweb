@@ -1,6 +1,24 @@
-<?php
-include 'partials/header.php';
-?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <?php session_start(); ?>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Kevin Vergara - Dashboard</title>
+
+    <link href="../assets/vendor/fontawesome-free/css/all.css" rel="stylesheet">
+
+    <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
+
+
+    <link href="../assets/css/overhang.min.css" rel="stylesheet">
+
+</head>
 
 
 <body class="bg-gradient-primary">
@@ -22,7 +40,7 @@ include 'partials/header.php';
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Bienvenido</h1>
                                 </div>
-                                <form class="user" action="../controller/authentification.php" id="loginForm" method="post">
+                                <form class="user" action="../functions/authentification.php" id="loginForm" method="post">
                                     <div class="form-group">
                                         <input type="email" class="form-control form-control-user" required autofocus id="auth_email" aria-describedby="emailHelp" name="formEmail" placeholder="Igresa tu email aqui">
                                     </div>
@@ -57,6 +75,28 @@ include 'partials/header.php';
 
 </div>
 
-<?php
-include 'partials/footerScripts.php';
-?>
+
+</body>
+
+<!-- Bootstrap core JavaScript-->
+<script src="../assets/vendor/jquery/jquery.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../assets/js/sb-admin-2.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+
+
+
+
+<!-- AJAX JS -->
+<script src="../assets/js/overhang.min.js"></script>
+<script src="../assets/js/app.js"></script>
+
+
+</html>

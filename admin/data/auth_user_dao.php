@@ -67,7 +67,7 @@ class auth_user_dao extends conection {
                     deleted_on,
                     updated_on,
                     deleted_by,
-                    status_id FROM auth_user WHERE email = :email AND password = :password";
+                    status_id, permissions_id FROM auth_user WHERE email = :email AND password = :password";
 
             self::get_conection();
             $result = self::$conx->prepare($query);
@@ -94,11 +94,89 @@ class auth_user_dao extends conection {
             $user->setDeleteOn($row["deleted_on"]);
             $user->setDeletedBy($row["deleted_by"]);
             $user->setStatusId($row["status_id"]);
+            $user->setPermissionsId($row["permissions_id"]);
 
             return $user;
         }catch (Exception $e){
 
         }
     }
+
+
+    /**
+     * methodo para registrar Usuario
+     * @param $user
+     * @return bool
+     */
+    public static function registerUser($user){
+        try {
+            $query = "INSERT INTO auth_user (first_name, last_name, full_name, user, email, password, created_on, created_by, status_id, permissions_id)
+                VALUES( :first_name, :last_name, :full_name, :user, :email, :password, :created_on, :created_by, :status_id, :permissions_id )";
+
+            self::get_conection();
+            $result = self::$conx->prepare($query);
+            $result->bindValue(":email", $user->getEmail());
+            $result->bindValue(":password", $user->getPassword());
+            $result->bindValue(":first_name", $user->getFirstName());
+            $result->bindValue(":last_name", $user->getLastName());
+            $result->bindValue(":full_name", $user->getFullName());
+            $result->bindValue(":user", $user->getUser());
+            $result->bindValue(":created_on", $user->getCreatedOn());
+            $result->bindValue(":created_by", $user->getCreatedBy());
+            $result->bindValue(":status_id", $user->getStatusId());
+            $result->bindValue(":permissions_id", $user->getPermissionsId());
+
+            if( $result->execute() ){
+                return true;
+            }
+
+
+            return false;
+        }catch (Exception $e){
+
+        }
+    }
+
+
+    /**
+     * Obtengo todos los usuarios
+     * @return mixed
+     *
+     */
+    public static function getAllUser(){
+        try {
+            $query = "SELECT 
+                    id,
+                    version,
+                    first_name,
+                    last_name,
+                    full_name,
+                    user,
+                    email,
+                    last_login,
+                    last_ip,
+                    created_on,
+                    created_by,
+                    updated_on,
+                    updated_by,
+                    deleted_on,
+                    updated_on,
+                    deleted_by,
+                    status_id, permissions_id FROM auth_user";
+
+            self::get_conection();
+            $result = self::$conx->prepare($query);
+
+            $result->execute();
+
+            $rows = $result->fetchAll();
+
+
+            return $rows;
+        }catch (Exception $e){
+
+        }
+    }
+
 
 }

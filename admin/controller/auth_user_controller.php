@@ -19,4 +19,24 @@ class auth_user_controller{
         return auth_user_dao::getUser( $obj );
     }
 
+    public static function registerUser( $firstName, $lastName, $fullName, $user, $email, $password, $createdBy, $createdOn, $permissionsId, $statusId){
+        $obj = new auth_user();
+        $obj->setLastName( $lastName);
+        $obj->setFirstName( $firstName);
+        $obj->setFullName( $fullName );
+        $obj->setEmail( $email );
+        $obj->setPassword( $password );
+        $obj->setCreatedOn( $createdOn);
+        $obj->setUser( $user );
+        $obj->setCreatedBy( $createdBy);
+        $obj->setStatusId( $statusId );
+        $obj->setPermissionsId( $permissionsId );
+
+        return auth_user_dao::registerUser( $obj );
+    }
+
+
+    public static function getAllUser(){
+        return  auth_user_dao::getAllUser();
+    }
 }

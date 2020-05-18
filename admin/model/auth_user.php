@@ -19,6 +19,23 @@ class auth_user{
     private $updated_by;
     private $deleted_by;
     private $status_id;
+    private $permissions_id;
+
+    /**
+     * @return mixed
+     */
+    public function getPermissionsId()
+    {
+        return $this->permissions_id;
+    }
+
+    /**
+     * @param mixed $permissions_id
+     */
+    public function setPermissionsId($permissions_id)
+    {
+        $this->permissions_id = $permissions_id;
+    }
 
     /**
      * @return mixed
