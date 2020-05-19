@@ -34,9 +34,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $passValidation = fieldValidation( $_POST["userPassValidation"] );
         $fullName = $name . " ".$lastName;
 
-        if( auth_user_controller::registerUser($name, $lastName, $fullName, $user, $email, $pass,  $createdBy, $now, $permissions, $status )){
-            header("location: ../view/index.php");
+        if( isset($_POST["id"])){
+            if( auth_user_controller::registerUser( fieldValidation($_POST["id"]) $name, $lastName, $fullName, $user, $email, $pass,  $createdBy, $now, $permissions, $status )){
+                header("location: ../view/index.php");
+            }
+        }else{
+            if( auth_user_controller::registerUser( null, $name, $lastName, $fullName, $user, $email, $pass,  $createdBy, $now, $permissions, $status )){
+                header("location: ../view/index.php");
+            }
         }
+
 
     }
 }

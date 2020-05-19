@@ -58,7 +58,7 @@ $rows = auth_user_controller::getAllUser();
                                 <td> <?php echo $row["last_login"]; ?></td>
                                 <td> <?php echo $row["last_ip"]; ?></td>
                                 <td> <?php echo $row["permissions_id"]; ?></td>
-                                <td> <button class="btn-success btn-sm"></button></td>
+                                <td> <a href="userRegister.php?id=<?php echo $row["id"]?>" class="btn-success btn-sm">Editar</a></td>
                             </tr>
                         <?php } ?>
 

@@ -2,6 +2,7 @@
 include 'conection.php';
 include '../model/auth_user.php';
 
+
 class auth_user_dao extends conection {
     protected static $conx;
 
@@ -104,15 +105,87 @@ class auth_user_dao extends conection {
 
 
     /**
-     * methodo para registrar Usuario
+     * Metodo para editar usuario
+     * @param $id
+     * @return auth_user
+     *
+     */
+    public static function getUserById($id){
+        try {
+            $query = "SELECT 
+                    id,
+                    version,
+                    first_name,
+                    last_name,
+                    full_name,
+                    user,
+                    email,
+                    last_login,
+                    last_ip,
+                    created_on,
+                    created_by,
+                    updated_on,
+                    updated_by,
+                    deleted_on,
+                    updated_on,
+                    deleted_by,
+                    status_id, permissions_id FROM auth_user WHERE id :id";
+
+            self::get_conection();
+            $result = self::$conx->prepare($query);
+            $result->bindValue(":id", $id);
+
+            $result->execute();
+
+            $row = $result->fetch();
+
+            $user = new auth_user();
+            $user->setId($row["id"]);
+            $user->setVersion($row["version"]);
+            $user->setFirstName($row["first_name"]);
+            $user->setLastName($row["last_name"]);
+            $user->setFullName($row["full_name"]);
+            $user->setUser($row["user"]);
+            $user->setEmail($row["email"]);
+            $user->setLastLogin($row["last_login"]);
+            $user->setLastIp($row["last_ip"]);
+            $user->setCreatedOn($row["created_on"]);
+            $user->setCreatedBy($row["created_by"]);
+            $user->setUpdatedBy($row["updated_by"]);
+            $user->setDeleteOn($row["deleted_on"]);
+            $user->setDeletedBy($row["deleted_by"]);
+            $user->setStatusId($row["status_id"]);
+            $user->setPermissionsId($row["permissions_id"]);
+
+            return $user;
+        }catch (Exception $e){
+
+        }
+    }
+
+    /**
+     * metodo para registrar Usuario
      * @param $user
      * @return bool
      */
     public static function registerUser($user){
         try {
-            $query = "INSERT INTO auth_user (first_name, last_name, full_name, user, email, password, created_on, created_by, status_id, permissions_id)
+            if( $user->getId()) {
+                $query = "INSERT INTO auth_user (first_name, last_name, full_name, user, email, password, created_on, created_by, status_id, permissions_id)
                 VALUES( :first_name, :last_name, :full_name, :user, :email, :password, :created_on, :created_by, :status_id, :permissions_id )";
-
+            }else{
+                $query = "UPDATE auth_user 
+                first_name = :first_name, 
+                last_name = :last_name, 
+                full_name = :full_name, 
+                user = :user, 
+                email = :email, 
+                password = :password, 
+                updated_on = :updated_on, 
+                updated_by = :updated_by, 
+                status_id = :status_id,
+                permissions_id = :permissions_id ";
+            }
             self::get_conection();
             $result = self::$conx->prepare($query);
             $result->bindValue(":email", $user->getEmail());
@@ -121,8 +194,8 @@ class auth_user_dao extends conection {
             $result->bindValue(":last_name", $user->getLastName());
             $result->bindValue(":full_name", $user->getFullName());
             $result->bindValue(":user", $user->getUser());
-            $result->bindValue(":created_on", $user->getCreatedOn());
-            $result->bindValue(":created_by", $user->getCreatedBy());
+            $result->bindValue(":updated_on", $user->getCreatedOn());
+            $result->bindValue(":updated_by", $user->getCreatedBy());
             $result->bindValue(":status_id", $user->getStatusId());
             $result->bindValue(":permissions_id", $user->getPermissionsId());
 
@@ -177,6 +250,7 @@ class auth_user_dao extends conection {
 
         }
     }
+
 
 
 }
