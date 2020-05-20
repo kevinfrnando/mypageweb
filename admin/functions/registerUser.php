@@ -11,7 +11,7 @@ header("Content-type: application/json; charset=utf-8");
 $result = array("logged"=>false);
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    echo "Entro";
+
     if(
         isset( $_POST["userName"]) &&
         isset( $_POST["userLastName"]) &&
@@ -20,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         isset( $_POST["userPermission"]) &&
         isset( $_POST["userPass"]) &&
         isset( $_POST["userPassValidation"])){
-        echo "isset";
+
 
         $name = fieldValidation( $_POST["userName"] );
         $lastName = fieldValidation( $_POST["userLastName"] );
@@ -34,9 +34,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $passValidation = fieldValidation( $_POST["userPassValidation"] );
         $fullName = $name . " ".$lastName;
 
-        if( isset($_POST["id"])){
-            if( auth_user_controller::registerUser( fieldValidation($_POST["id"]) $name, $lastName, $fullName, $user, $email, $pass,  $createdBy, $now, $permissions, $status )){
+        if( isset($_POST["userId"])){
+            if( auth_user_controller::registerUser( fieldValidation($_POST["userId"]), $name, $lastName, $fullName, $user, $email, $pass,  $createdBy, $now, $permissions, $status )){
                 header("location: ../view/index.php");
+
             }
         }else{
             if( auth_user_controller::registerUser( null, $name, $lastName, $fullName, $user, $email, $pass,  $createdBy, $now, $permissions, $status )){

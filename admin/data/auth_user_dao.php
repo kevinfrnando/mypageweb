@@ -129,7 +129,7 @@ class auth_user_dao extends conection {
                     deleted_on,
                     updated_on,
                     deleted_by,
-                    status_id, permissions_id FROM auth_user WHERE id :id";
+                    status_id, permissions_id FROM auth_user WHERE id = :id";
 
             self::get_conection();
             $result = self::$conx->prepare($query);
@@ -138,7 +138,6 @@ class auth_user_dao extends conection {
             $result->execute();
 
             $row = $result->fetch();
-
             $user = new auth_user();
             $user->setId($row["id"]);
             $user->setVersion($row["version"]);
@@ -170,11 +169,12 @@ class auth_user_dao extends conection {
      */
     public static function registerUser($user){
         try {
-            if( $user->getId()) {
+            var_dump($user->getId());
+            if( is_null($user->getId())) {
                 $query = "INSERT INTO auth_user (first_name, last_name, full_name, user, email, password, created_on, created_by, status_id, permissions_id)
                 VALUES( :first_name, :last_name, :full_name, :user, :email, :password, :created_on, :created_by, :status_id, :permissions_id )";
             }else{
-                $query = "UPDATE auth_user 
+                $query = "UPDATE auth_user SET
                 first_name = :first_name, 
                 last_name = :last_name, 
                 full_name = :full_name, 
@@ -184,8 +184,9 @@ class auth_user_dao extends conection {
                 updated_on = :updated_on, 
                 updated_by = :updated_by, 
                 status_id = :status_id,
-                permissions_id = :permissions_id ";
+                permissions_id = :permissions_id WHERE id = :id";
             }
+            echo $query;
             self::get_conection();
             $result = self::$conx->prepare($query);
             $result->bindValue(":email", $user->getEmail());
@@ -198,6 +199,7 @@ class auth_user_dao extends conection {
             $result->bindValue(":updated_by", $user->getCreatedBy());
             $result->bindValue(":status_id", $user->getStatusId());
             $result->bindValue(":permissions_id", $user->getPermissionsId());
+            $result->bindValue(":id", $user->getId());
 
             if( $result->execute() ){
                 return true;

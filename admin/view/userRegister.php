@@ -10,6 +10,7 @@ $user = null;
 if( isset($_GET["id"])){
     $id = fieldValidation($_GET["id"]);
     $user = auth_user_controller::getUserById($id);
+
 }
 ?>
 <!-- Page Wrapper -->
@@ -28,7 +29,7 @@ if( isset($_GET["id"])){
                             </div>
                         <?php } else{ ?>
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Editar Usuario <?php echo $user->getFullName()?></h1>
+                                <h1 class="h4 text-gray-900 mb-4">Editar Usuario <?php echo $user->getFullName();?></h1>
                             </div>
                         <?php } ?>
                         <form class="user" action="../functions/registerUser.php" method="POST">

@@ -33,7 +33,7 @@ class auth_user_controller{
         $obj->setStatusId( $statusId );
         $obj->setPermissionsId( $permissionsId );
         if( !is_null($id)){
-            $obj-setId( $id );
+            $obj->setId( $id );
         }
 
         return auth_user_dao::registerUser( $obj );
