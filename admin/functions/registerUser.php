@@ -24,24 +24,32 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         $name = fieldValidation( $_POST["userName"] );
         $lastName = fieldValidation( $_POST["userLastName"] );
-        $email = fieldValidation( $_POST["userEmail"] );
-        $user = fieldValidation( $_POST["userNick"] );
-        $permissions = fieldValidation( $_POST["userPermission"] );
-        $pass = fieldValidation( $_POST["userPass"] );
-        $status = fieldValidation( $_POST["userStatus"] );
-        $now = date('d-m-Y H:i:s');
-        $createdBy = $_SESSION["user"]["id"];
-        $passValidation = fieldValidation( $_POST["userPassValidation"] );
         $fullName = $name . " ".$lastName;
-
+        $user = fieldValidation( $_POST["userNick"] );
+        $email = fieldValidation( $_POST["userEmail"] );
+        $pass = fieldValidation( $_POST["userPass"] );
+        $createdBy = $_SESSION["user"]["id"];
+        $createdOn = date('d-m-Y H:i:s');
+        $updatedBy = $_SESSION["user"]["id"];
+        $updatedOn = date('d-m-Y H:i:s');
+        $permissions = fieldValidation( $_POST["userPermission"] );
+        $status = fieldValidation( $_POST["userStatus"] );
+        $passValidation = fieldValidation( $_POST["userPassValidation"] );
+        $userId = null;
         if( isset($_POST["userId"])){
-            if( auth_user_controller::registerUser( fieldValidation($_POST["userId"]), $name, $lastName, $fullName, $user, $email, $pass,  $createdBy, $now, $permissions, $status )){
-                header("location: ../view/index.php");
+            $userId = is_null( $_POST["userId"] ) ? null: $_POST["userId"];
 
+        }
+
+
+        if( !is_null($userId)  ){
+            if( auth_user_controller::registerUser( $userId, $name, $lastName, $fullName, $user, $email, $pass,  $createdBy, $createdOn, null, null, $permissions, $status )){
+                header("location: ../view/allUsers.php");
             }
         }else{
-            if( auth_user_controller::registerUser( null, $name, $lastName, $fullName, $user, $email, $pass,  $createdBy, $now, $permissions, $status )){
-                header("location: ../view/index.php");
+
+            if( auth_user_controller::registerUser( null, $name, $lastName, $fullName, $user, $email, $pass,  null, null, $updatedOn, $updatedBy, $permissions, $status )){
+                header("location: ../view/allUsers.php");
             }
         }
 
@@ -49,4 +57,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 }
 //return print(json_encode($result));
-header("location: ../view/userRegister.php");
+//header("location: ../view/userRegister.php");

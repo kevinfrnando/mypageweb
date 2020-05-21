@@ -169,7 +169,7 @@ class auth_user_dao extends conection {
      */
     public static function registerUser($user){
         try {
-            var_dump($user->getId());
+
             if( is_null($user->getId())) {
                 $query = "INSERT INTO auth_user (first_name, last_name, full_name, user, email, password, created_on, created_by, status_id, permissions_id)
                 VALUES( :first_name, :last_name, :full_name, :user, :email, :password, :created_on, :created_by, :status_id, :permissions_id )";
@@ -186,20 +186,26 @@ class auth_user_dao extends conection {
                 status_id = :status_id,
                 permissions_id = :permissions_id WHERE id = :id";
             }
-            echo $query;
+
             self::get_conection();
             $result = self::$conx->prepare($query);
-            $result->bindValue(":email", $user->getEmail());
-            $result->bindValue(":password", $user->getPassword());
             $result->bindValue(":first_name", $user->getFirstName());
             $result->bindValue(":last_name", $user->getLastName());
             $result->bindValue(":full_name", $user->getFullName());
             $result->bindValue(":user", $user->getUser());
-            $result->bindValue(":updated_on", $user->getCreatedOn());
-            $result->bindValue(":updated_by", $user->getCreatedBy());
+            $result->bindValue(":email", $user->getEmail());
+            $result->bindValue(":password", $user->getPassword());
             $result->bindValue(":status_id", $user->getStatusId());
             $result->bindValue(":permissions_id", $user->getPermissionsId());
-            $result->bindValue(":id", $user->getId());
+            if( !is_null($user->getId())){
+                $result->bindValue(":id", $user->getId());
+                $result->bindValue(":updated_on", $user->getCreatedOn());
+                $result->bindValue(":updated_by", $user->getCreatedBy());
+
+            }else{
+                $result->bindValue(":created_by", $user->getCreatedOn());
+                $result->bindValue(":created_on", $user->getCreatedOn());
+            }
 
             if( $result->execute() ){
                 return true;

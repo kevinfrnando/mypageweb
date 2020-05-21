@@ -10,8 +10,8 @@ $user = null;
 if( isset($_GET["id"])){
     $id = fieldValidation($_GET["id"]);
     $user = auth_user_controller::getUserById($id);
-
 }
+
 ?>
 <!-- Page Wrapper -->
     <!-- Content Wrapper -->
@@ -29,25 +29,27 @@ if( isset($_GET["id"])){
                             </div>
                         <?php } else{ ?>
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Editar Usuario <?php echo $user->getFullName();?></h1>
+                                <h1 class="h4 text-gray-900 mb-4">Editar Usuario <?php echo is_null($user) ? "": $user->getFullName();?></h1>
                             </div>
                         <?php } ?>
                         <form class="user" action="../functions/registerUser.php" method="POST">
-                            <input name="userId" hidden value="<?php echo $user->getId()?>">
+                            <?php if( !is_null($user)){?>
+                                    <input name="userId" hidden value="<?php echo $user->getId()?>">
+                            <?php } ?>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" autofocus id="exampleFirstName" value="<?php echo is_null($user) ? "": $user->getFirstName()?>" name="userName" placeholder="Nombres">
+                                    <input type="text" class="form-control form-control-user" autofocus id="exampleFirstName" value="<?php echo is_null($user) ? "": $user->getFirstName();?>" name="userName" placeholder="Nombres">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user" id="exampleLastName" name="userLastName" value="<?php echo is_null($user)?"":$user->getLastName()?>" placeholder="Apellidos">
+                                    <input type="text" class="form-control form-control-user" id="exampleLastName" name="userLastName" value="<?php echo is_null($user)?"":$user->getLastName();?>" placeholder="Apellidos">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control form-control-user" id="exampleLastName" name="userNick" value="<?php echo is_null($user)?"":$user->getUser()?>" placeholder="Usuario">
+                                    <input type="text" class="form-control form-control-user" id="exampleLastName" name="userNick" value="<?php echo is_null($user)?"":$user->getUser();?>" placeholder="Usuario">
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="userEmail" value="<?php echo is_null($user)?"":$user->getEmail()?>" placeholder="Email">
+                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="userEmail" value="<?php echo is_null($user)?"":$user->getEmail();?>" placeholder="Email">
                                 </div>
                             </div>
                             <div class="form-group row">
