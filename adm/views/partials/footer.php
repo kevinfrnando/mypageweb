@@ -63,7 +63,11 @@
 
 <!-- AJAX JS -->
 <script src="<?php echo _ASSETS?>js/overhang.min.js"></script>
+<script src="<?php echo _ASSETS?>js/functions.js"></script>
+<script src="<?php echo _ASSETS?>js/users.js"></script>
 <script src="<?php echo _ASSETS?>js/app.js"></script>
+<script src="<?php echo _ASSETS?>js/materialize.min.js"></script>
+<script src="<?php echo _ASSETS?>js/jquery.validate.min.js"></script>
 
 
 </html>

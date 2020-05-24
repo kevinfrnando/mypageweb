@@ -13,6 +13,7 @@
   <link href="<?php echo _ASSETS?>vendor/fontawesome-free/css/all.css" rel="stylesheet">
 
   <link href="<?php echo _ASSETS?>/css/sb-admin-2.min.css" rel="stylesheet">
+<!--  <link href="--><?php //echo _ASSETS?><!--/css/materialize.min.css" rel="stylesheet">-->
 
 
   <link href="<?php echo _ASSETS?>css/overhang.min.css" rel="stylesheet">
