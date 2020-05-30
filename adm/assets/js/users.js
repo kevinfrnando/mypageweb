@@ -14,6 +14,16 @@ class Users {
             }else{
                 if( validarEmail(email)){
 
+                    $.post(
+                        "Index/userLogin",
+                        {
+                            email, pass
+                        },
+                        (response)=>{
+                            console.log(response);
+                        }
+
+                    );
                 }else{
                     
                 }

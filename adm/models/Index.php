@@ -2,7 +2,7 @@
 
     class Index{
         public function __construct(){
-            $this->index();
+            //$this->index();
         }
         public function index(){
         }
