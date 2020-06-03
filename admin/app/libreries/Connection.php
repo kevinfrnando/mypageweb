@@ -70,7 +70,6 @@ class Connection{
 
     public function execute(){
         return $this->stm->execute();
-
     }
 
     /**

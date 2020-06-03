@@ -14,7 +14,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" href="index.php">
+        <a class="nav-link" href="<?php echo _URL."dashboard"?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -22,21 +22,75 @@
 
     <!-- Nav Item - Users admin -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-            <i class="fas fa-fw fa-wrench"></i>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="true" aria-controls="collapseUsers">
+            <i class="fas fa-fw fa-users"></i>
             <span>Usuarios</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseUsers" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Acciones:</h6>
-                <a class="collapse-item" href="userRegister.php">Agregar Nuevo</a>
-                <a class="collapse-item" href="allUsers.php">Listado</a>
+                <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Agregar Nuevo</a>
+                <a class="collapse-item" href="<?php echo _URL."users/"?>">Listado</a>
                 <a class="collapse-item" href="utilities-border.html">Permisos y Status</a>
 
             </div>
         </div>
     </li>
     <!-- Nav Item - Users Admin -->
+
+    <!-- Nav Item - Users admin -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProfile" aria-expanded="true" aria-controls="collapseProfile">
+            <i class="fas fa-fw fa-address-card"></i>
+            <span>Perfil</span>
+        </a>
+        <div id="collapseProfile" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Acciones:</h6>
+                <a class="collapse-item" href="<?php echo _URL."mainprofile"?>">Perfil General</a>
+                <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Datos Personales</a>
+                <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Skills</a>
+                <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Redes Sociales</a>
+            </div>
+        </div>
+    </li>
+    <!-- Nav Item - Users Admin -->
+
+    <!-- Nav Item - Users admin -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFormation" aria-expanded="true" aria-controls="collapseFormation">
+            <i class="fas fa-fw fa-graduation-cap"></i>
+            <span>Formación</span>
+        </a>
+        <div id="collapseFormation" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Acciones:</h6>
+                <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Experiencia Laboral</a>
+                <a class="collapse-item" href="<?php echo _URL."users/"?>">Experiencia Academica</a>
+
+            </div>
+        </div>
+    </li>
+    <!-- Nav Item - Users Admin -->
+
+    <!-- Nav Item - Users admin -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAbout" aria-expanded="true" aria-controls="collapseAbout">
+            <i class="fas fa-fw fa-info-circle"></i>
+            <span>Sobre mi</span>
+        </a>
+        <div id="collapseAbout" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Acciones:</h6>
+                <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Principal</a>
+                <a class="collapse-item" href="<?php echo _URL."users/"?>">Proyectos </a>
+                <a class="collapse-item" href="<?php echo _URL."users/"?>">Testimonial </a>
+
+            </div>
+        </div>
+    </li>
+    <!-- Nav Item - Users Admin -->
+
 
     <!-- Heading -->
         <div class="sidebar-heading">

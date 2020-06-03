@@ -36,7 +36,7 @@
                 <div class="modal-body">Selecciona <strong>Salir</strong> si en realidad quieres salir.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../controller/sessionDestroy.php">Salir</a>
+                    <a class="btn btn-primary" href="<?php echo _URL."login/logOut"?>">Salir</a>
                 </div>
             </div>
         </div>
@@ -58,16 +58,20 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
 
+<!-- Page level plugins -->
+<script src="<?php echo _ASSETS?>vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="<?php echo _ASSETS?>js/demo/chart-area-demo.js"></script>
+<script src="<?php echo _ASSETS?>js/demo/chart-pie-demo.js"></script>
 
 
 
 <!-- AJAX JS -->
 <script src="<?php echo _ASSETS?>js/overhang.min.js"></script>
-<script src="<?php echo _ASSETS?>js/functions.js"></script>
-<script src="<?php echo _ASSETS?>js/users.js"></script>
+<!--<script src="--><?php //echo _ASSETS?><!--js/functions.js"></script>-->
 <script src="<?php echo _ASSETS?>js/app.js"></script>
-<script src="<?php echo _ASSETS?>js/materialize.min.js"></script>
-<script src="<?php echo _ASSETS?>js/jquery.validate.min.js"></script>
+<!--<script src="--><?php //echo _ASSETS?><!--js/jquery.validate.min.js"></script>-->
 
 
 </html>

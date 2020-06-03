@@ -19,9 +19,11 @@
   <link href="<?php echo _ASSETS?>css/overhang.min.css" rel="stylesheet">
 
 </head>
-
-
-
+<?php
+if( !isset($_SESSION["user"])){
+    helpers::redirecction("login/login");
+}
+?>
 <!-- Page Wrapper -->
 <div id="wrapper">
 

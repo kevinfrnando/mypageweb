@@ -13,14 +13,27 @@ class Controller{
      */
     public function model($model){
         if( file_exists ( "../app/models/".$model.".php" ) ){
+
             require_once "../app/models/".$model.".php";
+
+
             return new $model();
         }
     }
 
     public function view( $view, $data = [] ){
         if( file_exists( "../app/views/".$view.".php") ){
+            if($view != "login/index"){
+                require_once _PARTIALS."header.php";
+            }else{
+                require_once _PARTIALS."headerLogin.php";
+            }
+
+
             require_once "../app/views/".$view.".php";
+
+            require_once _PARTIALS."footer.php";
+
         }else{
             die("No existe la vista");
         }

@@ -1,16 +1,15 @@
 <?php
 
     // DDBB CONFIG
-
     define("DB_HOST","localhost");
     define("DB_USER","root");
     define("DB_PASS","");
     define("DB_NAME","karikum");
 
     // RUTAS DE LA APP
-    define('_URL', 'http://localhost/mypageweb/admin');
-    define("_ROOT", "../" );
-    define("_ROUTE_APP", _ROOT."app/" );
+    define('_URL', 'http://localhost/mypageweb/admin/');
+    define("_ROOT", dirname(dirname(dirname(__FILE__)) ) );
+    define("_ROUTE_APP", dirname(dirname(__FILE__)) );
     define("_ROUTE_PUBLIC", _ROOT."public/" );
 
     define('_CONFIG', _ROUTE_APP.'config/');
@@ -20,11 +19,8 @@
     define('_MODELS', _ROUTE_APP.'models/');
     define('_VIEWS', _ROUTE_APP.'views/');
 
-    define('_PARTIALS', _VIEWS.'partials/');
-    define('_PAGES', _VIEWS.'pages/');
-
-    define('_ASSETS', _ROOT.'admin/assets/');
-
+    define('_PARTIALS', _ROUTE_APP."/views/partials/" );
+    define('_ASSETS', _URL."public/assets/");
 
 
 

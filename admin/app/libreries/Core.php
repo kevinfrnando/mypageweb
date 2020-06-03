@@ -7,20 +7,23 @@
      */
 
     class Core{
-        protected $currentController = "pages";
+        protected $currentController = "DashboardController";
+        protected $notFound = "NotfoundController";
         protected $currentMethod = "index";
         protected $parameters = [];
 
         public function __construct (){
             $url = $this->getUrl();
-
+            $controller = ucwords($url[0])."Controller";
             // Buscamos en controladores si existe
-            if( file_exists("../app/controllers/".ucwords($url[0]).".php")){
-                $this->currentController = ucwords($url[0]);
-
+            if( file_exists("../app/controllers/".$controller.".php")){
+                $this->currentController = $controller;
                 // unset indice
                 unset($url[0]);
+            }else{
+                $this->currentController = "NotfoundController";
             }
+
             require_once "../app/controllers/".$this->currentController.".php";
             $this->currentController = new $this->currentController;
 
@@ -38,9 +41,7 @@
             /**
              *  Obtener parametros
              */
-
             $this->parameters = $url ? array_values($url) : [];
-
             call_user_func_array([$this->currentController, $this->currentMethod], $this->parameters);
 
 
@@ -54,4 +55,5 @@
                 return $url;
             }
         }
+
     }

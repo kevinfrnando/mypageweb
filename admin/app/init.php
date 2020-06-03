@@ -3,6 +3,7 @@
      *  Se cargaran librerias
      *
      */
+    session_start();
 
     require_once "config/config.php";
     //echo __FILE__;
