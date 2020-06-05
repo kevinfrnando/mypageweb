@@ -21,7 +21,7 @@
 </head>
 <?php
 if( !isset($_SESSION["user"])){
-    helpers::redirecction("login/login");
+    helpers::redirecction("login");
 }
 ?>
 <!-- Page Wrapper -->

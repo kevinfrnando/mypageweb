@@ -26,7 +26,7 @@ class AuthUser{
         $this->db->bind(":email", $data["email"] );
         $this->db->bind(":password", $data["password"] );
         $this->db->bind(":created_on", date('d-m-Y H:i:s'));
-        $this->db->bind(":created_by", 1);
+        $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":status_id", 1);
         $this->db->bind(":permissions_id", 1);
 

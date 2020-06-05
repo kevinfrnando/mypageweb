@@ -27,6 +27,7 @@
                     "email" => helpers::fieldValidation($_POST["email"]),
                     "password" => helpers::fieldValidation($_POST["password"]),
                     "permissions" => helpers::fieldValidation($_POST["permissions"]),
+                    "created_by" => $_SESSION["id"],
                     "status" => helpers::fieldValidation($_POST["status"]),
                 ];
 
