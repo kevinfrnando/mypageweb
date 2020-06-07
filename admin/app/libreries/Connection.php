@@ -69,7 +69,16 @@ class Connection{
      */
 
     public function execute(){
-        return $this->stm->execute();
+        try {
+            return $this->stm->execute();
+            $this->disconect();
+        }catch (PDOException $e){
+            return [
+                "code" => $e->getCode(),
+                "message" => $e->getMessage()
+            ];
+        }
+
     }
 
     /**
@@ -92,5 +101,10 @@ class Connection{
 
     public function rowCount(){
         return $this->stm->rowCount();
+    }
+
+    public function disconect(){
+        $this->stm = null;
+        $this->dbh = null;
     }
 }

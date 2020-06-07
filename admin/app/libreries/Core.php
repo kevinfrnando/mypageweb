@@ -14,7 +14,12 @@
 
         public function __construct (){
             $url = $this->getUrl();
-            $controller = ucwords($url[0])."Controller";
+            $controller ="";
+            if( $url[0] != null){
+                $controller = ucwords($url[0])."Controller";
+            }else{
+                $controller = $this->currentController;
+            }
             // Buscamos en controladores si existe
             if( file_exists("../app/controllers/".$controller.".php")){
                 $this->currentController = $controller;

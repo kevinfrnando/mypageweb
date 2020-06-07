@@ -19,6 +19,11 @@
 
 </head>
 
+<?php
+    if( isset( $_SESSION["user"]["id"])){
+        helpers::redirecction("dashboard");
+    }
+?>
 
 <body class="bg-gradient-primary">
 
@@ -65,11 +70,6 @@
                             </div>
                         </div>
                     </div>
-                    <?php
-                        if( isset($data)){
-                            echo "hola";
-                        }
-                    ?>
                 </div>
             </div>
 
