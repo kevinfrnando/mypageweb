@@ -16,37 +16,60 @@ class loginController extends Controller{
               "email" => helpers::fieldValidation($_POST["email"]),
               "password" => helpers::fieldValidation($_POST["password"])
             ];
-            $record = $this->login->login($data);
-
-            if($record){
-                //
-                //helpers::sessionStart();
-                $_SESSION["user"] = array(
-                    "id" => $record->id,
-                    "firstName" => $record->first_name,
-                    "lastName" => $record->last_name,
-                    "fullName" => $record->full_name,
-                    "status_id" => $record->status_id,
-                    "last_ip" => $record->last_ip,
-                    "last_login" => $record->last_login
-                );
-                //var_dump($_SESSION);
-                helpers::redirecction("dashboard");
-            }
-            else{
-                $data = [
-                    "logged" => false,
-                    "message" => "Usuario o clave Incorrecta."
+            $data = $this->login->loginValidation($data);
+            if( !is_null($data["status"])  && !is_null(  $data["userId"]) ){
+                $loginData = [
+                    "host" => gethostname(),
+                    "app_name" => APP_NAME,
+                    "browser" => helpers::getBrowser($_SERVER['HTTP_USER_AGENT']),
+                    "ip" => helpers::getRealIP(),
+                    "type" => 1,
+                    "user_id" => $data["userId"]
                 ];
+                $loginResponse = $this->login->login($loginData);
+                if( $loginResponse ){
+
+                    $_SESSION["user"] = array(
+                        "id" => $loginResponse->id,
+                        "firstName" => $loginResponse->first_name,
+                        "lastName" => $loginResponse->last_name,
+                        "fullName" => $loginResponse->full_name,
+                        "status_id" => $loginResponse->status_id,
+                        "last_ip" => $loginResponse->last_ip,
+                        "last_login" => $loginResponse->last_login
+                    );
+                    //var_dump($_SESSION);
+                    helpers::redirecction("dashboard");
+                }
+
+            }else{
                 $this->view("login/index", $data);
             }
 
+        }else{
+            helpers::redirecction("login/index");
         }
 
     }
 
     public function logOut(){
+        $loginData = [
+            "host" => gethostname(),
+            "app_name" => APP_NAME,
+            "browser" => helpers::getBrowser($_SERVER['HTTP_USER_AGENT']),
+            "ip" => helpers::getRealIP(),
+            "type" => 0,
+            "user_id" => $data["userId"]
+        ];
+        $this->login->login($loginData);
         session_destroy();
         helpers::redirecction("login/index");
+    }
+
+    public function logs(){
+        $data = [
+            "logs" => $this->login->getLoginLogs()
+        ];
+        $this->view("login/logs", $data);
     }
 }

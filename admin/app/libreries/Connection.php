@@ -14,7 +14,9 @@ class Connection{
         $stringConnection = "mysql:host=".$this->host.";dbname=".$this->dbName;
         $options = array(
             PDO::ATTR_PERSISTENT => true,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_EMULATE_PREPARES => true,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         );
         try {
             $this->dbh = new PDO( $stringConnection , $this->user, $this->pass, $options);
@@ -64,6 +66,48 @@ class Connection{
     }
 
     /**
+     * @param $sqlParameter
+     * @param $value
+     * @param null $type
+     *
+     * Vinculamos los parametros
+     *
+     */
+    public function bindInOut($sqlParameter, $value, $type = null){
+        if( is_null($type) ){
+            switch ( true ){
+                case is_int( $value );
+                    $type = PDO::PARAM_INT|PDO::PARAM_INPUT_OUTPUT;
+                    break;
+                case is_bool( $value );
+                    $type = PDO::PARAM_BOOL|PDO::PARAM_INPUT_OUTPUT;
+                    break;
+                case is_null( $value );
+                    $type = PDO::PARAM_NULL|PDO::PARAM_INPUT_OUTPUT;
+                    break;
+                default :
+                    $type = PDO::PARAM_STR|PDO::PARAM_INPUT_OUTPUT;
+                    break;
+            }
+        }
+
+        $this->stm->bindParam($sqlParameter, $value, $type);
+    }
+
+    public function inOutQuery($sql){
+
+
+
+        return $this->dbh->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function currentQuery($sql){
+        $this->stm->execute();
+        $this->stm->closeCursor();
+        return current( $this->dbh->query($sql)->fetchAll(PDO::FETCH_ASSOC));
+    }
+
+    /**
      * @return mixed
      * Ejecuta la consulta
      */
@@ -71,6 +115,7 @@ class Connection{
     public function execute(){
         try {
             return $this->stm->execute();
+
             $this->disconect();
         }catch (PDOException $e){
             return [

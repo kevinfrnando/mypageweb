@@ -6,6 +6,9 @@
     define("DB_PASS","");
     define("DB_NAME","karikum");
 
+
+    define("APP_NAME","KEVIN VERGARA ADMIN WEB PAGE");
+
     // RUTAS DE LA APP
     define('_URL', 'http://localhost/mypageweb/admin/');
     define("_ROOT", dirname(dirname(dirname(__FILE__)) ) );

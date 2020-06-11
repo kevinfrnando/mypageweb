@@ -62,6 +62,20 @@
                                         Ingresar
                                     </button>
                                     <hr>
+                                    <?php
+                                        if ( count($data) ){
+                                            if( is_null($data["userId"]) && is_null( $data["status"])){
+                                                ?>
+                                                <div class="card bg-danger text-white shadow alert alert-danger alert-dismissible fade show" role="alert">
+                                                    <strong>Ups!</strong> No puedes Acceder. <?php echo $data["message"];?>
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <?php
+                                            }
+                                        }
+                                    ?>
                                 </form>
                                 <hr>
                                 <div class="text-center">
