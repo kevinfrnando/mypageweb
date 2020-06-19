@@ -26,7 +26,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th hidden>Id</th>
+                        <th>Id</th>
                         <th>Code</th>
                         <th>Description</th>
                         <th>Version</th>
@@ -40,7 +40,7 @@
                     </thead>
                     <tfoot>
                     <tr>
-                        <th hidden>Id</th>
+                        <th>Id</th>
                         <th>Code</th>
                         <th>Description</th>
                         <th>Version</th>
@@ -55,7 +55,7 @@
                     <tbody>
                     <?php foreach ( $data["tabs"] as $tab) { ?>
                         <tr>
-                            <td hidden> <?php echo $tab->id; ?></td>
+                            <td> <?php echo $tab->id; ?></td>
                             <td> <?php echo $tab->code; ?></td>
                             <td> <?php echo $tab->description; ?></td>
                             <td> <?php echo $tab->version; ?></td>
@@ -73,7 +73,7 @@
                             </td>
                             <td>
                                 <a href="<?php echo _URL."tabs/insert/".helpers::encrypt($tab->id)?>" class="btn-success btn-sm">Editar</a>
-                                <a href="#" class="btn-danger btn-sm" data-toggle="modal" data-target="#deleteTabModal">Eliminar</a>
+                                <a href="#" class="btn-danger btn-sm" data-id="<?php echo helpers::encrypt($tab->id) ?>" data-toggle="modal" data-target="#deleteModal">Eliminar</a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -81,14 +81,34 @@
                     </tbody>
                 </table>
             </div>
+            <div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item <?php echo ( $data["current"] == 1 )  ? "disabled" : "" ?>">
+                            <a class="page-link" href="<?php echo _URL."tabs/".( $data["current"] - 1)?>" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <?php
+                        for( $i = 0 ; $i < $data["totalTabs"]; $i ++){ ?>
+                            <li class="page-item <?php echo ( $data["current"] == $i+1) ? "active" : "" ?>">
+                                <a class="page-link" href="<?php echo _URL."tabs/".( $i + 1)?>"><?php echo $i + 1;?></a>
+                            </li>
+                        <?php }
+                        ?>
+                        <li class="page-item <?php echo ( $data["totalTabs"] == $data["current"] )  ? "disabled" : "" ?>">
+                            <a class="page-link" href="<?php echo _URL."tabs/".( $data["current"] + 1)?>">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
+
     </div>
 </div>
 <!-- /.container-fluid -->
 
 <!-- Tabs Delete Modal -->
-<div class="modal fade" id="deleteTabModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal small fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Precaución</h5>
@@ -97,10 +117,13 @@
                 </button>
             </div>
             <div class="modal-body">Seguro deseas <strong>Eliminar</strong> este registro?.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger" href="<?php echo _URL."tabs/delete/".helpers::encrypt($tab->id)?>">Eliminar</a>
-            </div>
+            <form>
+                <div class="modal-footer">
+
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger" id="deleteAnchor" href="<?php echo _URL."tabs/delete/"?>">Eliminar</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>

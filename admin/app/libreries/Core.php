@@ -12,6 +12,13 @@
         protected $currentMethod = "index";
         protected $parameters = [];
 
+        /**
+         * @var mixed|string|null
+         */
+
+
+
+
         public function __construct (){
             $url = $this->getUrl();
             $controller ="";

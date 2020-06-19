@@ -7,8 +7,10 @@ class Tabs
         $this->db = new Connection();
     }
 
-    public function getData(){
-        $this->db->query("call sp_get_tabs()");
+    public function getData( $start, $limit ){
+        $this->db->query("call sp_get_tabs( :start, :limit)");
+        $this->db->bind( ":start" , $start);
+        $this->db->bind( ":limit" , $limit);
         return $this->db->getAll();
     }
 
@@ -26,6 +28,11 @@ class Tabs
     public function getTab($id){
         $this->db->query("call sp_find_tab(?)");
         $this->db->bind(1, $id);
+        return $this->db->getRecord();
+    }
+
+    public function countRows(){
+        $this->db->query(" CALL sp_count_tabs()");
         return $this->db->getRecord();
     }
 
@@ -53,4 +60,6 @@ class Tabs
         $this->db->query("call sp_get_main_status");
         return $this->db->getAll();
     }
+
+
 }

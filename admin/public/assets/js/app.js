@@ -1,5 +1,12 @@
 $(document).ready(function(){
-
+    $('#deleteModal').on('show.bs.modal', function( e ){
+        var link = document.getElementById("deleteAnchor").getAttribute("href");
+        var id = $(e.relatedTarget).data('id');
+        var newLink = link+id;
+        document.getElementById("deleteAnchor").href = newLink;
+        console.log();
+        console.log(link);
+    });
     // Bind captura el evento, Click, Submit, etc
     // $("#loginForm").bind("submit", function () {
     //     $.ajax({

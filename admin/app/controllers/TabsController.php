@@ -8,11 +8,19 @@ class TabsController extends Controller
         $this->statusObj = $this->tab->getStatus();
     }
 
-    public function index(){
-        $tabs = $this->tab->getData();
+    public function index( $i = 1){
+
+        $rowCounts = $this->tab->countRows()->count;
+        $start = ( $i - 1) * 5;
+        $totalTabs = ceil($rowCounts / 5);
+        $tabs = $this->tab->getData($start,5);
+
+        $count = $this->tab->countRows();
         $data = [
             "tabs"=> $tabs,
-            "statusObj" => $this->statusObj
+            "statusObj" => $this->statusObj,
+            "totalTabs" => $totalTabs,
+            "current" => $i
         ];
         $this->view("tabs/index", $data);
 
@@ -82,6 +90,7 @@ class TabsController extends Controller
     }
 
     public function delete($id){
+
         if( $id != null ){
             $data = [
                 "id" => helpers::decrypt($id),
@@ -94,5 +103,7 @@ class TabsController extends Controller
             }
         }
     }
+
+
 
 }

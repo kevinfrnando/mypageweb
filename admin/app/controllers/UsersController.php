@@ -25,7 +25,7 @@
                     "last_name" => helpers::fieldValidation($_POST["last_name"]),
                     "user" => helpers::fieldValidation($_POST["user"]),
                     "email" => helpers::fieldValidation($_POST["email"]),
-                    "password" => helpers::fieldValidation($_POST["password"]),
+                    "password" => helpers::encryptPass(helpers::fieldValidation($_POST["password"])),
                     "permissions" => helpers::fieldValidation($_POST["permissions"]),
                     "created_by" => $_SESSION["user"]["id"],
                     "status" => helpers::fieldValidation($_POST["status"]),

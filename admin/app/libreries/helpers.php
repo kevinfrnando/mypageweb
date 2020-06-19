@@ -3,6 +3,7 @@ class helpers{
     private static $KeySuperSecret = "Peleo junto a sirenoman y chico perseve por la liertad de fondo de bikini";
     private static $method = "AES-256-CBC";
     private static $secretId = "0951193242";
+
     public static function encrypt ($string) {
         $output=FALSE;
         $key=hash('sha256', helpers::$KeySuperSecret);
@@ -71,6 +72,11 @@ class helpers{
         return $ipaddress;
     }
 
+    public static function encryptPass( $pass ){
+            $options = ['memory_cost' => 1<<10, 'time_cost' => 4, 'threads' => 2];
+            return password_hash('$password', PASSWORD_ARGON2I);
+
+    }
 
 
 }
