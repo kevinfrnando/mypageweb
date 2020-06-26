@@ -1,4 +1,4 @@
-
+<?php //var_dump($_SESSION);?>
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -22,25 +22,23 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <div class="table-responsive table-responsive-sm">
+                <table class="table table-bordered table-striped table-hover table-sm" id="dataTable" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Code</th>
-                        <th>Description</th>
-                        <th>Version</th>
-                        <th>Fecha Creación</th>
-                        <th>Creado Por</th>
-                        <th>Ultima Modificación</th>
-                        <th>Modificado Por</th>
-                        <th>Status</th>
-                        <th>Acciones</th>
+                        <th><span class="text-nowrap"> Code </span></th>
+                        <th><span class="text-nowrap"> Description </span></th>
+                        <th><span class="text-nowrap"> Version </span></th>
+                        <th><span class="text-nowrap"> Fecha Creación </span></th>
+                        <th><span class="text-nowrap"> Creado Por </span></th>
+                        <th><span class="text-nowrap"> Ultima Modificación </span></th>
+                        <th><span class="text-nowrap"> Modificado Por </span></th>
+                        <th><span class="text-nowrap"> Status </span></th>
+                        <th><span class="text-nowrap"> Acciones </span></th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
-                        <th>Id</th>
                         <th>Code</th>
                         <th>Description</th>
                         <th>Version</th>
@@ -55,23 +53,38 @@
                     <tbody>
                     <?php foreach ( $data["tabs"] as $tab) { ?>
                         <tr>
-                            <td> <?php echo $tab->id; ?></td>
-                            <td> <?php echo $tab->code; ?></td>
-                            <td> <?php echo $tab->description; ?></td>
-                            <td> <?php echo $tab->version; ?></td>
-                            <td> <?php echo $tab->created_on; ?></td>
-                            <td> <?php echo $tab->created_by; ?></td>
-                            <td> <?php echo $tab->updated_on; ?></td>
-                            <td> <?php echo $tab->updated_by; ?></td>
-                            <td> <?php
-                                foreach ($data["statusObj"] as $status){
+                            <td><span class="text-nowrap"> <?php echo $tab->code; ?></span></td>
+                            <td><span class="text-nowrap"> <?php echo $tab->description; ?></span></td>
+                            <td><span class="text-nowrap"> <?php echo $tab->version; ?></span></td>
+                            <td><span class="text-nowrap"> <?php echo $tab->created_on; ?></span></td>
+                            <td>
+                                <span class="text-nowrap"> <?php
+                                    foreach ( $data["usersArray"] as $user ){
+                                        if( $tab->created_by == $user->id){
+                                            echo $user->full_name;
+                                        }
+                                    } ?>
+                                </span>
+                            </td>
+                            <td><span class="text-nowrap"> <?php echo $tab->updated_on; ?></span></td>
+                            <td>
+                                <span class="text-nowrap"> <?php
+                                    foreach ( $data["usersArray"] as $user ){
+                                        if( $tab->updated_by == $user->id){
+                                            echo $user->full_name;
+                                        }
+                                    } ?>
+                                </span>
+                            </td>
+                            <td><span class="text-nowrap"> <?php
+                                foreach ($data["statusArray"] as $status){
                                     if( $tab->status_id == $status->id){
                                         echo $status->description;
                                     }
                                 }
-                                ?>
+                                    ?></span>
                             </td>
-                            <td>
+                            <td class="text-nowrap">
                                 <a href="<?php echo _URL."tabs/insert/".helpers::encrypt($tab->id)?>" class="btn-success btn-sm">Editar</a>
                                 <a href="#" class="btn-danger btn-sm" data-id="<?php echo helpers::encrypt($tab->id) ?>" data-toggle="modal" data-target="#deleteModal">Eliminar</a>
                             </td>
@@ -117,13 +130,10 @@
                 </button>
             </div>
             <div class="modal-body">Seguro deseas <strong>Eliminar</strong> este registro?.</div>
-            <form>
-                <div class="modal-footer">
-
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-danger" id="deleteAnchor" href="<?php echo _URL."tabs/delete/"?>">Eliminar</a>
-                </div>
-            </form>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger" id="deleteAnchor" href="<?php echo _URL."tabs/delete/"?>">Eliminar</a>
+            </div>
         </div>
     </div>
 </div>

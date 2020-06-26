@@ -4,9 +4,11 @@ $(document).ready(function(){
         var id = $(e.relatedTarget).data('id');
         var newLink = link+id;
         document.getElementById("deleteAnchor").href = newLink;
-        console.log();
-        console.log(link);
     });
+
+
+
+
     // Bind captura el evento, Click, Submit, etc
     // $("#loginForm").bind("submit", function () {
     //     $.ajax({

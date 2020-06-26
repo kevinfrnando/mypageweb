@@ -32,7 +32,7 @@ class Login{
         $this->db->bind(":date", date("Y-m-d H:i:s"));
         $this->db->bind(":type", $data["type"]);
         $this->db->bind(":user_id", $data["user_id"]);
-        return $this->db->getAll();
+        return $this->db->getRecord();
     }
 
     public function getLoginLogs(){

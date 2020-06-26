@@ -38,7 +38,6 @@ class loginController extends Controller{
                         "last_ip" => $loginResponse->last_ip,
                         "last_login" => $loginResponse->last_login
                     );
-                    //var_dump($_SESSION);
                     helpers::redirecction("dashboard");
                 }
 

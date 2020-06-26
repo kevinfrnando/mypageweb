@@ -64,42 +64,37 @@ class Connection{
 
         $this->stm->bindValue($sqlParameter, $value, $type);
     }
-
-    /**
-     * @param $sqlParameter
-     * @param $value
-     * @param null $type
-     *
-     * Vinculamos los parametros
-     *
-     */
-    public function bindInOut($sqlParameter, $value, $type = null){
-        if( is_null($type) ){
-            switch ( true ){
-                case is_int( $value );
-                    $type = PDO::PARAM_INT|PDO::PARAM_INPUT_OUTPUT;
-                    break;
-                case is_bool( $value );
-                    $type = PDO::PARAM_BOOL|PDO::PARAM_INPUT_OUTPUT;
-                    break;
-                case is_null( $value );
-                    $type = PDO::PARAM_NULL|PDO::PARAM_INPUT_OUTPUT;
-                    break;
-                default :
-                    $type = PDO::PARAM_STR|PDO::PARAM_INPUT_OUTPUT;
-                    break;
-            }
-        }
-
-        $this->stm->bindParam($sqlParameter, $value, $type);
-    }
-
-    public function inOutQuery($sql){
+//
+//    /**
+//     * @param $sqlParameter
+//     * @param $value
+//     * @param null $type
+//     *
+//     * Vinculamos los parametros
+//     *
+//     */
+//    public function bindInOut($sqlParameter, $value, $type = null){
+//        if( is_null($type) ){
+//            switch ( true ){
+//                case is_int( $value );
+//                    $type = PDO::PARAM_INT|PDO::PARAM_INPUT_OUTPUT;
+//                    break;
+//                case is_bool( $value );
+//                    $type = PDO::PARAM_BOOL|PDO::PARAM_INPUT_OUTPUT;
+//                    break;
+//                case is_null( $value );
+//                    $type = PDO::PARAM_NULL|PDO::PARAM_INPUT_OUTPUT;
+//                    break;
+//                default :
+//                    $type = PDO::PARAM_STR|PDO::PARAM_INPUT_OUTPUT;
+//                    break;
+//            }
+//        }
+//
+//        $this->stm->bindParam($sqlParameter, $value, $type);
+//    }
 
 
-
-        return $this->dbh->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-    }
 
     public function currentQuery($sql){
         $this->stm->execute();
@@ -116,7 +111,7 @@ class Connection{
         try {
             return $this->stm->execute();
 
-            $this->disconect();
+//            $this->disconect();
         }catch (PDOException $e){
             return [
                 "code" => $e->getCode(),
@@ -133,19 +128,27 @@ class Connection{
 
     public function getAll(){
         $this->execute();
-        return $this->stm->fetchALL(PDO::FETCH_OBJ);
 
+        $records = $this->stm->fetchALL(PDO::FETCH_OBJ);
+
+        $this->stm->closeCursor();
+
+        return $records;
     }
 
 
     public function getRecord(){
         $this->execute();
-        return $this->stm->fetch(PDO::FETCH_OBJ);
+        $record = $this->stm->fetch(PDO::FETCH_OBJ);
+        $this->stm->closeCursor();
+        return $record;
     }
 
 
     public function rowCount(){
-        return $this->stm->rowCount();
+        $record =  $this->stm->rowCount();
+        $this->stm->closeCursor();
+        return $record;
     }
 
     public function disconect(){

@@ -10,4 +10,10 @@ class MainStatus{
         $this->db->query("CALL sp_get_main_status");
         return $this->db->getAll();
     }
+
+    public function getMainStatusIn($ids){
+        $this->db->query("CALL sp_get_main_status_in(:ids)");
+        $this->db->bind(":ids", $ids);
+        return $this->db->getAll();
+    }
 }

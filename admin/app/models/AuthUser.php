@@ -8,11 +8,8 @@ class AuthUser{
     }
 
     public function getAll(){
-        $this->db->query("select * from auth_user");
-
-        $rows = $this->db->getAll();
-
-        return $rows;
+        $this->db->query("CALL sp_get_auth_users");
+        return $this->db->getAll();
     }
 
     public function insert($data){
@@ -38,6 +35,12 @@ class AuthUser{
         $this->db->query("select * from auth_user where id = :id");
         $this->db->bind(":id", $id);
         return $this->db->getRecord();
+    }
+
+    public function getUsersIn($ids){
+        $this->db->query("CALL sp_get_auth_users_in(:ids)");
+        $this->db->bind(":ids", $ids);
+        return $this->db->getAll();
     }
 
 
