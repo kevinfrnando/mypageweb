@@ -74,7 +74,7 @@ class TabsController extends Controller
                     helpers::redirecction("tabs");
                 }else{
                     $data["error"] = $execute;
-                    $data["statusObj"] = $this->statusObj;
+                    $data["statusObj"] = $this->status->getAll();
                     $this->view("tabs/insert", $data);
                 }
 
@@ -98,12 +98,13 @@ class TabsController extends Controller
              */
 
             $tab = $this->tab->getTab( helpers::decrypt($id));
+
             $data = [
                 "id" => $tab->id,
                 "code" => $tab->code,
                 "description" => $tab->description,
                 "status_id" => $tab->status_id,
-                "statusObj" => $this->statusObj
+                "statusObj" => $this->status->getAll()
             ];
 
             $this->view("tabs/insert", $data);
@@ -114,7 +115,7 @@ class TabsController extends Controller
                 "code" => "",
                 "description" => "",
                 "status_id" => "",
-                "statusObj" => $this->statusObj
+                "statusObj" => $this->status->getAll()
             ];
 
             $this->view("tabs/insert", $data);

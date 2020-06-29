@@ -27,6 +27,7 @@
             }else{
                 $controller = $this->currentController;
             }
+
             // Buscamos en controladores si existe
             if( file_exists("../app/controllers/".$controller.".php")){
                 $this->currentController = $controller;
@@ -35,6 +36,7 @@
             }else{
                 $this->currentController = "NotfoundController";
             }
+
 
             require_once "../app/controllers/".$this->currentController.".php";
             $this->currentController = new $this->currentController;

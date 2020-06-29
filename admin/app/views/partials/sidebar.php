@@ -106,7 +106,8 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Mantenimiento:</h6>
-                    <a class="collapse-item" href="buttons.html">Perfil General</a>
+                    <a class="collapse-item" href="#">Perfil General</a>
+                    <a class="collapse-item" href="<?php echo _URL."authpermissions"?>">Permisos</a>
                     <a class="collapse-item" href="<?php echo _URL."tabs"?>">Tabs</a>
                     <a class="collapse-item" href="<?php echo _URL."login/logs"?>">Logs</a>
                 </div>
