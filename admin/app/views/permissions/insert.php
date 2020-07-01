@@ -61,34 +61,34 @@
                                         <div class="form-row">
                                             <div class="form-group col-sm-3">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="read">
-                                                    <label class="form-check-label" for="gridRadios1">
-                                                        Leer
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-sm-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="create">
                                                     <label class="form-check-label" for="gridRadios1">
                                                         Crear
                                                     </label>
+                                                    <input class="form-check-input" type="checkbox" data-toggle="toggle" data-size="xs" <?php echo $data["can_read"] == 1 ? "checked": "" ?> name="create">
                                                 </div>
                                             </div>
                                             <div class="form-group col-sm-3">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="edit">
+                                                    <label class="form-check-label" for="gridRadios1">
+                                                        Leer
+                                                    </label>
+                                                    <input class="form-check-input" type="checkbox" data-toggle="toggle" data-size="xs" <?php echo $data["can_read"] == 1 ? "checked": "" ?> name="read">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-3">
+                                                <div class="form-check">
                                                     <label class="form-check-label" for="gridRadios1">
                                                         Editar
                                                     </label>
+                                                    <input class="form-check-input" type="checkbox" data-toggle="toggle" data-size="xs" <?php echo $data["can_update"] == 1 ? "checked": "" ?> name="edit">
                                                 </div>
                                             </div>
                                             <div class="form-group col-sm-3">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="delete">
                                                     <label class="form-check-label" for="gridRadios1">
                                                         Eliminar
                                                     </label>
+                                                    <input class="form-check-input" type="checkbox" data-toggle="toggle" data-size="xs" <?php echo $data["can_delete"] == 1 ? "checked": "" ?> name="delete">
                                                 </div>
                                             </div>
                                         </div>

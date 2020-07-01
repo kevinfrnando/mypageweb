@@ -29,10 +29,10 @@
                         <th><span class="text-nowrap"> Code </span></th>
                         <th><span class="text-nowrap"> Description </span></th>
                         <th><span class="text-nowrap"> Version </span></th>
-                        <th><span class="text-nowrap"> Lectura </span></th>
-                        <th><span class="text-nowrap"> Escritura </span></th>
-                        <th><span class="text-nowrap"> Eliminar </span></th>
+                        <th><span class="text-nowrap"> Crear </span></th>
+                        <th><span class="text-nowrap"> Leer </span></th>
                         <th><span class="text-nowrap"> Actualizar </span></th>
+                        <th><span class="text-nowrap"> Eliminar </span></th>
                         <th><span class="text-nowrap"> Creado Por </span></th>
                         <th><span class="text-nowrap"> Fecha Creación </span></th>
                         <th><span class="text-nowrap"> Modificado Por </span></th>
@@ -46,9 +46,9 @@
                         <th><span class="text-nowrap"> Description </span></th>
                         <th><span class="text-nowrap"> Version </span></th>
                         <th><span class="text-nowrap"> Crear </span></th>
-                        <th><span class="text-nowrap"> Lectura </span></th>
-                        <th><span class="text-nowrap"> Eliminar </span></th>
+                        <th><span class="text-nowrap"> Leer </span></th>
                         <th><span class="text-nowrap"> Actualizar </span></th>
+                        <th><span class="text-nowrap"> Eliminar </span></th>
                         <th><span class="text-nowrap"> Creado Por </span></th>
                         <th><span class="text-nowrap"> Fecha Creación </span></th>
                         <th><span class="text-nowrap"> Modificado Por </span></th>
@@ -64,8 +64,8 @@
                             <td><span class="text-nowrap"> <?php echo $permission->version; ?></span></td>
                             <td class="text-center"><input <?php echo $permission->can_create == 1 ? "checked" : "" ; ?> onclick="javascript: return false;" type="checkbox"></td>
                             <td class="text-center"><input <?php echo $permission->can_read == 1 ? "checked" : "" ; ?> onclick="javascript: return false;" type="checkbox"></td>
-                            <td class="text-center"><input <?php echo $permission->can_delete == 1 ? "checked" : "" ; ?> onclick="javascript: return false;" type="checkbox"></td>
                             <td class="text-center"><input <?php echo $permission->can_update == 1 ? "checked" : "" ; ?> onclick="javascript: return false;" type="checkbox"></td>
+                            <td class="text-center"><input <?php echo $permission->can_delete == 1 ? "checked" : "" ; ?> onclick="javascript: return false;" type="checkbox"></td>
                             <td>
                                 <span class="text-nowrap"> <?php
                                     foreach ( $data["users"] as $user ){
@@ -88,8 +88,8 @@
                             <td><span class="text-nowrap"> <?php echo $permission->updated_on; ?></span></td>
 
                             <td class="text-nowrap">
-                                <a href="<?php echo _URL."#".helpers::encrypt($permission->id)?>" class="btn-success btn-sm">Editar</a>
-                                <a href="#" class="btn-danger btn-sm" data-id="<?php echo helpers::encrypt($permission->id) ?>" data-toggle="modal" data-target="#deletePermissionModal">Eliminar</a>
+                                <a href="<?php echo _URL."authpermissions/insert/".helpers::encrypt($permission->id)?>" class="btn-success btn-sm">Editar</a>
+                                <a href="#" class="btn-danger btn-sm" data-id="<?php echo helpers::encrypt($permission->id) ?>" data-toggle="modal" data-target="#deleteModal">Eliminar</a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -123,7 +123,7 @@
 <!-- /.container-fluid -->
 
 <!-- Tabs Delete Modal -->
-<div class="modal small fade" id="deletePermissionModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+<div class="modal small fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -135,7 +135,7 @@
             <div class="modal-body">Seguro deseas <strong>Eliminar</strong> este registro?.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger" id="deleteAnchor" href="<?php echo _URL."authpermission/delete/"?>">Eliminar</a>
+                <a class="btn btn-danger" id="deleteAnchor" href="<?php echo _URL."authpermissions/delete/"?>">Eliminar</a>
             </div>
         </div>
     </div>

@@ -73,7 +73,7 @@
 <!--<script src="--><?php //echo _ASSETS?><!--js/functions.js"></script>-->
 <script type="text/javascript" src="<?php echo _ASSETS?>js/app.js"></script>
 <!--<script src="--><?php //echo _ASSETS?><!--js/jquery.validate.min.js"></script>-->
-
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <!-- BOOTSTRAP SCRIPTS -->-->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

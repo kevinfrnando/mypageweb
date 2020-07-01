@@ -20,25 +20,6 @@
     </li>
     <!-- Nav Item - Dashboard -->
 
-    <!-- Nav Item - Users admin -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="true" aria-controls="collapseUsers">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Usuarios</span>
-        </a>
-        <div id="collapseUsers" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Acciones:</h6>
-                <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Agregar Nuevo</a>
-                <a class="collapse-item" href="<?php echo _URL."users/"?>">Listado</a>
-                <a class="collapse-item" href="utilities-border.html">Permisos y Status</a>
-
-            </div>
-        </div>
-    </li>
-    <!-- Nav Item - Users Admin -->
-
-    <!-- Nav Item - Users admin -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProfile" aria-expanded="true" aria-controls="collapseProfile">
             <i class="fas fa-fw fa-address-card"></i>
@@ -94,11 +75,31 @@
 
     <!-- Heading -->
         <div class="sidebar-heading">
-            Mantenimiento de la Página
+            Herramientas de Administrador
         </div>
 
     <!-- Nav Item - Mantenimiento Menu -->
-        <li class="nav-item">
+
+    <!-- Nav Item - Users admin -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="true" aria-controls="collapseUsers">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Usuarios</span>
+        </a>
+        <div id="collapseUsers" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Acciones:</h6>
+                <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Agregar Nuevo</a>
+                <a class="collapse-item" href="<?php echo _URL."users/"?>">Listado</a>
+                <a class="collapse-item" href="utilities-border.html">Permisos y Status</a>
+
+            </div>
+        </div>
+    </li>
+    <!-- Nav Item - Users Admin -->
+
+
+    <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Componentes</span>
@@ -106,7 +107,7 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Mantenimiento:</h6>
-                    <a class="collapse-item" href="#">Perfil General</a>
+                    <a class="collapse-item" href="#">Roles</a>
                     <a class="collapse-item" href="<?php echo _URL."authpermissions"?>">Permisos</a>
                     <a class="collapse-item" href="<?php echo _URL."tabs"?>">Tabs</a>
                     <a class="collapse-item" href="<?php echo _URL."login/logs"?>">Logs</a>

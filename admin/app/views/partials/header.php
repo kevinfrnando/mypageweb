@@ -14,7 +14,7 @@
 
   <link href="<?php echo _ASSETS?>css/sb-admin-2.min.css" rel="stylesheet">
 <!--  <link href="--><?php //echo _ASSETS?><!--/css/materialize.min.css" rel="stylesheet">-->
-
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
   <link href="<?php echo _ASSETS?>css/overhang.min.css" rel="stylesheet">
 

@@ -87,23 +87,45 @@ class AuthPermissionsController extends Controller {
              * Obtener info desde modelo
              */
 
-            $permission= $this->permission->getTab( helpers::decrypt($id));
+            $permission= $this->permission->getPermission( helpers::decrypt($id));
             $data = [
                 "id" => $permission->id,
                 "code" => $permission->code,
-                "description" => $permission->description
+                "description" => $permission->description,
+                "can_delete" => $permission->can_delete,
+                "can_create" => $permission->can_create,
+                "can_update" => $permission->can_update,
+                "can_read" => $permission->can_read,
             ];
-
             $this->view("permissions/insert", $data);
         }else{
 
             $data = [
                 "id" => null,
                 "code" => "",
-                "description" => ""
+                "description" => "",
+                "can_delete" => "",
+                "can_create" => "",
+                "can_update" => "",
+                "can_read" => "",
             ];
 
             $this->view("permissions/insert", $data);
+        }
+    }
+
+    public function delete ( $id ){
+        if( $id != null ){
+            $url = $_SERVER['HTTP_REFERER'];
+            $data = [
+                "id" => helpers::decrypt($id),
+                "deleted_by" => $_SESSION["user"]["id"]
+            ];
+            if( $this->permission->delete($data)){
+                header("Location: ".$url);
+            }else{
+                die("Algo salio mal");
+            }
         }
     }
 }
