@@ -25,9 +25,9 @@ class AuthUser{
         $this->db->bind(":email", $data["email"] );
         $this->db->bind(":password", $data["password"] );
         $this->db->bind(":created_on", date("Y-m-d H:i:s"));
-        $this->db->bind(":created_by", $data["created_by"]);
-        $this->db->bind(":status_id", 1);
-        $this->db->bind(":permissions_id", 1);
+        $this->db->bind(":created_by", $data["userd_id"]);
+        $this->db->bind(":status_id", $data["status"]);
+        $this->db->bind(":permissions_id", $data["permission"]);
 
         return $this->db->execute() ?? false;
 
@@ -65,19 +65,21 @@ class AuthUser{
         $this->db->bind(":user", $data["user"] );
         $this->db->bind(":email", $data["email"] );
         $this->db->bind(":password", $data["password"] );
-        $this->db->bind(":updated_on", date('d-m-Y H:i:s'));
-        $this->db->bind(":updated_by", 1);
-        $this->db->bind(":status_id", 1);
-        $this->db->bind(":permissions_id", 1);
+        $this->db->bind(":updated_on", date("Y-m-d H:i:s"));
+        $this->db->bind(":updated_by", $data["userd_id"]);
+        $this->db->bind(":status_id", $data["status"]);
+        $this->db->bind(":permissions_id", $data["permission"]);
         $this->db->bind(":id", $data["id"]);
 
         return $this->db->execute() ?? false;
 
     }
 
-    public function delete($id){
-        $this->db->query("DELETE FROM auth_user where id = :id");
-        $this->db->bind(":id", $id);
+    public function delete($data){
+        $this->db->query("call sp_delete_auth_user(?,?,?)");
+        $this->db->bind(1,$data["id"]);
+        $this->db->bind(2,date("Y-m-d H:i:s"));
+        $this->db->bind(3,$data["deleted_by"]);
         return $this->db->execute() ?? false;
     }
 

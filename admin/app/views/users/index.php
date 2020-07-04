@@ -64,9 +64,9 @@
                                 <td> <span class="text-nowrap"> <?php echo $user->created_on; ?> </span></td>
                                 <td>
                                 <span class="text-nowrap"> <?php
-                                    foreach ( $data["usersArray"] as $user ){
-                                        if( $user->created_by == $user->id){
-                                            echo $user->full_name;
+                                    foreach ( $data["usersArray"] as $obj ){
+                                        if( $user->created_by == $obj->id){
+                                            echo $obj->full_name;
                                         }
                                     } ?>
                                 </span>
@@ -74,9 +74,9 @@
                                 <td><span class="text-nowrap"> <?php echo $user->updated_on; ?></span></td>
                                 <td>
                                 <span class="text-nowrap"> <?php
-                                    foreach ( $data["usersArray"] as $user ){
-                                        if( $user->updated_by == $user->id){
-                                            echo $user->full_name;
+                                    foreach ( $data["usersArray"] as $obj ){
+                                        if( $user->updated_by == $obj->id){
+                                            echo $obj->full_name;
                                         }
                                     } ?>
                                 </span>
@@ -126,3 +126,22 @@
 
     </div>
     <!-- /.container-fluid -->
+
+<!-- Tabs Delete Modal -->
+<div class="modal small fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Precaución</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Seguro deseas <strong>Eliminar</strong> este registro?.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger" id="deleteAnchor" href="<?php echo _URL."users/delete/"?>">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>

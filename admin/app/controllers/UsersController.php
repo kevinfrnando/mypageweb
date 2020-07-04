@@ -60,29 +60,41 @@
         public function insert($id = null){
             if( $_SERVER["REQUEST_METHOD"] == "POST") {
                 $data = [
-                    "id" => $id,
+                    "id" => helpers::decrypt($id),
                     "first_name" => helpers::fieldValidation($_POST["first_name"]),
                     "last_name" => helpers::fieldValidation($_POST["last_name"]),
                     "user" => helpers::fieldValidation($_POST["user"]),
                     "email" => helpers::fieldValidation($_POST["email"]),
-                    "password" => helpers::encryptPass(helpers::fieldValidation($_POST["password"])),
-                    "permissions" => helpers::fieldValidation($_POST["permissions"]),
-                    "created_by" => $_SESSION["user"]["id"],
+                    "password" => helpers::fieldValidation($_POST["password"]),
+                    "password_validation" => helpers::fieldValidation($_POST["password_validation"]),
+                    "permission" => helpers::fieldValidation($_POST["permission"]),
+                    "user_id" => $_SESSION["user"]["id"],
                     "status" => helpers::fieldValidation($_POST["status"]),
+                    "passwordError" => false
                 ];
 
-                if( $id == null ){
-                    if( $this->user->insert($data)){
-                        helpers::redirecction("users");
-                    }else{
-                        die("Algo salio mal");
+                if( $data["password"] == $data["password_validation"]){
+
+                    if( $data["id"] == null ){
+                        if( $this->user->insert($data)){
+                            helpers::redirecction("users");
+                        }else{
+                            die("Algo salio mal");
+                        }
+                    } else{
+
+                        if( $this->user->update($data)){
+                            helpers::redirecction("users");
+                        }else{
+                            die("Algo salio mal");
+                        }
                     }
                 }else{
-                    if( $this->user->update($data)){
-                        helpers::redirecction("users");
-                    }else{
-                        die("Algo salio mal");
-                    }
+                    $data["passwordError"] = true;
+                    $data["permissionsArray"] = $this->permission->getAll();
+                    $data["statusArray"] = $this->status->getAll();
+
+                    $this->view("users/insert", $data);
                 }
 
             }else if( ($id != null) && ( $_SERVER["REQUEST_METHOD"] != "POST" )){
@@ -91,7 +103,7 @@
                  * Obtener info desde modelo
                  */
 
-                $user = $this->user->getUser($id);
+                $user = $this->user->getUser(helpers::decrypt($id));
                 $data = [
                     "id" => $user->id,
                     "first_name" => $user->first_name,
@@ -101,6 +113,9 @@
                     "password" => $user->password,
                     "permissions" => $user->permissions_id,
                     "status" => $user->status_id,
+                    "permissionsArray" => $this->permission->getAll(),
+                    "statusArray" => $this->status->getAll(),
+                    "passwordError" => false
                 ];
 
                 $this->view("users/insert", $data);
@@ -112,8 +127,11 @@
                     "user" => "",
                     "email" => "",
                     "password" => "",
-                    "permissions" => $this->permission->getAll(),
-                    "status" => $this->status->getAll(),
+                    "status" => "",
+                    "permissions" => "",
+                    "permissionsArray" => $this->permission->getAll(),
+                    "statusArray" => $this->status->getAll(),
+                    "passwordError" => false
                 ];
 
                 $this->view("users/insert", $data);
@@ -122,12 +140,18 @@
 
         public function delete($id){
             if( $id != null ){
-                if( $this->user->delete($id)){
-                    helpers::redirecction("users");
+                $url = $_SERVER['HTTP_REFERER'];
+                $data = [
+                    "id" => helpers::decrypt($id),
+                    "deleted_by" => $_SESSION["user"]["id"]
+                ];
+                if( $this->user->delete($data)){
+                    header("Location: ".$url);
                 }else{
                     die("Algo salio mal");
                 }
             }
+
         }
 
     }
