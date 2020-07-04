@@ -89,9 +89,9 @@
         <div id="collapseUsers" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Acciones:</h6>
-                <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Agregar Nuevo</a>
-                <a class="collapse-item" href="<?php echo _URL."users/"?>">Listado</a>
-                <a class="collapse-item" href="utilities-border.html">Permisos y Status</a>
+                <a class="collapse-item" href="#">Roles</a>
+                <a class="collapse-item" href="<?php echo _URL."authpermissions"?>">Permisos</a>
+                <a class="collapse-item" href="<?php echo _URL."users/"?>">Usuarios</a>
 
             </div>
         </div>
@@ -107,8 +107,7 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Mantenimiento:</h6>
-                    <a class="collapse-item" href="#">Roles</a>
-                    <a class="collapse-item" href="<?php echo _URL."authpermissions"?>">Permisos</a>
+
                     <a class="collapse-item" href="<?php echo _URL."tabs"?>">Tabs</a>
                     <a class="collapse-item" href="<?php echo _URL."login/logs"?>">Logs</a>
                 </div>

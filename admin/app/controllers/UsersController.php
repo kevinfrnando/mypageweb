@@ -4,15 +4,55 @@
 
         public function __construct(){
             $this->user = $this->model("AuthUser");
+            $this->status = $this->model("MainStatus");
+            $this->permission = $this->model("AuthPermissions");
         }
 
-        public function index(){
-            $users = $this->user->getAll();
+        public function index( $i = 1 ){
+
             /**
-             * Obtener registros
+             *  Paginacion
+             *  1.- Se obtiene el numero de registros
+             *  2.- Se estalece el inicio con el indice pasado por parametro, por default sera el 1
+             *  3.- Se divide para obtener la cantidad de tabs por todos los registros
+             *
              */
+            $rowsPerPage = 5;
+            $rowCounts = $this->user->countRows()->count;
+            $start = ( $i - 1) * $rowsPerPage;
+            $totalTabs = ceil($rowCounts / $rowsPerPage);
+            $users = $this->user->getData($start,$rowsPerPage);
+            /**
+             *  Obtenemos los ids de los registros corespondientes a los usuarios para luego obtenerlos en la consulta
+             *
+             */
+            $statusId = [];
+            $usersId = [];
+
+            foreach ( $users as $user){
+                array_push( $usersId, $user->created_by);
+                array_push( $usersId, $user->updated_by == null ? 0 : $user->updated_by);
+                array_push( $statusId, $user->status_id);
+            }
+
+            /**
+             *  Construcion del parametro para las consultas SQL --- in () ---
+             */
+            $statusId = array_unique( $statusId );
+            $usersId = array_unique( $usersId );
+
+            $statusId = implode(",", $statusId );
+            $usersId = implode(",", $usersId );
+
+            $usersArray = $this->user->getUsersIn($usersId);
+            $statusArray = $this->status->getMainStatusIn($statusId);
+
             $data = [
-                "users" => $users
+                "users" => $users,
+                "totalTabs" => $totalTabs,
+                "usersArray" => $usersArray,
+                "statusArray" => $statusArray,
+                "current" => $i
             ];
             $this->view("users/index", $data);
         }
@@ -72,8 +112,8 @@
                     "user" => "",
                     "email" => "",
                     "password" => "",
-                    "permissions" => "",
-                    "status" => "",
+                    "permissions" => $this->permission->getAll(),
+                    "status" => $this->status->getAll(),
                 ];
 
                 $this->view("users/insert", $data);

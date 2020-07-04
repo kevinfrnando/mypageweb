@@ -18,10 +18,12 @@ class TabsController extends Controller
          *  3.- Se divide para obtener la cantidad de tabs por todos los registros
          *
          */
+        $rowsPerPage = 5;
         $rowCounts = $this->tab->countRows()->count;
-        $start = ( $i - 1) * 5;
-        $totalTabs = ceil($rowCounts / 5);
-        $tabs = $this->tab->getData($start,5);
+        $start = ( $i - 1) * $rowsPerPage;
+        $totalTabs = ceil($rowCounts / $rowsPerPage);
+        $tabs = $this->tab->getData($start,$rowsPerPage);
+
 
         /**
          *  Obtenemos los ids de los registros corespondientes a los usuarios para luego obtenerlos en la consulta

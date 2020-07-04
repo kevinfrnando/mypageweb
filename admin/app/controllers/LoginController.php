@@ -53,6 +53,15 @@ class loginController extends Controller{
 
     public function logOut(){
         session_destroy();
+        $loginData = [
+            "host" => gethostname(),
+            "app_name" => APP_NAME,
+            "browser" => helpers::getBrowser($_SERVER['HTTP_USER_AGENT']),
+            "ip" => helpers::getRealIP(),
+            "type" => 2,
+            "user_id" => $_SESSION["user"]["id"]
+        ];
+        $this->login->login($loginData);
         helpers::redirecction("login/index");
     }
 

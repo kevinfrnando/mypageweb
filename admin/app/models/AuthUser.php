@@ -7,8 +7,10 @@ class AuthUser{
         $this->db = new Connection();
     }
 
-    public function getAll(){
-        $this->db->query("CALL sp_get_auth_users");
+    public function getData( $start, $limit){
+        $this->db->query("CALL sp_get_auth_users( :start, :limit)");
+        $this->db->bind( ":start" , $start );
+        $this->db->bind( ":limit" , $limit );
         return $this->db->getAll();
     }
 
@@ -79,6 +81,11 @@ class AuthUser{
         return $this->db->execute() ?? false;
     }
 
+
+    public function countRows(){
+        $this->db->query(" CALL sp_count_auth_users()");
+        return $this->db->getRecord();
+    }
 
 
 

@@ -14,6 +14,11 @@ class AuthPermissions
         return $this->db->getAll();
     }
 
+    public function getAll(){
+        $this->db->query("CALL sp_get_all_auth_permissions");
+        return $this->db->getAll();
+    }
+
     public function countRows(){
         $this->db->query("CALL sp_count_auth_permisions()");
         return $this->db->getRecord();

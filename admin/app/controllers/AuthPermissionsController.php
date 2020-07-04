@@ -16,7 +16,7 @@ class AuthPermissionsController extends Controller {
         $recordsPerPage = 5;
         $rowCounts = $this->permission->countRows()->count;
         $start = ($i -1) * $recordsPerPage;
-        $totalRows = ceil( $rowCounts / $recordsPerPage);
+        $totalTabs = ceil( $rowCounts / $recordsPerPage);
 
         $permissionsArray = $this->permission->getData($start , $recordsPerPage);
 
@@ -39,7 +39,7 @@ class AuthPermissionsController extends Controller {
         $usersArray = $this->users->getUsersIn($usersId);
         $data = [
             "permissions" => $permissionsArray,
-            "totalRows" => $totalRows,
+            "totalTabs" => $totalTabs,
             "current" => $i,
             "users" => $usersArray
         ];

@@ -104,13 +104,13 @@
                         <a class="page-link" href="<?php echo _URL."authpermissions/".( $data["current"] - 1)?>" tabindex="-1" aria-disabled="true">Previous</a>
                     </li>
                     <?php
-                    for( $i = 0 ; $i < $data["totalRows"]; $i ++){ ?>
+                    for( $i = 0 ; $i < $data["totalTabs"]; $i ++){ ?>
                         <li class="page-item <?php echo ( $data["current"] == $i+1) ? "active" : "" ?>">
                             <a class="page-link" href="<?php echo _URL."authpermissions/".( $i + 1)?>"><?php echo $i + 1;?></a>
                         </li>
                     <?php }
                     ?>
-                    <li class="page-item <?php echo ( $data["totalRows"] == $data["current"] )  ? "disabled" : "" ?>">
+                    <li class="page-item <?php echo ( $data["totalTabs"] == $data["current"] )  ? "disabled" : "" ?>">
                         <a class="page-link" href="<?php echo _URL."authpermissions/".( $data["current"] + 1)?>">Next</a>
                     </li>
                 </ul>
