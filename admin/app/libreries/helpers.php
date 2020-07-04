@@ -78,6 +78,27 @@ class helpers{
 
     }
 
+    public static function canCreate(){
+        $permissions = $_SESSION["user"]["permissions"];
+
+        return $permissions->can_create;
+    }
+    public static function canUpdate(){
+        $permissions = $_SESSION["user"]["permissions"];
+
+        return $permissions->can_update;
+    }
+    public static function canDelete(){
+        $permissions = $_SESSION["user"]["permissions"];
+
+        return $permissions->can_delete;
+    }
+    public static function canRead(){
+        $permissions = $_SESSION["user"]["permissions"];
+
+        return $permissions->can_read;
+    }
+
 
 }
 ?>

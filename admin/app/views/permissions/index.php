@@ -33,6 +33,7 @@
                         <th><span class="text-nowrap"> Leer </span></th>
                         <th><span class="text-nowrap"> Actualizar </span></th>
                         <th><span class="text-nowrap"> Eliminar </span></th>
+                        <th><span class="text-nowrap"> Status </span></th>
                         <th><span class="text-nowrap"> Creado Por </span></th>
                         <th><span class="text-nowrap"> Fecha Creación </span></th>
                         <th><span class="text-nowrap"> Modificado Por </span></th>
@@ -49,6 +50,7 @@
                         <th><span class="text-nowrap"> Leer </span></th>
                         <th><span class="text-nowrap"> Actualizar </span></th>
                         <th><span class="text-nowrap"> Eliminar </span></th>
+                        <th><span class="text-nowrap"> Status </span></th>
                         <th><span class="text-nowrap"> Creado Por </span></th>
                         <th><span class="text-nowrap"> Fecha Creación </span></th>
                         <th><span class="text-nowrap"> Modificado Por </span></th>
@@ -66,6 +68,15 @@
                             <td class="text-center"><input <?php echo $permission->can_read == 1 ? "checked" : "" ; ?> onclick="javascript: return false;" type="checkbox"></td>
                             <td class="text-center"><input <?php echo $permission->can_update == 1 ? "checked" : "" ; ?> onclick="javascript: return false;" type="checkbox"></td>
                             <td class="text-center"><input <?php echo $permission->can_delete == 1 ? "checked" : "" ; ?> onclick="javascript: return false;" type="checkbox"></td>
+                            <td>
+                                <span class="text-nowrap"> <?php
+                                    foreach ( $data["statusArray"] as $status ){
+                                        if( $status->id == $permission->status_id){
+                                            echo $status->description;
+                                        }
+                                    } ?>
+                                </span>
+                            </td>
                             <td>
                                 <span class="text-nowrap"> <?php
                                     foreach ( $data["users"] as $user ){

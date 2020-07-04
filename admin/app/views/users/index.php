@@ -34,6 +34,7 @@
                             <th><span class="text-nowrap"> Ultima Modificación </span></th>
                             <th><span class="text-nowrap"> Modificado Por </span></th>
                             <th> <span class="text-nowrap">Status </span></th>
+                            <th> <span class="text-nowrap">Permisos </span></th>
                             <th> <span class="text-nowrap">Last Login </span></th>
                             <th> <span class="text-nowrap">Last Ip </span></th>
                             <th> <span class="text-nowrap">Acciones </span></th>
@@ -49,6 +50,7 @@
                             <th><span class="text-nowrap"> Ultima Modificación </span></th>
                             <th><span class="text-nowrap"> Modificado Por </span></th>
                             <th> <span class="text-nowrap">Status </span></th>
+                            <th> <span class="text-nowrap">Permisos </span></th>
                             <th> <span class="text-nowrap">Last Login </span></th>
                             <th> <span class="text-nowrap">Last Ip </span></th>
                             <th> <span class="text-nowrap">Acciones </span></th>
@@ -85,6 +87,14 @@
                                         foreach ($data["statusArray"] as $status){
                                             if( $user->status_id == $status->id){
                                                 echo $status->description;
+                                            }
+                                        }
+                                        ?></span>
+                                </td>
+                                <td><span class="text-nowrap"> <?php
+                                        foreach ($data["permissionsArray"] as $permission){
+                                            if( $user->permissions_id == $permission->id){
+                                                echo $permission->description;
                                             }
                                         }
                                         ?></span>

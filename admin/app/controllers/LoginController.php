@@ -4,6 +4,8 @@ class loginController extends Controller{
 
     public function __construct(){
         $this->login = $this->model("Login");
+        $this->status = $this->model("MainStatus");
+        $this->permission = $this->model("AuthPermissions");
     }
 
     public function index(){
@@ -27,6 +29,7 @@ class loginController extends Controller{
                     "user_id" => $data["userId"]
                 ];
                 $loginResponse = $this->login->login($loginData);
+                $permissions = $this->permission->getPermission($loginResponse->permissions_id);
                 if( $loginResponse ){
 
                     $_SESSION["user"] = array(
@@ -36,7 +39,8 @@ class loginController extends Controller{
                         "fullName" => $loginResponse->full_name,
                         "status_id" => $loginResponse->status_id,
                         "last_ip" => $loginResponse->last_ip,
-                        "last_login" => $loginResponse->last_login
+                        "last_login" => $loginResponse->last_login,
+                        "permissions" => $permissions
                     );
                     helpers::redirecction("dashboard");
                 }

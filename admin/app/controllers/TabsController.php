@@ -7,6 +7,7 @@ class TabsController extends Controller
         $this->tab = $this->model("Tabs");
         $this->status = $this->model("MainStatus");
         $this->users = $this->model("AuthUser");
+        $this->authPermission = $this->model("AuthPermissions");
     }
 
     public function index( $i = 1){
@@ -60,6 +61,7 @@ class TabsController extends Controller
 
     }
     public function insert( $id = null ){
+
         if( $_SERVER["REQUEST_METHOD"] == "POST") {
             $data = [
                 "id" => helpers::decrypt( $id ),
@@ -69,16 +71,21 @@ class TabsController extends Controller
                 "status_id" => helpers::fieldValidation($_POST["status_id"])
             ];
 
-            if( $data["id"] == null ){
-                $execute = $this->tab->insert($data);
+            if( $data["id"] == null  ){
+                if( helpers::canCreate()){
+                    $execute = $this->tab->insert($data);
 
-                if( !is_array($execute) ){
-                    helpers::redirecction("tabs");
+                    if( !is_array($execute) ){
+                        helpers::redirecction("tabs");
+                    }else{
+                        $data["error"] = $execute;
+                        $data["statusObj"] = $this->status->getAll();
+                        $this->view("tabs/insert", $data);
+                    }
                 }else{
-                    $data["error"] = $execute;
-                    $data["statusObj"] = $this->status->getAll();
-                    $this->view("tabs/insert", $data);
+                    $this->view("notfound/deneged");
                 }
+
 
 
             }else{

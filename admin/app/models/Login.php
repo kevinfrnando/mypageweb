@@ -6,14 +6,14 @@ class Login{
     }
 
     public function loginValidation($data){
-        $this->db->query("CALL sp_login_validation( ?, ? , @outMessage, @outId, @outActive )");
+        $this->db->query("CALL sp_login_validation( ?, ? , @outMessage, @outId, @outStatus )");
         $this->db->bind(1, $data["email"]);
         $this->db->bind(2, $data["password"]);
 
-        $result = $this->db->currentQuery("select @outMessage, @outId, @outActive");
+        $result = $this->db->currentQuery("select @outMessage, @outId, @outStatus");
         $outMessage = $result["@outMessage"];
-        $outActive = $result["@outActive"];
         $outId = $result["@outId"];
+        $outActive = $result["@outStatus"];
 
         return [
             "message" => $outMessage,

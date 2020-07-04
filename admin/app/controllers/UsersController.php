@@ -28,11 +28,13 @@
              */
             $statusId = [];
             $usersId = [];
+            $permissionsId = [];
 
             foreach ( $users as $user){
                 array_push( $usersId, $user->created_by);
                 array_push( $usersId, $user->updated_by == null ? 0 : $user->updated_by);
                 array_push( $statusId, $user->status_id);
+                array_push( $permissionsId, $user->permissions_id);
             }
 
             /**
@@ -40,20 +42,25 @@
              */
             $statusId = array_unique( $statusId );
             $usersId = array_unique( $usersId );
+            $permissionsId = array_unique( $permissionsId );
 
             $statusId = implode(",", $statusId );
             $usersId = implode(",", $usersId );
+            $permissionsId = implode(",", $permissionsId );
 
             $usersArray = $this->user->getUsersIn($usersId);
             $statusArray = $this->status->getMainStatusIn($statusId);
+            $permissionsArray = $this->permission->getPermissionsIn($permissionsId);
 
             $data = [
                 "users" => $users,
                 "totalTabs" => $totalTabs,
                 "usersArray" => $usersArray,
                 "statusArray" => $statusArray,
+                "permissionsArray" => $permissionsArray,
                 "current" => $i
             ];
+
             $this->view("users/index", $data);
         }
 
@@ -76,17 +83,26 @@
                 if( $data["password"] == $data["password_validation"]){
 
                     if( $data["id"] == null ){
-                        if( $this->user->insert($data)){
-                            helpers::redirecction("users");
+                        if( helpers::canCreate()){
+                            if( $this->user->insert($data)){
+                                helpers::redirecction("users");
+                            }else{
+                                die("Algo salio mal");
+                            }
                         }else{
-                            die("Algo salio mal");
+                            $this->view("notfound/deneged");
                         }
-                    } else{
 
-                        if( $this->user->update($data)){
-                            helpers::redirecction("users");
-                        }else{
-                            die("Algo salio mal");
+                    } else{
+                        if( helpers::canUpdate()) {
+                            if( $this->user->update($data)){
+                                helpers::redirecction("users");
+                            }else{
+                                die("Algo salio mal");
+                            }
+                        }
+                        else{
+                            $this->view("notfound/deneged");
                         }
                     }
                 }else{
@@ -117,8 +133,12 @@
                     "statusArray" => $this->status->getAll(),
                     "passwordError" => false
                 ];
+                if( helpers::canRead()) {
+                    $this->view("users/insert", $data);
+                }else{
+                    $this->view("notfound/deneged");
+                }
 
-                $this->view("users/insert", $data);
             }else{
                 $data = [
                     "id" => null,
@@ -139,18 +159,23 @@
         }
 
         public function delete($id){
-            if( $id != null ){
-                $url = $_SERVER['HTTP_REFERER'];
-                $data = [
-                    "id" => helpers::decrypt($id),
-                    "deleted_by" => $_SESSION["user"]["id"]
-                ];
-                if( $this->user->delete($data)){
-                    header("Location: ".$url);
-                }else{
-                    die("Algo salio mal");
+            if( helpers::canDelete()) {
+                if( $id != null ){
+                    $url = $_SERVER['HTTP_REFERER'];
+                    $data = [
+                        "id" => helpers::decrypt($id),
+                        "deleted_by" => $_SESSION["user"]["id"]
+                    ];
+                    if( $this->user->delete($data)){
+                        header("Location: ".$url);
+                    }else{
+                        die("Algo salio mal");
+                    }
                 }
+            }else{
+                $this->view("notfound/deneged");
             }
+
 
         }
 
