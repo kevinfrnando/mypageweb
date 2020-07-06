@@ -4,147 +4,170 @@
 class TabsController extends Controller
 {
     public function __construct(){
-        $this->tab = $this->model("Tabs");
-        $this->status = $this->model("MainStatus");
-        $this->users = $this->model("AuthUser");
-        $this->authPermission = $this->model("AuthPermissions");
+        $this->tabModel = $this->model("Tabs");
+        $this->statusModel = $this->model("MainStatus");
+        $this->userModel = $this->model("AuthUser");
+        $this->permissionsModel = $this->model("AuthPermissions");
+        $sessionPermission = $_SESSION["user"]["permissions"];
+        $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
+        
+        
     }
 
     public function index( $i = 1){
 
-        /**
-         *  Paginacion
-         *  1.- Se obtiene el numero de registros
-         *  2.- Se estalece el inicio con el indice pasado por parametro, por default sera el 1
-         *  3.- Se divide para obtener la cantidad de tabs por todos los registros
-         *
-         */
-        $rowsPerPage = 5;
-        $rowCounts = $this->tab->countRows()->count;
-        $start = ( $i - 1) * $rowsPerPage;
-        $totalTabs = ceil($rowCounts / $rowsPerPage);
-        $tabs = $this->tab->getData($start,$rowsPerPage);
+        if( $this->permission->components_menu) {
+            /**
+             *  Paginacion
+             *  1.- Se obtiene el numero de registros
+             *  2.- Se estalece el inicio con el indice pasado por parametro, por default sera el 1
+             *  3.- Se divide para obtener la cantidad de tabs por todos los registros
+             *
+             */
+            $rowsPerPage = 5;
+            $rowCounts = $this->tabModel->countRows()->count;
+            $start = ( $i - 1) * $rowsPerPage;
+            $totalTabs = ceil($rowCounts / $rowsPerPage);
+            $tabs = $this->tabModel->getData($start,$rowsPerPage);
 
 
-        /**
-         *  Obtenemos los ids de los registros corespondientes a los usuarios para luego obtenerlos en la consulta
-         *
-         */
-        $usersId = [];
-        $statusId = [];
-        foreach ( $tabs as $tab){
-            array_push( $usersId, $tab->created_by);
-            array_push( $usersId, $tab->updated_by == null ? 0 : $tab->updated_by);
-            array_push( $statusId, $tab->status_id);
+            /**
+             *  Obtenemos los ids de los registros corespondientes a los usuarios para luego obtenerlos en la consulta
+             *
+             */
+            $usersId = [];
+            $statusId = [];
+            foreach ( $tabs as $tab){
+                array_push( $usersId, $tab->created_by);
+                array_push( $usersId, $tab->updated_by == null ? 0 : $tab->updated_by);
+                array_push( $statusId, $tab->status_id);
+            }
+
+            /**
+             *  Construcion del parametro para las consultas SQL --- in () ---
+             */
+            $usersId = array_unique( $usersId );
+            $statusId = array_unique( $statusId );
+
+            $usersId = implode(",", $usersId );
+            $statusId = implode(",", $statusId );
+
+            $usersArray = $this->userModel->getUsersIn($usersId);
+            $statusArray = $this->statusModel->getMainStatusIn($statusId);
+
+            $data = [
+                "tabs"=> $tabs,
+                "statusArray" => $statusArray,
+                "totalTabs" => $totalTabs,
+                "current" => $i,
+                "usersArray" => $usersArray
+            ];
+            $this->view("tabs/index", $data);
+        }else {
+            $this->view("notfound/deneged");
         }
-
-        /**
-         *  Construcion del parametro para las consultas SQL --- in () ---
-         */
-        $usersId = array_unique( $usersId );
-        $statusId = array_unique( $statusId );
-
-        $usersId = implode(",", $usersId );
-        $statusId = implode(",", $statusId );
-
-        $usersArray = $this->users->getUsersIn($usersId);
-        $statusArray = $this->status->getMainStatusIn($statusId);
-
-        $data = [
-            "tabs"=> $tabs,
-            "statusArray" => $statusArray,
-            "totalTabs" => $totalTabs,
-            "current" => $i,
-            "usersArray" => $usersArray
-        ];
-        $this->view("tabs/index", $data);
-
     }
     public function insert( $id = null ){
 
-        if( $_SERVER["REQUEST_METHOD"] == "POST") {
-            $data = [
-                "id" => helpers::decrypt( $id ),
-                "code" => helpers::fieldValidation($_POST["code"]),
-                "description" => helpers::fieldValidation($_POST["description"]),
-                "user_id" => $_SESSION["user"]["id"],
-                "status_id" => helpers::fieldValidation($_POST["status_id"])
-            ];
+        if( $this->permission->components_menu) {
+            if( $_SERVER["REQUEST_METHOD"] == "POST") {
+                $data = [
+                    "id" => helpers::decrypt( $id ),
+                    "code" => helpers::fieldValidation($_POST["code"]),
+                    "description" => helpers::fieldValidation($_POST["description"]),
+                    "user_id" => $_SESSION["user"]["id"],
+                    "status_id" => helpers::fieldValidation($_POST["status_id"])
+                ];
 
-            if( $data["id"] == null  ){
-                if( helpers::canCreate()){
-                    $execute = $this->tab->insert($data);
+                if( $data["id"] == null  ){
+                    if( $this->permission->can_create ){
+                        $execute = $this->tabModel->insert($data);
 
-                    if( !is_array($execute) ){
-                        helpers::redirecction("tabs");
+                        if( !is_array($execute) ){
+                            helpers::redirecction("tabs");
+                        }else{
+                            $data["error"] = $execute;
+                            $data["statusObj"] = $this->statusModel->getAll();
+                            $this->view("tabs/insert", $data);
+                        }
                     }else{
-                        $data["error"] = $execute;
-                        $data["statusObj"] = $this->status->getAll();
-                        $this->view("tabs/insert", $data);
+                        $this->view("notfound/deneged");
                     }
+
+
+
                 }else{
-                    $this->view("notfound/deneged");
+                    if( $this->permission->can_update ){
+                        $execute = $this->tabModel->update($data);
+
+                        if( !is_array($execute) ){
+                            helpers::redirecction("tabs");
+                        }else{
+                            $data["error"] = $execute;
+                            $data["statusObj"] = $this->statusModelObj;
+                            $this->view("tabs/insert", $data);
+                        }
+                    }
                 }
 
+            }else if( ($id != null) && ( $_SERVER["REQUEST_METHOD"] != "POST" )){
 
+                /**
+                 * Obtener info desde modelo
+                 */
 
+                $tab = $this->tabModel->getTab( helpers::decrypt($id));
+
+                $data = [
+                    "id" => $tab->id,
+                    "code" => $tab->code,
+                    "description" => $tab->description,
+                    "status_id" => $tab->status_id,
+                    "statusObj" => $this->statusModel->getAll()
+                ];
+
+                $this->view("tabs/insert", $data);
             }else{
-                $execute = $this->tab->update($data);
 
-                if( !is_array($execute) ){
-                    helpers::redirecction("tabs");
-                }else{
-                    $data["error"] = $execute;
-                    $data["statusObj"] = $this->statusObj;
-                    $this->view("tabs/insert", $data);
-                }
+                $data = [
+                    "id" => null,
+                    "code" => "",
+                    "description" => "",
+                    "status_id" => "",
+                    "statusObj" => $this->statusModel->getAll()
+                ];
+
+                $this->view("tabs/insert", $data);
             }
-
-        }else if( ($id != null) && ( $_SERVER["REQUEST_METHOD"] != "POST" )){
-
-            /**
-             * Obtener info desde modelo
-             */
-
-            $tab = $this->tab->getTab( helpers::decrypt($id));
-
-            $data = [
-                "id" => $tab->id,
-                "code" => $tab->code,
-                "description" => $tab->description,
-                "status_id" => $tab->status_id,
-                "statusObj" => $this->status->getAll()
-            ];
-
-            $this->view("tabs/insert", $data);
-        }else{
-
-            $data = [
-                "id" => null,
-                "code" => "",
-                "description" => "",
-                "status_id" => "",
-                "statusObj" => $this->status->getAll()
-            ];
-
-            $this->view("tabs/insert", $data);
+        }else {
+            $this->view("notfound/deneged");
         }
+
+
     }
 
     public function delete($id){
 
-        if( $id != null ){
-            $url = $_SERVER['HTTP_REFERER'];
-            $data = [
-                "id" => helpers::decrypt($id),
-                "deleted_by" => $_SESSION["user"]["id"]
-            ];
-            if( $this->tab->delete($data)){
-                header("Location: ".$url);
-            }else{
-                die("Algo salio mal");
+        if( $this->permission->components_menu) {
+            if( $this->permission->can_delete ){
+                if( $id != null ){
+                    $url = $_SERVER['HTTP_REFERER'];
+                    $data = [
+                        "id" => helpers::decrypt($id),
+                        "deleted_by" => $_SESSION["user"]["id"]
+                    ];
+                    if( $this->tabModel->delete($data)){
+                        header("Location: ".$url);
+                    }else{
+                        die("Algo salio mal");
+                    }
+                }
             }
+        }else {
+            $this->view("notfound/deneged");
         }
+
+
     }
 
 

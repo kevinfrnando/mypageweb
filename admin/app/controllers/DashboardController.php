@@ -5,6 +5,11 @@ class DashboardController extends Controller{
         $this->model("Dashboard");
     }
     public function index(){
-        $this->view("dashboard/index");
+        $permissions = $_SESSION["user"]["permissions"];
+        if( $permissions->dashboard_menu){
+            $this->view("dashboard/index");
+        }else{
+            $this->view("notfound/deneged");
+        }
     }
 }

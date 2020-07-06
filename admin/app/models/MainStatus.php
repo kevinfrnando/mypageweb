@@ -16,4 +16,9 @@ class MainStatus{
         $this->db->bind(":ids", $ids);
         return $this->db->getAll();
     }
+    public function getMainStatus($id){
+        $this->db->query("CALL sp_find_main_status(:id)");
+        $this->db->bind(":id", $id);
+        return $this->db->getRecord();
+    }
 }

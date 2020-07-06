@@ -37,15 +37,14 @@
                         <div class="card-body col-lg-10 mx-auto">
                             <form action="<?php echo _URL."tabs/insert/".helpers::encrypt($data["id"]);?>" method="post">
                                 <input hidden type="text" name="id" value="<?php echo $data["id"]?>">
-                                <?php
-                                    if( isset($data["error"])){ ?>
-                                        <div class="row alert alert-warning alert-dismissible fade show" role="alert">
-                                            <div>
-                                                <strong>Error!</strong> No se puede guardar <?php echo ($data["error"]["code"] == 23000 ? "por que ya existe un registro con este Código" : "Error Desconocido" )?>
-                                                <p><strong>Código Sql: </strong> <?php echo $data["error"]["code"]?></p>
-                                            </div>
+                                <?php if( isset($data["error"])){ ?>
+                                    <div class="row alert alert-warning alert-dismissible fade show" role="alert">
+                                        <div>
+                                            <strong>Error!</strong> No se puede guardar <?php echo ($data["error"]["code"] == 23000 ? "por que ya existe un registro con este Código" : "Error Desconocido" )?>
+                                            <p><strong>Código Sql: </strong> <?php echo $data["error"]["code"]?></p>
                                         </div>
-                                    <?php } ?>
+                                    </div>
+                                <?php } ?>
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group row form-gr col-sm-12">

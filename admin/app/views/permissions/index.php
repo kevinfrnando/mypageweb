@@ -1,7 +1,6 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-
     <!-- Page Heading -->
     <div class="d-flex justify-content-between">
         <div class="col-sm-8">
@@ -99,7 +98,11 @@
                             <td><span class="text-nowrap"> <?php echo $permission->updated_on; ?></span></td>
 
                             <td class="text-nowrap">
-                                <a href="<?php echo _URL."authpermissions/insert/".helpers::encrypt($permission->id)?>" class="btn-success btn-sm">Editar</a>
+                                <?php ?>
+                                <a href="<?php echo _URL."authpermissions/insert/".helpers::encrypt($permission->id)?>" class="btn-success btn-sm">Ver</a>
+
+                                <?php ?>
+
                                 <a href="#" class="btn-danger btn-sm" data-id="<?php echo helpers::encrypt($permission->id) ?>" data-toggle="modal" data-target="#deleteModal">Eliminar</a>
                             </td>
                         </tr>

@@ -15,27 +15,28 @@ class AuthUser{
     }
 
     public function insert($data){
-        $this->db->query("INSERT INTO auth_user (first_name, last_name, full_name, user, email, password, created_on, created_by, status_id, permissions_id)
-                VALUES( :first_name, :last_name, :full_name, :user, :email, :password, :created_on, :created_by, :status_id, :permissions_id )");
+        $this->db->query("CALL sp_insert_user(?,?,?,?,?,?,?,?,?,?,?,?)");
 
-        $this->db->bind(":first_name", $data["first_name"] );
-        $this->db->bind(":last_name", $data["last_name"] );
-        $this->db->bind(":full_name", $data["first_name"]. " " . $data["last_name"]);
-        $this->db->bind(":user", $data["user"] );
-        $this->db->bind(":email", $data["email"] );
-        $this->db->bind(":password", $data["password"] );
-        $this->db->bind(":created_on", date("Y-m-d H:i:s"));
-        $this->db->bind(":created_by", $data["userd_id"]);
-        $this->db->bind(":status_id", $data["status"]);
-        $this->db->bind(":permissions_id", $data["permission"]);
+        $this->db->bind(1, $data["first_name"] );
+        $this->db->bind(2, $data["last_name"] );
+        $this->db->bind(3, $data["first_name"]. " " . $data["last_name"]);
+        $this->db->bind(4, $data["age"]);
+        $this->db->bind(5, $data["gender"]);
+        $this->db->bind(6, $data["user"] );
+        $this->db->bind(7, $data["email"] );
+        $this->db->bind(8, $data["password"] );
+        $this->db->bind(9, date("Y-m-d H:i:s"));
+        $this->db->bind(10, $data["user_id"]);
+        $this->db->bind(11, $data["status"]);
+        $this->db->bind(12, $data["permission"]);
 
         return $this->db->execute() ?? false;
 
     }
 
     public function getUser($id){
-        $this->db->query("select * from auth_user where id = :id");
-        $this->db->bind(":id", $id);
+        $this->db->query("CALL sp_find_auth_user(?)");
+        $this->db->bind(1, $id);
         return $this->db->getRecord();
     }
 
@@ -47,30 +48,20 @@ class AuthUser{
 
 
     public function update($data){
-        $this->db->query("UPDATE auth_user SET
-                first_name = :first_name, 
-                last_name = :last_name, 
-                full_name = :full_name, 
-                user = :user, 
-                email = :email, 
-                password = :password, 
-                updated_on = :updated_on, 
-                updated_by = :updated_by, 
-                status_id = :status_id,
-                permissions_id = :permissions_id WHERE id = :id");
-
-        $this->db->bind(":first_name", $data["first_name"] );
-        $this->db->bind(":last_name", $data["last_name"] );
-        $this->db->bind(":full_name", $data["first_name"]. " " . $data["last_name"]);
-        $this->db->bind(":user", $data["user"] );
-        $this->db->bind(":email", $data["email"] );
-        $this->db->bind(":password", $data["password"] );
-        $this->db->bind(":updated_on", date("Y-m-d H:i:s"));
-        $this->db->bind(":updated_by", $data["userd_id"]);
-        $this->db->bind(":status_id", $data["status"]);
-        $this->db->bind(":permissions_id", $data["permission"]);
-        $this->db->bind(":id", $data["id"]);
-
+        $this->db->query("CALL sp_update_auth_user(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        $this->db->bind(1, $data["id"]);
+        $this->db->bind(2, $data["first_name"] );
+        $this->db->bind(3, $data["last_name"] );
+        $this->db->bind(4, $data["first_name"]. " " . $data["last_name"]);
+        $this->db->bind(5, $data["age"] );
+        $this->db->bind(6, $data["gender"] );
+        $this->db->bind(7, $data["user"] );
+        $this->db->bind(8, $data["email"] );
+        $this->db->bind(9, $data["password"] );
+        $this->db->bind(10, date("Y-m-d H:i:s"));
+        $this->db->bind(11, $data["user_id"]);
+        $this->db->bind(12, $data["status"]);
+        $this->db->bind(13, $data["permission"]);
         return $this->db->execute() ?? false;
 
     }
