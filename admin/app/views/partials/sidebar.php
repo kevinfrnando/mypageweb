@@ -36,6 +36,7 @@
                 <h6 class="collapse-header">Acciones:</h6>
                 <a class="collapse-item" href="<?php echo _URL."mainprofile"?>">Perfil General</a>
                 <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Datos Personales</a>
+                <a class="collapse-item" href="<?php echo _URL."skilltype/"?>">Skills Type</a>
                 <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Skills</a>
                 <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Redes Sociales</a>
             </div>
