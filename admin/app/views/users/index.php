@@ -97,7 +97,7 @@
                             <?php
                             for( $i = 0 ; $i < $data["totalTabs"]; $i ++){ ?>
                                 <li class="page-item <?php echo ( $data["current"] == $i+1) ? "active" : "" ?>">
-                                    <a class="page-link" href="<?php echo _URL."tabs/".( $i + 1)?>"><?php echo $i + 1;?></a>
+                                    <a class="page-link" href="<?php echo _URL."users/".( $i + 1)?>"><?php echo $i + 1;?></a>
                                 </li>
                             <?php }
                             ?>
