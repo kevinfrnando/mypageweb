@@ -4,7 +4,7 @@
     <!-- Page Heading -->
     <div class="d-flex justify-content-between">
         <div class="col-sm-8">
-            <h1 class="h3 mb-2 text-gray-800">Skill Type</h1>
+            <h1 class="h3 mb-2 text-gray-800">Skills</h1>
         </div>
         <div class="col-sm-4 d-flex justify-content-end">
             <?php if( $data["permissions"]->can_create ) { ?>
@@ -30,6 +30,7 @@
                         <th hidden>Id</th>
                         <th> <span class="text-nowrap">Code </span></th>
                         <th> <span class="text-nowrap">Description </span></th>
+                        <th> <span class="text-nowrap">Percentage </span></th>
                         <th> <span class="text-nowrap">Type </span></th>
                         <th><span class="text-nowrap"> Status </span></th>
                         <th><span class="text-nowrap"> Acciones </span></th>
@@ -41,6 +42,7 @@
                         <th hidden>Id</th>
                         <th> <span class="text-nowrap">Code </span></th>
                         <th> <span class="text-nowrap">Description </span></th>
+                        <th> <span class="text-nowrap">Percentage </span></th>
                         <th> <span class="text-nowrap">Type </span></th>
                         <th><span class="text-nowrap"> Status </span></th>
                         <th><span class="text-nowrap"> Acciones </span></th>
@@ -53,6 +55,7 @@
                             <td hidden> <?php echo $skills->id; ?></td>
                             <td> <span class="text-nowrap"> <?php echo $skills->code; ?> </span></td>
                             <td> <span class="text-nowrap"> <?php echo $skills->description; ?> </span></td>
+                            <td> <span class="text-nowrap"> <?php echo $skills->percentage; ?> </span></td>
                             <td><span class="text-nowrap"> <?php
                                     foreach ($data["skillsTypeArray"] as $type){
                                         if( $skills->type_skills_id == $type->id){
@@ -72,9 +75,9 @@
 
                             <td class="text-nowrap">
                                 <!--                                    --><?php //if( $data["permissions"]->can_update ) { ?>
-                                <a href="<?php echo _URL."skills/insert/".helpers::encrypt($type->id)?>" class="btn-success btn-sm">Edit</a>
+                                <a href="<?php echo _URL."skills/insert/".helpers::encrypt($skills->id)?>" class="btn-success btn-sm">Edit</a>
                                 <!--                                    --><?php //} ?><!----><?php //if( $data["permissions"]->can_delete ) { ?>
-                                <a href="#" class="btn-danger btn-sm" data-id="<?php echo helpers::encrypt($type->id) ?>" data-toggle="modal" data-target="#deleteModal">Eliminar</a>
+                                <a href="#" class="btn-danger btn-sm" data-id="<?php echo helpers::encrypt($skills->id) ?>" data-toggle="modal" data-target="#deleteModal">Eliminar</a>
                                 <!--                                    --><?php //} ?>
 
                             </td>

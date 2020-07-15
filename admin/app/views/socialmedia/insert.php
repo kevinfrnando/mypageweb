@@ -4,7 +4,7 @@
         <div class="col-sm-3 d-flex">
             <?php
             if( isset( $data["id"])){ ?>
-                <a href="<?php echo _URL."skills/insert"?>" class="btn btn-primary btn-icon-split">
+                <a href="<?php echo _URL."socialmedia/insert"?>" class="btn btn-primary btn-icon-split">
                         <span class="icon text-white-50">
                           <i class="fa fa-plus"></i>
                         </span>
@@ -14,7 +14,7 @@
 
         </div>
         <div class="col-sm-3 d-flex justify-content-end">
-            <a href="<?php echo _URL."skills"?>" class="btn btn-success btn-icon-split">
+            <a href="<?php echo _URL."socialmedia"?>" class="btn btn-success btn-icon-split">
                 <span class="icon text-white-50">
                   <i class="fa fa-arrow-left"></i>
                 </span>
@@ -32,10 +32,10 @@
                 <div class="col-lg-10 mx-auto">
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4"><?php echo $data["id"] ? "Editar" : "Registrar "?> Skill</h1>
+                            <h1 class="h4 text-gray-900 mb-4"><?php echo $data["id"] ? "Editar" : "Registrar "?> Social Media</h1>
                         </div>
                         <div class="card-body col-lg-10 mx-auto">
-                            <form action="<?php echo _URL."skills/insert/".helpers::encrypt($data["id"]);?>" method="post">
+                            <form action="<?php echo _URL."socialmedia/insert/".helpers::encrypt($data["id"]);?>" method="post">
                                 <input hidden type="text" name="id" value="<?php echo $data["id"]?>">
                                 <?php if( isset($data["error"])){ ?>
                                     <div class="row alert alert-warning alert-dismissible fade show" role="alert">
@@ -58,24 +58,14 @@
                                             <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Type </label>
-                                            <select class="form-control form-control-sm form-control col-sm-8" name="skills_type_id">
-                                                <?php foreach ( $data["skillsTypeArray"] as $type) {?>
-                                                    <option
-                                                        value="<?php echo $type->id;?>"
-                                                        <?php echo ($data["skills_type_id"] == $type->id ? "selected": null) ?>>
-                                                        <?php echo $type->description;?></option>
-                                                <?php } ?>
-                                            </select>
+                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Url</label>
+                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="url" aria-describedby="urlHelp" value="<?php echo $data["url"]?>" placeholder="https://www.instagram.com/usuario">
+                                            <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Percentage </label>
-                                            <div class="slidecontainer form-control form-control-sm form-control col-sm-7 ">
-                                                <input type="range" class="custom-range slider" min="1" max="100" name="percentage" value="<?php echo $data["percentage"]?>" id="typeRange" oninput="typeRangeOutput.value = typeRange.value">
-                                            </div>
-                                            <label for="inputMainLegend" class="col-sm-1 col-form-label" ><?php echo $data["percentage"]?>   </label>
-<!--                                            <input type="text" readonly class="col-sm-1 col-form-label" value="--><?php //echo $data["percentage"]?><!--" id="typeRange">-->
-
+                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Logo</label>
+                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="logo" aria-describedby="logoHelp" value="<?php echo $data["logo"]?>" placeholder="Logo">
+                                            <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Status</label>

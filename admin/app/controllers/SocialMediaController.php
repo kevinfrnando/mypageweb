@@ -1,11 +1,9 @@
 <?php
 
 
-class SkillsController extends Controller
-{
+class SocialMediaController extends Controller{
     public function __construct(){
-        $this->skills = $this->model("Skills");
-        $this->skillType = $this->model("SkillType");
+        $this->socialMedia = $this->model("SocialMedia");
         $this->statusModel = $this->model("MainStatus");
         $this->userModel = $this->model("AuthUser");
         $sessionPermission = $_SESSION["user"]["permissions"];
@@ -23,10 +21,10 @@ class SkillsController extends Controller
              *
              */
             $rowsPerPage = 5;
-            $rowCounts = $this->skills->countRows()->count;
+            $rowCounts = $this->socialMedia->countRows()->count;
             $start = ( $i - 1) * $rowsPerPage;
             $totalTabs = ceil($rowCounts / $rowsPerPage);
-            $skills = $this->skills->getData($start,$rowsPerPage);
+            $socialMedia = $this->socialMedia->getData($start,$rowsPerPage);
 
 
             /**
@@ -35,12 +33,11 @@ class SkillsController extends Controller
              */
             $usersId = [];
             $statusId = [];
-            $skillsTypeId = [];
-            foreach ( $skills as $skill){
-                array_push( $usersId, $skill->created_by);
-                array_push( $usersId, $skill->updated_by == null ? 0 : $skill->updated_by);
-                array_push( $statusId, $skill->status_id);
-                array_push( $skillsTypeId, $skill->type_skills_id);
+
+            foreach ( $socialMedia as $media){
+                array_push( $usersId, $media->created_by);
+                array_push( $usersId, $media->updated_by == null ? 0 : $media->updated_by);
+                array_push( $statusId, $media->status_id);
             }
 
             /**
@@ -48,26 +45,23 @@ class SkillsController extends Controller
              */
             $usersId = array_unique( $usersId );
             $statusId = array_unique( $statusId );
-            $skillsTypeId = array_unique( $skillsTypeId );
+
 
             $usersId = implode(",", $usersId );
             $statusId = implode(",", $statusId );
-            $skillsTypeId = implode(",", $skillsTypeId );
 
             $usersArray = $this->userModel->getUsersIn($usersId);
             $statusArray = $this->statusModel->getMainStatusIn($statusId);
-            $skillsTypeArray = $this->skillType->getSkillsTypeIn($statusId);
 
             $data = [
-                "skills"=> $skills,
+                "socialMedia"=> $socialMedia,
                 "statusArray" => $statusArray,
-                "skillsTypeArray" => $statusArray,
                 "totalTabs" => $totalTabs,
                 "current" => $i,
                 "permissions" => $this->permission,
                 "usersArray" => $usersArray
             ];
-            $this->view("skills/index", $data);
+            $this->view("socialmedia/index", $data);
         }else {
             $this->view("notfound/deneged");
         }
@@ -80,8 +74,8 @@ class SkillsController extends Controller
                     "id" => helpers::decrypt( $id ),
                     "code" => helpers::fieldValidation($_POST["code"]),
                     "description" => helpers::fieldValidation($_POST["description"]),
-                    "percentage" => helpers::fieldValidation($_POST["percentage"]),
-                    "skills_type_id" => helpers::fieldValidation($_POST["skills_type_id"]),
+                    "url" => helpers::fieldValidation($_POST["url"]),
+                    "logo" => helpers::fieldValidation($_POST["logo"]),
                     "profile_id" => 1,
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => helpers::fieldValidation($_POST["status_id"])
@@ -90,16 +84,14 @@ class SkillsController extends Controller
 
                 if( $data["id"] == null  ){
                     if( $this->permission->can_create ){
-                        $execute = $this->skills->insert($data);
+                        $execute = $this->socialMedia->insert($data);
 
                         if( !is_array($execute) ){
-                            helpers::redirecction("skills");
+                            helpers::redirecction("socialMedia");
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $data["skillsTypeArray"] = $this->skillType->getAll();
-
-                            $this->view("skills/insert", $data);
+                            $this->view("socialmedia/insert", $data);
                         }
                     }else{
                         $this->view("notfound/deneged");
@@ -109,16 +101,14 @@ class SkillsController extends Controller
 
                 }else{
                     if( $this->permission->can_update ){
-                        $execute = $this->skills->update($data);
+                        $execute = $this->socialMedia->update($data);
 
                         if( !is_array($execute) ){
-                            helpers::redirecction("skills");
+                            helpers::redirecction("socialmedia");
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $data["skillsTypeArray"] = $this->skillType->getAll();
-
-                            $this->view("skills/insert", $data);
+                            $this->view("socialmedia/insert", $data);
                         }
                     }
                 }
@@ -127,34 +117,32 @@ class SkillsController extends Controller
                 /**
                  * Obtener info desde modelo
                  */
-                $skill = $this->skills->getSkill( helpers::decrypt($id) );
+                $socialMedia = $this->socialMedia->getSocialMedia( helpers::decrypt($id) );
 
                 $data = [
-                    "id" => $skill->id,
-                    "code" => $skill->code,
-                    "description" => $skill->description,
-                    "percentage" => $skill->percentage,
-                    "skills_type_id" => $skill->type_skills_id,
-                    "status_id" => $skill->status_id,
-                    "statusArray" => $this->statusModel->getAll(),
-                    "skillsTypeArray" => $this->skillType->getAll()
+                    "id" => $socialMedia->id,
+                    "code" => $socialMedia->code,
+                    "description" => $socialMedia->description,
+                    "url" => $socialMedia->url,
+                    "logo" => $socialMedia->logo,
+                    "status_id" => $socialMedia->status_id,
+                    "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("skills/insert", $data);
+                $this->view("socialmedia/insert", $data);
             }else{
 
                 $data = [
                     "id" => null,
                     "code" => "",
                     "description" => "",
-                    "percentage" => "",
+                    "url" => "",
+                    "logo" => "",
                     "status_id" => "",
-                    "skills_type_id" => "",
-                    "statusArray" => $this->statusModel->getAll(),
-                    "skillsTypeArray" => $this->skillType->getAll()
+                    "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("skills/insert", $data);
+                $this->view("socialmedia/insert", $data);
             }
         }else {
             $this->view("notfound/deneged");
@@ -171,7 +159,7 @@ class SkillsController extends Controller
                         "id" => helpers::decrypt($id),
                         "deleted_by" => $_SESSION["user"]["id"]
                     ];
-                    if( $this->skills->delete($data)){
+                    if( $this->socialMedia->delete($data)){
                         header("Location: ".$url);
                     }else{
                         die("Algo salio mal");
