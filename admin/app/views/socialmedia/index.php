@@ -88,7 +88,7 @@
                             </li>
                         <?php }
                         ?>
-                        <li class="page-item <?php echo ( $data["totalTabs"] == $data["current"] )  ? "disabled" : "" ?>">
+                        <li class="page-item <?php echo ( ($data["totalTabs"] == $data["current"] || $data["totalTabs"] == 0) )  ? "disabled" : "" ?>">
                             <a class="page-link" href="<?php echo _URL."socialmedia/".( $data["current"] + 1)?>">Next</a>
                         </li>
                     </ul>

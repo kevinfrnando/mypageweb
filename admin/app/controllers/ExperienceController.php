@@ -1,20 +1,20 @@
 <?php
 
 
-class SkillsController extends Controller
+class ExperienceController extends Controller
 {
     public function __construct(){
-        $this->skills = $this->model("Skills");
-        $this->skillType = $this->model("SkillType");
+        $this->experience = $this->model("Experience");
         $this->statusModel = $this->model("MainStatus");
         $this->userModel = $this->model("AuthUser");
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permissionsModel = $this->model("AuthPermissions");
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
     }
+
     public function index( $i = 1){
 
-        if( $this->permission->profile_menu) {
+        if( $this->permission->formation_menu) {
             /**
              *  Paginacion
              *  1.- Se obtiene el numero de registros
@@ -23,10 +23,10 @@ class SkillsController extends Controller
              *
              */
             $rowsPerPage = 5;
-            $rowCounts = $this->skills->countRows()->count;
+            $rowCounts = $this->experience->countRows()->count;
             $start = ( $i - 1) * $rowsPerPage;
             $totalTabs = ceil($rowCounts / $rowsPerPage);
-            $skills = $this->skills->getData($start,$rowsPerPage);
+            $experience = $this->experience->getData($start,$rowsPerPage);
 
 
             /**
@@ -35,12 +35,10 @@ class SkillsController extends Controller
              */
             $usersId = [];
             $statusId = [];
-            $skillsTypeId = [];
-            foreach ( $skills as $skill){
-                array_push( $usersId, $skill->created_by);
-                array_push( $usersId, $skill->updated_by == null ? 0 : $skill->updated_by);
-                array_push( $statusId, $skill->status_id);
-                array_push( $skillsTypeId, $skill->type_skills_id);
+            foreach ( $experience as $experience){
+                array_push( $usersId, $experience->created_by);
+                array_push( $usersId, $experience->updated_by == null ? 0 : $experience->updated_by);
+                array_push( $statusId, $experience->status_id);
             }
 
             /**
@@ -48,40 +46,34 @@ class SkillsController extends Controller
              */
             $usersId = array_unique( $usersId );
             $statusId = array_unique( $statusId );
-            $skillsTypeId = array_unique( $skillsTypeId );
 
             $usersId = implode(",", $usersId );
             $statusId = implode(",", $statusId );
-            $skillsTypeId = implode(",", $skillsTypeId );
 
             $usersArray = $this->userModel->getUsersIn($usersId);
             $statusArray = $this->statusModel->getMainStatusIn($statusId);
-            $skillsTypeArray = $this->skillType->getSkillsTypeIn($statusId);
 
             $data = [
-                "skills"=> $skills,
+                "experience"=> $experience,
                 "statusArray" => $statusArray,
-                "skillsTypeArray" => $skillsTypeArray,
                 "totalTabs" => $totalTabs,
                 "current" => $i,
                 "permissions" => $this->permission,
                 "usersArray" => $usersArray
             ];
-            $this->view("skills/index", $data);
+            $this->view("experience/index", $data);
         }else {
             $this->view("notfound/deneged");
         }
     }
     public function insert( $id = null ){
 
-        if( $this->permission->profile_menu) {
+        if( $this->permission->formation_menu) {
             if( $_SERVER["REQUEST_METHOD"] == "POST") {
                 $data = [
                     "id" => helpers::decrypt( $id ),
                     "code" => helpers::fieldValidation($_POST["code"]),
-                    "description" => helpers::fieldValidation($_POST["description"]),
-                    "percentage" => helpers::fieldValidation($_POST["percentage"]),
-                    "skills_type_id" => helpers::fieldValidation($_POST["skills_type_id"]),
+                    "title" => helpers::fieldValidation($_POST["title"]),
                     "profile_id" => 1,
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => helpers::fieldValidation($_POST["status_id"])
@@ -90,16 +82,14 @@ class SkillsController extends Controller
 
                 if( $data["id"] == null  ){
                     if( $this->permission->can_create ){
-                        $execute = $this->skills->insert($data);
+                        $execute = $this->experience->insert($data);
 
                         if( !is_array($execute) ){
-                            helpers::redirecction("skills");
+                            helpers::redirecction("experience");
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $data["skillsTypeArray"] = $this->skillType->getAll();
-
-                            $this->view("skills/insert", $data);
+                            $this->view("experience/insert", $data);
                         }
                     }else{
                         $this->view("notfound/deneged");
@@ -109,16 +99,15 @@ class SkillsController extends Controller
 
                 }else{
                     if( $this->permission->can_update ){
-                        $execute = $this->skills->update($data);
+                        $execute = $this->experience->update($data);
 
                         if( !is_array($execute) ){
-                            helpers::redirecction("skills");
+                            helpers::redirecction("experience");
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $data["skillsTypeArray"] = $this->skillType->getAll();
 
-                            $this->view("skills/insert", $data);
+                            $this->view("experience/insert", $data);
                         }
                     }
                 }
@@ -127,34 +116,30 @@ class SkillsController extends Controller
                 /**
                  * Obtener info desde modelo
                  */
-                $skill = $this->skills->getSkill( helpers::decrypt($id) );
+                $experience = $this->experience->getExperience( helpers::decrypt($id) );
 
                 $data = [
-                    "id" => $skill->id,
-                    "code" => $skill->code,
-                    "description" => $skill->description,
-                    "percentage" => $skill->percentage,
-                    "skills_type_id" => $skill->type_skills_id,
-                    "status_id" => $skill->status_id,
-                    "statusArray" => $this->statusModel->getAll(),
-                    "skillsTypeArray" => $this->skillType->getAll()
+                    "id" => $experience->id,
+                    "code" => $experience->code,
+                    "status_id" => $experience->status_id,
+                    "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("skills/insert", $data);
+                $this->view("experience/insert", $data);
             }else{
 
                 $data = [
                     "id" => null,
                     "code" => "",
-                    "description" => "",
-                    "percentage" => "",
+                    "company" => "",
+                    "start" => "",
+                    "end" => "",
+                    "title" => "",
                     "status_id" => "",
-                    "skills_type_id" => "",
-                    "statusArray" => $this->statusModel->getAll(),
-                    "skillsTypeArray" => $this->skillType->getAll()
+                    "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("skills/insert", $data);
+                $this->view("experience/insert", $data);
             }
         }else {
             $this->view("notfound/deneged");
@@ -162,24 +147,5 @@ class SkillsController extends Controller
 
 
     }
-    public function delete($id){
-        if( $this->permission->components_menu) {
-            if( $this->permission->can_delete ){
-                if( $id != null ){
-                    $url = $_SERVER['HTTP_REFERER'];
-                    $data = [
-                        "id" => helpers::decrypt($id),
-                        "deleted_by" => $_SESSION["user"]["id"]
-                    ];
-                    if( $this->skills->delete($data)){
-                        header("Location: ".$url);
-                    }else{
-                        die("Algo salio mal");
-                    }
-                }
-            }
-        }else {
-            $this->view("notfound/deneged");
-        }
-    }
+
 }

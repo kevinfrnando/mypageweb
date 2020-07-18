@@ -4,11 +4,11 @@
     <!-- Page Heading -->
     <div class="d-flex justify-content-between">
         <div class="col-sm-8">
-            <h1 class="h3 mb-2 text-gray-800">Skills</h1>
+            <h1 class="h3 mb-2 text-gray-800">Experiencia Profesional</h1>
         </div>
         <div class="col-sm-4 d-flex justify-content-end">
             <?php if( $data["permissions"]->can_create ) { ?>
-                <a href="<?php echo _URL."skills/insert"?>" class="btn btn-success btn-icon-split">
+                <a href="<?php echo _URL."experience/insert"?>" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                       <i class="fas fa-plus"></i>
                     </span>
@@ -29,10 +29,10 @@
                     <tr>
                         <th hidden>Id</th>
                         <th> <span class="text-nowrap">Code </span></th>
-                        <th> <span class="text-nowrap">Description </span></th>
-                        <th> <span class="text-nowrap">Percentage </span></th>
-                        <th> <span class="text-nowrap">Type </span></th>
-                        <th><span class="text-nowrap"> Status </span></th>
+                        <th> <span class="text-nowrap">Titulo </span></th>
+                        <th> <span class="text-nowrap">Empresa </span></th>
+                        <th> <span class="text-nowrap">Inicio </span></th>
+                        <th><span class="text-nowrap">Fin </span></th>
                         <th><span class="text-nowrap"> Acciones </span></th>
 
                     </tr>
@@ -41,43 +41,30 @@
                     <tr>
                         <th hidden>Id</th>
                         <th> <span class="text-nowrap">Code </span></th>
-                        <th> <span class="text-nowrap">Description </span></th>
-                        <th> <span class="text-nowrap">Percentage </span></th>
-                        <th> <span class="text-nowrap">Type </span></th>
-                        <th><span class="text-nowrap"> Status </span></th>
+                        <th> <span class="text-nowrap">Titulo </span></th>
+                        <th> <span class="text-nowrap">Empresa </span></th>
+                        <th> <span class="text-nowrap">Inicio </span></th>
+                        <th><span class="text-nowrap">Fin </span></th>
                         <th><span class="text-nowrap"> Acciones </span></th>
 
                     </tr>
                     </tfoot>
                     <tbody>
-                    <?php foreach ( $data["skills"] as $skills) { ?>
+                    <?php foreach ($data["experience"] as $experience) { ?>
                         <tr>
-                            <td hidden> <?php echo $skills->id; ?></td>
-                            <td> <span class="text-nowrap"> <?php echo $skills->code; ?> </span></td>
-                            <td> <span class="text-nowrap"> <?php echo $skills->description; ?> </span></td>
-                            <td> <span class="text-nowrap"> <?php echo $skills->percentage; ?> </span></td>
-                            <td><span class="text-nowrap"> <?php
-                                    foreach ($data["skillsTypeArray"] as $type){
-                                        if( $skills->type_skills_id == $type->id){
-                                            echo $type->description;
-                                        }
-                                    }
-                                    ?></span>
-                            </td>
-                            <td><span class="text-nowrap"> <?php
-                                    foreach ($data["statusArray"] as $status){
-                                        if( $skills->status_id == $status->id){
-                                            echo $status->description;
-                                        }
-                                    }
-                                    ?></span>
-                            </td>
+                            <td hidden> <?php echo $experience->id; ?></td>
+                            <td> <span class="text-nowrap"> <?php echo $experience->code; ?> </span></td>
+                            <td> <span class="text-nowrap"> <?php echo $experience->title; ?> </span></td>
+                            <td> <span class="text-nowrap"> <?php echo $experience->company_name; ?> </span></td>
+                            <td> <span class="text-nowrap"> <?php echo $experience->date_start; ?> </span></td>
+                            <td> <span class="text-nowrap"> <?php echo $experience->date_end; ?> </span></td>
+
 
                             <td class="text-nowrap">
                                 <!--                                    --><?php //if( $data["permissions"]->can_update ) { ?>
-                                <a href="<?php echo _URL."skills/insert/".helpers::encrypt($skills->id)?>" class="btn-success btn-sm">Edit</a>
+                                <a href="<?php echo _URL."skills/insert/".helpers::encrypt($experience->id)?>" class="btn-success btn-sm">Edit</a>
                                 <!--                                    --><?php //} ?><!----><?php //if( $data["permissions"]->can_delete ) { ?>
-                                <a href="#" class="btn-danger btn-sm" data-id="<?php echo helpers::encrypt($skills->id) ?>" data-toggle="modal" data-target="#deleteModal">Eliminar</a>
+                                <a href="#" class="btn-danger btn-sm" data-id="<?php echo helpers::encrypt($experience->id) ?>" data-toggle="modal" data-target="#deleteModal">Eliminar</a>
                                 <!--                                    --><?php //} ?>
 
                             </td>
@@ -92,18 +79,19 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
                         <li class="page-item <?php echo ( $data["current"] == 1 )  ? "disabled" : "" ?>">
-                            <a class="page-link" href="<?php echo _URL."skills/".( $data["current"] - 1)?>" tabindex="-1" aria-disabled="true">Previous</a>
+                            <a class="page-link" href="<?php echo _URL."experience/".( $data["current"] - 1)?>" tabindex="-1" aria-disabled="true">Previous</a>
                         </li>
                         <?php
                         for( $i = 0 ; $i < $data["totalTabs"]; $i ++){ ?>
                             <li class="page-item <?php echo ( $data["current"] == $i+1) ? "active" : "" ?>">
-                                <a class="page-link" href="<?php echo _URL."skills/".( $i + 1)?>"><?php echo $i + 1;?></a>
+                                <a class="page-link" href="<?php echo _URL."experience/".( $i + 1)?>"><?php echo $i + 1;?></a>
                             </li>
                         <?php }
                         ?>
                         <li class="page-item <?php echo ( ($data["totalTabs"] == $data["current"] || $data["totalTabs"] == 0) )  ? "disabled" : "" ?>">
-                            <a class="page-link" href="<?php echo _URL."skills/".( $data["current"] + 1)?>">Next</a>
+                            <a class="page-link" href="<?php echo _URL."experience/".( $data["current"] + 1)?>">Next</a>
                         </li>
+
                     </ul>
                 </nav>
             </div>
@@ -126,7 +114,7 @@
             <div class="modal-body">Seguro deseas <strong>Eliminar</strong> este registro?.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger" id="deleteAnchor" href="<?php echo _URL."skills/delete/"?>">Eliminar</a>
+                <a class="btn btn-danger" id="deleteAnchor" href="<?php echo _URL."experience/delete/"?>">Eliminar</a>
             </div>
         </div>
     </div>
