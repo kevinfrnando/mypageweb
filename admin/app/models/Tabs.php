@@ -23,7 +23,7 @@ class Tabs
         $this->db->bind(5,$data["user_id"]);
         $this->db->bind(6,$data["status_id"]);
 
-        return $this->db->execute() ;
+        return $this->db->executeQuery() ;
     }
     public function getTab($id){
         $this->db->query("call sp_find_tab(?)");
@@ -45,7 +45,7 @@ class Tabs
         $this->db->bind(5,date("Y-m-d H:i:s"));
         $this->db->bind(6,$data["user_id"]);
         $this->db->bind(7,$data["status_id"]);
-        return $this->db->execute() ?? false;
+        return $this->db->executeQuery() ?? false;
     }
 
     public function delete ( $data ){
@@ -53,7 +53,7 @@ class Tabs
         $this->db->bind(1,date("Y-m-d H:i:s"));
         $this->db->bind(2,$data["deleted_by"]);
         $this->db->bind(3,$data["id"]);
-        return $this->db->execute() ?? false;
+        return $this->db->executeQuery() ?? false;
     }
 
 

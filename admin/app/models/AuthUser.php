@@ -30,7 +30,7 @@ class AuthUser{
         $this->db->bind(11, $data["status"]);
         $this->db->bind(12, $data["permission"]);
 
-        return $this->db->execute() ?? false;
+        return $this->db->executeQuery() ?? false;
 
     }
 
@@ -62,7 +62,7 @@ class AuthUser{
         $this->db->bind(11, $data["user_id"]);
         $this->db->bind(12, $data["status"]);
         $this->db->bind(13, $data["permission"]);
-        return $this->db->execute() ?? false;
+        return $this->db->executeQuery() ?? false;
 
     }
 
@@ -71,7 +71,7 @@ class AuthUser{
         $this->db->bind(1,$data["id"]);
         $this->db->bind(2,date("Y-m-d H:i:s"));
         $this->db->bind(3,$data["deleted_by"]);
-        return $this->db->execute() ?? false;
+        return $this->db->executeQuery() ?? false;
     }
 
 

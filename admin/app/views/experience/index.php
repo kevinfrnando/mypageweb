@@ -50,7 +50,8 @@
                     </tr>
                     </tfoot>
                     <tbody>
-                    <?php foreach ($data["experience"] as $experience) { ?>
+                    <?php
+                    foreach ($data["experience"] as $experience) { ?>
                         <tr>
                             <td hidden> <?php echo $experience->id; ?></td>
                             <td> <span class="text-nowrap"> <?php echo $experience->code; ?> </span></td>
@@ -62,7 +63,7 @@
 
                             <td class="text-nowrap">
                                 <!--                                    --><?php //if( $data["permissions"]->can_update ) { ?>
-                                <a href="<?php echo _URL."skills/insert/".helpers::encrypt($experience->id)?>" class="btn-success btn-sm">Edit</a>
+                                <a href="<?php echo _URL."experience/insert/".helpers::encrypt($experience->id)?>" class="btn-success btn-sm">Edit</a>
                                 <!--                                    --><?php //} ?><!----><?php //if( $data["permissions"]->can_delete ) { ?>
                                 <a href="#" class="btn-danger btn-sm" data-id="<?php echo helpers::encrypt($experience->id) ?>" data-toggle="modal" data-target="#deleteModal">Eliminar</a>
                                 <!--                                    --><?php //} ?>

@@ -54,7 +54,7 @@ class AuthPermissions
         $this->db->bind(13,$data["status_id"]);
         $this->db->bind(14,$data["user_id"]);
         $this->db->bind(15,date("Y-m-d H:i:s"));
-        return $this->db->execute();
+        return $this->db->executeQuery();
     }
 
     public function update($data){
@@ -75,7 +75,7 @@ class AuthPermissions
         $this->db->bind(14,$data["user_id"]);
         $this->db->bind(15,date("Y-m-d H:i:s"));
         $this->db->bind(16,$data["status_id"]);
-        return $this->db->execute();
+        return $this->db->executeQuery();
 
     }
 
@@ -84,6 +84,6 @@ class AuthPermissions
         $this->db->bind(1,$data["id"]);
         $this->db->bind(2,date("Y-m-d H:i:s"));
         $this->db->bind(3,$data["deleted_by"]);
-        return $this->db->execute() ?? false;
+        return $this->db->executeQuery() ?? false;
     }
 }

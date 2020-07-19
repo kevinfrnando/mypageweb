@@ -26,7 +26,7 @@ class MainProfile{
         $this->db->bind(":bio_profile" , $data["bio_profile"]);
         $this->db->bind(":id" , $data["id"]);
 
-        return $this->db->execute() ?? false;
+        return $this->db->executeQuery() ?? false;
     }
 
 }

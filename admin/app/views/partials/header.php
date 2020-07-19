@@ -20,8 +20,11 @@
 
 </head>
 <?php
-if( !isset($_SESSION["user"])){
+
+if( !isset($_SESSION["user"]) || is_null($_SESSION["user"]) || empty($_SESSION["user"])){
+
     helpers::redirecction("login");
+
 }
 ?>
 <!-- Page Wrapper -->

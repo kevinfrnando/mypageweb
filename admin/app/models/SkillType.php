@@ -25,7 +25,7 @@ class SkillType
         $this->db->bind(3,date("Y-m-d H:i:s"));
         $this->db->bind(4,$data["user_id"]);
         $this->db->bind(5,$data["status_id"]);
-        return $this->db->execute() ;
+        return $this->db->executeQuery() ;
     }
 
     public function getSkillType($id){
@@ -47,7 +47,7 @@ class SkillType
         $this->db->bind(4,date("Y-m-d H:i:s"));
         $this->db->bind(5,$data["user_id"]);
         $this->db->bind(6,$data["status_id"]);
-        return $this->db->execute() ?? false;
+        return $this->db->executeQuery() ?? false;
     }
 
     public function delete ( $data ){
@@ -55,7 +55,7 @@ class SkillType
         $this->db->bind(1,date("Y-m-d H:i:s"));
         $this->db->bind(2,$data["deleted_by"]);
         $this->db->bind(3,$data["id"]);
-        return $this->db->execute() ?? false;
+        return $this->db->executeQuery() ?? false;
     }
     public function getSkillsTypeIn($ids){
         $this->db->query("CALL sp_get_skills_type_in(:ids)");

@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
     $('#deleteModal').on('show.bs.modal', function( e ){
         var link = document.getElementById("deleteAnchor").getAttribute("href");
@@ -5,7 +6,34 @@ $(document).ready(function(){
         var newLink = link+id;
         document.getElementById("deleteAnchor").href = newLink;
     });
+    $( '#currentCheck' ).on( 'change', function() {
+        if( $(this).is(':checked') ){
+            $('#endExperience').prop('readonly', true);
+            $('#endExperience').val('');
 
+        } else {
+            // Hacer algo si el checkbox ha sido deseleccionado
+            $('#endExperience').prop('readonly', false);
+
+        }
+    });
+    $('#experienceForm').on('keyup keypress', function(e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    $('#noDetails').click( function () {
+        $( "#addDetail" ).prop( "checked", false );
+    })
+    $('#addDetails').click( function () {
+        $( "#addDetail" ).prop( "checked", true );
+    })
+    $('#detailsExperienceModal').on('hidden.bs.modal', function (e) {
+        $('#experienceForm').submit();
+    })
 
 
 

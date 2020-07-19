@@ -48,7 +48,8 @@
                         </tr>
                         </tfoot>
                         <tbody>
-                        <?php foreach ( $data["users"] as $user) { ?>
+                        <?php
+                        foreach ( $data["users"] as $user) { ?>
                             <tr>
                                 <td hidden> <?php echo $user->id; ?></td>
                                 <td> <span class="text-nowrap"> <?php echo $user->full_name; ?> </span></td>

@@ -29,14 +29,15 @@
         <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-                <div class="col-lg-10 mx-auto">
+                <div class="col-lg-12 mx-auto">
                     <div class="p-5">
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4"><?php echo $data["id"] ? "Editar" : "Registrar "?> Experiencia</h1>
                         </div>
                         <div class="card-body col-lg-10 mx-auto">
-                            <form action="<?php echo _URL."experience/insert/".helpers::encrypt($data["id"]);?>" method="post">
+                            <form action="<?php echo _URL."experience/insert/".helpers::encrypt($data["id"]);?>" method="post" id="experienceForm">
                                 <input hidden type="text" name="id" value="<?php echo $data["id"]?>">
+                                <input hidden id="addDetail"  type="checkbox" name="addDetail">
                                 <?php if( isset($data["error"])){ ?>
                                     <div class="row alert alert-warning alert-dismissible fade show" role="alert">
                                         <div>
@@ -47,34 +48,48 @@
                                 <?php } ?>
                                 <div class="row">
                                     <div class="col">
-                                        <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainName" class="col-sm-4 col-form-label">Code</label>
-                                            <input required type="text" class="form-control col-sm-8 " id="main_name" name="code" aria-describedby="codeHelp" value="<?php echo $data["code"]?>" placeholder="Código">
-                                            <!--                                <small id="mainNameHelp" class="form-text text-muted">Nombre que aparece en la página principal.</small>-->
+                                        <div class="row col-lg-12 ">
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group row ">
+                                                    <label for="inputMainName" class="text-truncate col-sm-4 col-form-label">Code</label>
+                                                    <input required type="text" class="form-control col-sm-8 " id="main_name" name="code" aria-describedby="codeHelp" value="<?php echo $data["code"]?>" placeholder="Código">
+                                                    <!--                                <small id="mainNameHelp" class="form-text text-muted">Nombre que aparece en la página principal.</small>-->
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7">
+                                                <div class="form-group row ">
+                                                    <label for="inputMainLegend" class="text-truncate col-sm-4 col-form-label">Empresa</label>
+                                                    <input required type="text" class="form-control col-sm-8" id="main_legend" name="company" aria-describedby="descriptionHelp" value="<?php echo $data["company"]?>" placeholder="Google">
+                                                    <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="current" <?php echo $data["current"] == 1 ? "checked": "" ?> id="currentCheck">
+                                                    <label class="form-check-label" for="currentCheck">Actual</label>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Title</label>
-                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="description" aria-describedby="descriptionHelp" value="<?php echo $data["title"]?>" placeholder="Developer">
+                                            <label for="inputMainLegend" class="text-truncate col-lg-4 col-sm-4 col-form-label">Title</label>
+                                            <input required type="text" class="form-control col-lg-8 col-sm-8" id="main_legend" name="title" aria-describedby="descriptionHelp" value="<?php echo $data["title"]?>" placeholder="Developer">
                                             <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
-                                        <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Empresa</label>
-                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="company" aria-describedby="descriptionHelp" value="<?php echo $data["company"]?>" placeholder="Google">
-                                            <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
-                                        </div>
+
+
 
                                         <div class="row col-lg-12 ">
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="form-group row">
                                                     <label for="inputMainName" class="text-truncate col-lg-4 col-form-label">Inicio</label>
-                                                    <input type="date" required  class="form-control col-lg-8 col-sm-12" autofocus id="exampleFirstName" name="first_name" placeholder="Nombres">
+                                                    <input type="date" required  class="form-control col-lg-8 col-sm-12" autofocus id="exampleFirstName" value="<?php echo $data["start"]?>" name="start">
                                                     <!--                                <small id="mainNameHelp" class="form-text text-muted">Nombre que aparece en la página principal.</small>-->
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="form-group row">
                                                     <label for="inputMainName" class="text-truncate col-lg-4 col-form-label">Fin</label>
-                                                    <input type="date" required class="form-control col-lg-8 col-sm-12" id="exampleLastName" name="last_name" placeholder="Apellidos">
+                                                    <input type="date" required <?php echo $data["current"] == 1 ? "readonly": "" ?> class="form-control col-lg-8 col-sm-12" id="endExperience" value="<?php echo $data["end"]?>" name="end">
                                                     <!--                                <small id="mainNameHelp" class="form-text text-muted">Nombre que aparece en la página principal.</small>-->
                                                 </div>
 
@@ -96,15 +111,36 @@
                                 </div>
 
                                 <div class="row">
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                                        <?php echo ($data["id"] ? "Actualizar" : "Registrar")?>
-                                    </button>
+                                    <a class="btn btn-primary btn-user btn-block" href="#" data-id="<?php echo helpers::encrypt($experience->id) ?>" data-toggle="modal" data-target="#detailsExperienceModal"><?php echo ($data["id"] ? "Actualizar" : "Registrar")?></a>
+
                                 </div>
+
+
+
                             </form>
                         </div>
                         <hr>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs Delete Modal -->
+<div class="modal small fade" id="detailsExperienceModal" tabindex="-1" role="dialog" aria-labelledby="detailsExperienceModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Un paso más...</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Despues de <strong><?php echo ($data["id"] ? "Actualizar" : "Agregar")?></strong> este registro deseas <strong><?php echo ($data["id"] ? "Agregar, quitar o editar" : "Agregar" )?></strong> detalles?</div>
+            <div class="modal-footer">
+                <button id="noDetails" class="btn btn-primary" type="button" data-dismiss="modal">Solo Guardar</button>
+                <button id="addDetails" class="btn btn-success" type="button" data-dismiss="modal">Agregar Detalles</button>
             </div>
         </div>
     </div>

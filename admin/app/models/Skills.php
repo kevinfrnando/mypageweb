@@ -24,7 +24,7 @@ class Skills
         $this->db->bind(6,date("Y-m-d H:i:s"));
         $this->db->bind(7,$data["user_id"]);
         $this->db->bind(8,$data["status_id"]);
-        return $this->db->execute() ;
+        return $this->db->executeQuery() ;
     }
 
     public function getSkill($id){
@@ -48,7 +48,7 @@ class Skills
         $this->db->bind(6,date("Y-m-d H:i:s"));
         $this->db->bind(7,$data["user_id"]);
         $this->db->bind(8,$data["status_id"]);
-        return $this->db->execute() ?? false;
+        return $this->db->executeQuery() ?? false;
     }
 
     public function delete ( $data ){
@@ -56,6 +56,6 @@ class Skills
         $this->db->bind(1,date("Y-m-d H:i:s"));
         $this->db->bind(2,$data["deleted_by"]);
         $this->db->bind(3,$data["id"]);
-        return $this->db->execute() ?? false;
+        return $this->db->executeQuery() ?? false;
     }
 }

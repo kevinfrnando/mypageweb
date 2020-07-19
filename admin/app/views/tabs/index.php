@@ -51,7 +51,8 @@
                     </tr>
                     </tfoot>
                     <tbody>
-                    <?php foreach ( $data["tabs"] as $tab) { ?>
+                    <?php
+                    foreach ( $data["tabs"] as $tab) { ?>
                         <tr>
                             <td><span class="text-nowrap"> <?php echo $tab->code; ?></span></td>
                             <td><span class="text-nowrap"> <?php echo $tab->description; ?></span></td>

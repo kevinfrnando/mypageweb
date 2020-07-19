@@ -1,4 +1,5 @@
 <?php
+
     $permissions = $_SESSION["user"]["permissions"];
 
 ?>
@@ -73,7 +74,7 @@
                 <h6 class="collapse-header">Acciones:</h6>
                 <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Principal</a>
                 <a class="collapse-item" href="<?php echo _URL."users/"?>">Proyectos </a>
-                <a class="collapse-item" href="<?php echo _URL."users/"?>">Testimonial </a>
+                <a class="collapse-item" href="<?php echo _URL."testimonials/"?>">Testimonial </a>
 
             </div>
         </div>
