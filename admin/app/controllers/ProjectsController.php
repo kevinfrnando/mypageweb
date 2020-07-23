@@ -1,10 +1,10 @@
 <?php
 
 
-class TestimonialsController extends Controller{
-
+class ProjectsController extends Controller
+{
     public function __construct(){
-        $this->testimonial = $this->model("Testimonials");
+        $this->projects = $this->model("Projects");
         $this->statusModel = $this->model("MainStatus");
         $this->userModel = $this->model("AuthUser");
         $this->permissionsModel = $this->model("AuthPermissions");
@@ -23,10 +23,10 @@ class TestimonialsController extends Controller{
              *
              */
             $rowsPerPage = 5;
-            $rowCounts = $this->testimonial->countRows()->count;
+            $rowCounts = $this->projects->countRows()->count;
             $start = ( $i - 1) * $rowsPerPage;
             $totalTabs = ceil($rowCounts / $rowsPerPage);
-            $testimonials = $this->testimonial->getData($start,$rowsPerPage);
+            $projects = $this->projects->getData($start,$rowsPerPage);
 
 
             /**
@@ -35,10 +35,10 @@ class TestimonialsController extends Controller{
              */
             $usersId = [];
             $statusId = [];
-            foreach ( $testimonials as $testimonial){
-                array_push( $usersId, $testimonial->created_by);
-                array_push( $usersId, $testimonial->updated_by == null ? 0 : $testimonial->updated_by);
-                array_push( $statusId, $testimonial->status_id);
+            foreach ( $projects as $project){
+                array_push( $usersId, $project->created_by);
+                array_push( $usersId, $project->updated_by == null ? 0 : $project->updated_by);
+                array_push( $statusId, $project->status_id);
             }
 
             /**
@@ -54,14 +54,14 @@ class TestimonialsController extends Controller{
             $statusArray = $this->statusModel->getMainStatusIn($statusId);
 
             $data = [
-                "testimonials"=> $testimonials,
+                "projects"=> $projects,
                 "statusArray" => $statusArray,
                 "totalTabs" => $totalTabs,
                 "current" => $i,
                 "permissions" => $this->permission,
                 "usersArray" => $usersArray
             ];
-            $this->view("testimonial/index", $data);
+            $this->view("aboutMe/projects/index", $data);
         }else {
             $this->view("notfound/deneged");
         }
@@ -72,9 +72,8 @@ class TestimonialsController extends Controller{
             if( $_SERVER["REQUEST_METHOD"] == "POST") {
                 $data = [
                     "id" => helpers::decrypt( $id ),
-                    "code" => helpers::fieldValidation($_POST["code"]),
                     "description" => helpers::fieldValidation($_POST["description"]),
-                    "author" => helpers::fieldValidation($_POST["author"]),
+                    "video_url" => helpers::fieldValidation($_POST["video_url"]),
                     "title" => helpers::fieldValidation($_POST["title"]),
                     "image_url" => helpers::fieldValidation($_POST["image_url"]),
                     "profile_id" => 1,
@@ -85,15 +84,15 @@ class TestimonialsController extends Controller{
 
                 if( $data["id"] == null  ){
                     if( $this->permission->can_create ){
-                        $execute = $this->testimonial->insert($data);
+                        $execute = $this->projects->insert($data);
 
                         if( !is_array($execute) ){
-                            helpers::redirecction("testimonials");
+                            helpers::redirecction("projects");
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
 
-                            $this->view("testimonial/insert", $data);
+                            $this->view("aboutMe/projects/insert", $data);
                         }
                     }else{
                         $this->view("notfound/deneged");
@@ -103,14 +102,14 @@ class TestimonialsController extends Controller{
 
                 }else{
                     if( $this->permission->can_update ){
-                        $execute = $this->testimonial->update($data);
+                        $execute = $this->projects->update($data);
 
                         if( !is_array($execute) ){
-                            helpers::redirecction("testimonials");
+                            helpers::redirecction("projects");
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view("testimonial/insert", $data);
+                            $this->view("aboutMe/projects/insert", $data);
                         }
                     }
                 }
@@ -119,34 +118,32 @@ class TestimonialsController extends Controller{
                 /**
                  * Obtener info desde modelo
                  */
-                $testimonial = $this->testimonial->getTestimonial( helpers::decrypt($id) );
+                $project = $this->projects->getProject( helpers::decrypt($id) );
 
                 $data = [
-                    "id" => $testimonial->id,
-                    "code" => $testimonial->code,
-                    "description" => $testimonial->description,
-                    "author" => $testimonial->author,
-                    "title" => $testimonial->title,
-                    "image_url" => $testimonial->image_url,
-                    "status_id" => $testimonial->status_id,
+                    "id" => $project->id,
+                    "description" => $project->description,
+                    "video_url" => $project->youtube_link,
+                    "title" => $project->title,
+                    "image_url" => $project->image_url,
+                    "status_id" => $project->status_id,
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("testimonial/insert", $data);
+                $this->view("aboutMe/projects/insert", $data);
             }else{
 
                 $data = [
                     "id" => null,
-                    "code" => "",
                     "description" => "",
-                    "author" => "",
+                    "video_url" => "",
                     "title" => "",
                     "image_url" => "",
                     "status_id" => "",
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("testimonial/insert", $data);
+                $this->view("aboutMe/projects/insert", $data);
             }
         }else {
             $this->view("notfound/deneged");
@@ -163,7 +160,7 @@ class TestimonialsController extends Controller{
                         "id" => helpers::decrypt($id),
                         "deleted_by" => $_SESSION["user"]["id"]
                     ];
-                    if( $this->testimonial->delete($data)){
+                    if( $this->projects->delete($data)){
                         header("Location: ".$url);
                     }else{
                         die("Algo salio mal");
