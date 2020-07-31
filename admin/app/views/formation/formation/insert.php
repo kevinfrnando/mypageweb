@@ -4,7 +4,7 @@
         <div class="col-sm-3 d-flex">
             <?php
             if( isset( $data["id"])){ ?>
-                <a href="<?php echo _URL."testimonials/insert"?>" class="btn btn-primary btn-icon-split">
+                <a href="<?php echo _URL."projects/insert"?>" class="btn btn-primary btn-icon-split">
                         <span class="icon text-white-50">
                           <i class="fa fa-plus"></i>
                         </span>
@@ -14,7 +14,7 @@
 
         </div>
         <div class="col-sm-3 d-flex justify-content-end">
-            <a href="<?php echo _URL."testimonials"?>" class="btn btn-success btn-icon-split">
+            <a href="<?php echo _URL."projects"?>" class="btn btn-success btn-icon-split">
                 <span class="icon text-white-50">
                   <i class="fa fa-arrow-left"></i>
                 </span>
@@ -29,13 +29,13 @@
         <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-                <div class="col-lg-10 mx-auto">
+                <div class="col-lg-12 mx-auto">
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4"><?php echo $data["id"] ? "Editar" : "Registrar "?> Testimonio</h1>
+                            <h1 class="h4 text-gray-900 mb-4"><?php echo $data["id"] ? "Editar" : "Registrar "?> Proyecto</h1>
                         </div>
-                        <div class="card-body col-lg-10 mx-auto">
-                            <form action="<?php echo _URL."testimonials/insert/".helpers::encrypt($data["id"]);?>" method="post" enctype="multipart/form-data">
+                        <div class="card-body col-lg-12 mx-auto">
+                            <form action="<?php echo _URL."projects/insert/".helpers::encrypt($data["id"]);?>" method="post">
                                 <input hidden type="text" name="id" value="<?php echo $data["id"]?>">
                                 <?php if( isset($data["error"])){ ?>
                                     <div class="row alert alert-warning alert-dismissible fade show" role="alert">
@@ -47,30 +47,25 @@
                                 <?php } ?>
                                 <div class="row">
                                     <div class="col">
-                                        <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainName" class="col-sm-4 col-form-label">Code</label>
-                                            <input required type="text" class="form-control col-sm-8 " id="main_name" name="code" aria-describedby="codeHelp" value="<?php echo $data["code"]?>" placeholder="001">
-                                            <!--                                <small id="mainNameHelp" class="form-text text-muted">Nombre que aparece en la página principal.</small>-->
-                                        </div>
 
                                         <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Author</label>
-                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="author" aria-describedby="authorHelp" value="<?php echo $data["author"]?>" placeholder="Kevin Vergara">
-                                            <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
-                                        </div>
-                                        <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Titulo</label>
-                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="title" aria-describedby="titleHelp" value="<?php echo $data["title"]?>" placeholder="Ing. Sistemas">
+                                            <input required type="text" class="form-control col-sm-8" id="main_titulo" name="title" aria-describedby="titleHelp" value="<?php echo $data["title"]?>" placeholder="Music Band">
                                             <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Descripción</label>
-                                            <textarea required class="form-control col-sm-8" id="main_legend" name="description" aria-describedby="descriptionHelp"  placeholder="Descripción"rows="3"><?php echo $data["description"]?></textarea>
+                                            <textarea required class="form-control col-sm-8" id="main_legend" name="description" aria-describedby="descriptionHelp"  placeholder="Descripción"rows="5"><?php echo $data["description"]?></textarea>
+                                            <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
+                                        </div>
+                                        <div class="form-group row form-gr col-sm-12">
+                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Url Video</label>
+                                            <input required type="text" class="form-control col-sm-8" id="main_video" name="video_url" aria-describedby="urlVideoHelp" value="<?php echo $data["video_url"]?>" placeholder="youtube.com">
                                             <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Url Image</label>
-                                            <input required type="file" class="form-control col-sm-8" id="main_legend" name="image_url" aria-describedby="urlImageHelp" value="<?php echo $data["image_url"]?>" placeholder="/image.png">
+                                            <input type="text" class="form-control col-sm-8" id="main_legend" name="image_url" aria-describedby="urlImageHelp" value="<?php echo $data["image_url"]?>" placeholder="/image.png">
                                             <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">

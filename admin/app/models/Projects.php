@@ -41,9 +41,9 @@ class Projects
     public function update($data){
         $this->db->query("call SP_UPDATE_MUSICAL_PROJECTS(?,?,?,?,?,?,?,?,?)");
         $this->db->bind(1,$data["id"]);
-        $this->db->bind(2,$data["title"]);
-        $this->db->bind(3,$data["description"]);
-        $this->db->bind(4,$data["video_url"]);
+        $this->db->bind(2,$data["description"]);
+        $this->db->bind(3,$data["video_url"]);
+        $this->db->bind(4,$data["title"]);
         $this->db->bind(5,$data["profile_id"]);
         $this->db->bind(6,$data["image_url"]);
         $this->db->bind(7,date("Y-m-d H:i:s"));

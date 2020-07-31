@@ -55,7 +55,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Acciones:</h6>
                 <a class="collapse-item" href="<?php echo _URL."experience"?>">Experiencia Laboral</a>
-                <a class="collapse-item" href="<?php echo _URL."users/"?>">Experiencia Academica</a>
+                <a class="collapse-item" href="<?php echo _URL."formation/"?>">Experiencia Academica</a>
 
             </div>
         </div>

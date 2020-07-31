@@ -1,20 +1,19 @@
 <?php
 
 
-class TestimonialsController extends Controller{
-
+class FormationController extends Controller
+{
     public function __construct(){
-        $this->testimonial = $this->model("Testimonials");
+        $this->formation = $this->model("Formation");
         $this->statusModel = $this->model("MainStatus");
         $this->userModel = $this->model("AuthUser");
         $this->permissionsModel = $this->model("AuthPermissions");
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
     }
-
     public function index( $i = 1){
 
-        if( $this->permission->about_menu) {
+        if( $this->permission->formation_menu) {
             /**
              *  Paginacion
              *  1.- Se obtiene el numero de registros
@@ -23,10 +22,10 @@ class TestimonialsController extends Controller{
              *
              */
             $rowsPerPage = 5;
-            $rowCounts = $this->testimonial->countRows()->count;
+            $rowCounts = $this->formation->countRows()->count;
             $start = ( $i - 1) * $rowsPerPage;
             $totalTabs = ceil($rowCounts / $rowsPerPage);
-            $testimonials = $this->testimonial->getData($start,$rowsPerPage);
+            $formation = $this->formation->getData($start,$rowsPerPage);
 
 
             /**
@@ -35,10 +34,10 @@ class TestimonialsController extends Controller{
              */
             $usersId = [];
             $statusId = [];
-            foreach ( $testimonials as $testimonial){
-                array_push( $usersId, $testimonial->created_by);
-                array_push( $usersId, $testimonial->updated_by == null ? 0 : $testimonial->updated_by);
-                array_push( $statusId, $testimonial->status_id);
+            foreach ( $formation as $form){
+                array_push( $usersId, $form->created_by);
+                array_push( $usersId, $form->updated_by == null ? 0 : $form->updated_by);
+                array_push( $statusId, $form->status_id);
             }
 
             /**
@@ -54,48 +53,28 @@ class TestimonialsController extends Controller{
             $statusArray = $this->statusModel->getMainStatusIn($statusId);
 
             $data = [
-                "testimonials"=> $testimonials,
+                "formation"=> $formation,
                 "statusArray" => $statusArray,
                 "totalTabs" => $totalTabs,
                 "current" => $i,
                 "permissions" => $this->permission,
                 "usersArray" => $usersArray
             ];
-            $this->view("testimonial/index", $data);
+            $this->view("formation/formation/index", $data);
         }else {
             $this->view("notfound/deneged");
         }
     }
     public function insert( $id = null ){
 
-        if( $this->permission->about_menu) {
+        if( $this->permission->formation_menu) {
             if( $_SERVER["REQUEST_METHOD"] == "POST") {
-                $image_name = $_FILES["image_url"]["name"];
-                $image_type = $_FILES["image_url"]["type"];
-                $image_size = $_FILES["image_url"]["size"];
-
-
-
-                if( $image_size <= 6000000 && ( $image_type == "image/jpeg" || $image_type == "image/png" || $image_type == "image/jpg" )){
-                    helpers::redimention($_FILES["image_url"]);
-
-                    // Ruta carpeta Destino
-                    $folder = $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/testimonials/";
-                    // SE TRASLADA IMAGEN DEL DIR TEMPORAL A LA CARPETA INDICADA
-                    move_uploaded_file($_FILES["image_url"]["tmp_name"], $folder."original/".$image_name);
-
-
-                }else{
-
-                }
-
                 $data = [
                     "id" => helpers::decrypt( $id ),
-                    "code" => helpers::fieldValidation($_POST["code"]),
                     "description" => helpers::fieldValidation($_POST["description"]),
-                    "author" => helpers::fieldValidation($_POST["author"]),
+                    "video_url" => helpers::fieldValidation($_POST["video_url"]),
                     "title" => helpers::fieldValidation($_POST["title"]),
-                    "image_url" => "D",
+                    "image_url" => helpers::fieldValidation($_POST["image_url"]),
                     "profile_id" => 1,
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => helpers::fieldValidation($_POST["status_id"])
@@ -104,15 +83,15 @@ class TestimonialsController extends Controller{
 
                 if( $data["id"] == null  ){
                     if( $this->permission->can_create ){
-                        $execute = $this->testimonial->insert($data);
+                        $execute = $this->formation->insert($data);
 
                         if( !is_array($execute) ){
-                            //helpers::redirecction("testimonials");
+                            helpers::redirecction("formation");
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
 
-                            $this->view("testimonial/insert", $data);
+                            $this->view("aboutMe/formation/insert", $data);
                         }
                     }else{
                         $this->view("notfound/deneged");
@@ -122,14 +101,14 @@ class TestimonialsController extends Controller{
 
                 }else{
                     if( $this->permission->can_update ){
-                        $execute = $this->testimonial->update($data);
+                        $execute = $this->formation->update($data);
 
                         if( !is_array($execute) ){
-                            //helpers::redirecction("testimonials");
+                            helpers::redirecction("formation");
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view("testimonial/insert", $data);
+                            $this->view("aboutMe/formation/insert", $data);
                         }
                     }
                 }
@@ -138,34 +117,34 @@ class TestimonialsController extends Controller{
                 /**
                  * Obtener info desde modelo
                  */
-                $testimonial = $this->testimonial->getTestimonial( helpers::decrypt($id) );
+                $project = $this->formation->getProject( helpers::decrypt($id) );
 
                 $data = [
-                    "id" => $testimonial->id,
-                    "code" => $testimonial->code,
-                    "description" => $testimonial->description,
-                    "author" => $testimonial->author,
-                    "title" => $testimonial->title,
-                    "image_url" => $testimonial->image_url,
-                    "status_id" => $testimonial->status_id,
+                    "id" => $project->id,
+                    "description" => $project->description,
+                    "video_url" => $project->youtube_link,
+                    "title" => $project->title,
+                    "image_url" => $project->image_url,
+                    "status_id" => $project->status_id,
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("testimonial/insert", $data);
+                $this->view("aboutMe/formation/insert", $data);
             }else{
 
                 $data = [
                     "id" => null,
-                    "code" => "",
                     "description" => "",
-                    "author" => "",
+                    "course" => "",
                     "title" => "",
-                    "image_url" => "",
+                    "start" => "",
+                    "end" => "",
+                    "institute" => "",
                     "status_id" => "",
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("testimonial/insert", $data);
+                $this->view("formation/formation/insert", $data);
             }
         }else {
             $this->view("notfound/deneged");
@@ -182,7 +161,7 @@ class TestimonialsController extends Controller{
                         "id" => helpers::decrypt($id),
                         "deleted_by" => $_SESSION["user"]["id"]
                     ];
-                    if( $this->testimonial->delete($data)){
+                    if( $this->formation->delete($data)){
                         header("Location: ".$url);
                     }else{
                         die("Algo salio mal");
