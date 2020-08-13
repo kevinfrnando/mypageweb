@@ -1,5 +1,40 @@
 
 $(document).ready(function(){
+
+
+    function filePreview( input ){
+        if( input.files && input.files[0]){
+            var reader = new FileReader();
+
+            reader.onload = function( e ){
+                $('#imagePreview').html("<img style='max-width: 300px; max-height: 312px; position: absolute;left: 0;top: 0;right: 0;bottom: 0;margin: auto;' src='"+e.target.result+"'/>")
+            }
+            reader.readAsDataURL( input.files[0] );
+        }
+    }
+
+    $('#image_url').change( function () {
+        console.log("r")
+       filePreview(this);
+    });
+
+    $('#RichText').richText({
+        imageUpload: false,
+        fileUpload: false,
+        table: false,
+        // title
+        heading: false,
+
+        // colors
+        fontColor: false,
+        fontSize : false,
+        videoEmbed : false,
+        fonts : false,
+        maxlength: 1300,
+
+    })
+
+
     $('#deleteModal').on('show.bs.modal', function( e ){
         var link = document.getElementById("deleteAnchor").getAttribute("href");
         var id = $(e.relatedTarget).data('id');
@@ -81,4 +116,5 @@ $(document).ready(function(){
     //
     //     return false;
     // });
+
 });

@@ -72,7 +72,7 @@
         <div id="collapseAbout" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Acciones:</h6>
-                <a class="collapse-item" href="<?php echo _URL."users/insert"?>">Principal</a>
+                <a class="collapse-item" href="<?php echo _URL."about/"?>">Principal</a>
                 <a class="collapse-item" href="<?php echo _URL."projects/"?>">Proyectos </a>
                 <a class="collapse-item" href="<?php echo _URL."testimonials/"?>">Testimonial </a>
 
