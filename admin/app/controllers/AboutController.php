@@ -26,8 +26,6 @@ class AboutController extends Controller
                 $data = [
                     "id" => helpers::decrypt( $id ),
                     "description" => helpers::fieldValidation($_POST["description"]),
-                    "video_url" => helpers::fieldValidation($_POST["video_url"]),
-                    "title" => helpers::fieldValidation($_POST["title"]),
                     "image_url" => helpers::fieldValidation($_POST["image_url"]),
                     "profile_id" => 1,
                     "user_id" => $_SESSION["user"]["id"],
@@ -37,7 +35,7 @@ class AboutController extends Controller
 
                 if( $data["id"] == null  ){
                     if( $this->permission->can_create ){
-                        $execute = $this->projects->insert($data);
+                        $execute = $this->about->insert($data);
 
                         if( !is_array($execute) ){
                             helpers::redirecction("projects");
@@ -45,7 +43,7 @@ class AboutController extends Controller
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
 
-                            $this->view("aboutMe/projects/insert", $data);
+                            $this->view("aboutMe/about/insert", $data);
                         }
                     }else{
                         $this->view("notfound/deneged");
@@ -55,14 +53,14 @@ class AboutController extends Controller
 
                 }else{
                     if( $this->permission->can_update ){
-                        $execute = $this->projects->update($data);
+                        $execute = $this->about->update($data);
 
                         if( !is_array($execute) ){
-                            helpers::redirecction("projects");
+                            helpers::redirecction("aboutme");
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view("aboutMe/projects/insert", $data);
+                            $this->view("aboutMe/about/insert", $data);
                         }
                     }
                 }
@@ -71,15 +69,12 @@ class AboutController extends Controller
                 /**
                  * Obtener info desde modelo
                  */
-                $project = $this->projects->getProject( helpers::decrypt($id) );
+                $project = $this->about->getProject( helpers::decrypt($id) );
 
                 $data = [
                     "id" => $project->id,
                     "description" => $project->description,
                     "video_url" => $project->youtube_link,
-                    "title" => $project->title,
-                    "image_url" => $project->image_url,
-                    "status_id" => $project->status_id,
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
@@ -90,13 +85,10 @@ class AboutController extends Controller
                     "id" => null,
                     "description" => "",
                     "video_url" => "",
-                    "title" => "",
-                    "image_url" => "",
-                    "status_id" => "",
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("aboutMe/projects/insert", $data);
+                $this->view("aboutMe/about/insert", $data);
             }
         }else {
             $this->view("notfound/deneged");
