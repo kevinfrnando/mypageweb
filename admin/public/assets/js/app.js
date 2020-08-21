@@ -14,7 +14,8 @@ $(document).ready(function(){
     }
 
     $('#image_url').change( function () {
-        console.log("r")
+        var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')
+        $('#image_name_preview').html(filename)
        filePreview(this);
     });
 

@@ -99,67 +99,116 @@ class helpers{
         return $permissions->can_read;
     }
 
-    public function imageManagement(){
+    public function imageManagement( $image , $path ){
+        $response = [
+            "error" => null ,
+            "save" => 0 ,
+            "message" => "",
+            "exception" => null
+            ];
+        try {
+            $image_name = $image["name"];
+            $image_type = $image["type"];
+            $image_size = $image["size"];
 
+            $size = $image_size <= 6000000 ;
+            $type = $image_type == "image/jpeg" || $image_type == "image/png" || $image_type == "image/jpg";
+
+
+
+            if(  $size && $type ) {
+                helpers::redimention( $image );
+
+                // Ruta carpeta Destino
+                $folder = $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/".$path."/";
+
+                // Se verifica si existe
+
+                if( ! file_exists( $folder )){
+                    mkdir($folder, 0777, true);
+                }
+
+                // SE TRASLADA IMAGEN DEL DIR TEMPORAL A LA CARPETA INDICADA
+                move_uploaded_file($_FILES["image_url"]["tmp_name"], $folder."original/".$image_name);
+                return [];
+            }else{
+                if( $type == false ){
+                    $response["message"] = "Solo se puede subir extensiones .jpg, .jpeg, y .png";
+                }elseif ( $size == false){
+                    $response["message"] = "Archivo Demasiado Grande";
+                }
+                $response["error"] = true;
+
+            }
+        }catch (Exception $e){
+            $response["exception"] = $e->getMessage();
+        } finally {
+            return $response;
+        }
     }
 
     public function redimention($img){
-        $image_name = $img["name"];
-        $micro = null;
-        $small = null;
-        $medium = null;
-        $large = null;
+        try {
+            $image_name = $img["name"];
+            $micro = null;
+            $small = null;
+            $medium = null;
+            $large = null;
 
-        $folder = $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/testimonials/";
+            $folder = $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/testimonials/";
 
 
-        /*
-         *  CREATE IMAGE
-         */
-        $size = getimagesize($img["tmp_name"]);
-        $ratio = $size[0]/$size[1]; // width/height
-        if( $ratio > 1) {
-            $micro = [50,50/$ratio];
-            $small = [250,250/$ratio];
-            $medium = [500,500/$ratio];
-            $large = [800,800/$ratio];
+            /*
+             *  CREATE IMAGE
+             */
+            $size = getimagesize($img["tmp_name"]);
+            $ratio = $size[0]/$size[1]; // width/height
+            if( $ratio > 1) {
+                $micro = [50,50/$ratio];
+                $small = [250,250/$ratio];
+                $medium = [500,500/$ratio];
+                $large = [800,800/$ratio];
+            }
+            else {
+                $micro = [50*$ratio,50];
+                $small = [250*$ratio,250];
+                $medium = [500*$ratio,500];
+                $large = [800*$ratio,800];
+            }
+            $src = imagecreatefromstring(file_get_contents($img["tmp_name"]));
+
+            /*
+             * FOR MICRO
+             */
+            $dstMicro = imagecreatetruecolor($micro[0],$micro[1]);
+            imagecopyresampled($dstMicro,$src,0,0,0,0,$micro[0],$micro[1],$size[0],$size[1]);
+            imagejpeg($dstMicro,$folder."micro/".$image_name);
+            /*
+             * FOR SMALL
+             */
+            $dstSmall = imagecreatetruecolor($small[0],$small[1]);
+            imagecopyresampled($dstSmall,$src,0,0,0,0,$small[0],$small[1],$size[0],$size[1]);
+            imagejpeg($dstSmall,$folder."small/".$image_name);
+            /*
+             * FOR MEDIUM
+             */
+            $dstMedium = imagecreatetruecolor($medium[0],$medium[1]);
+            imagecopyresampled($dstMedium,$src,0,0,0,0,$medium[0],$medium[1],$size[0],$size[1]);
+            imagejpeg($dstMedium,$folder."medium/".$image_name);
+            /*
+             * FOR LARGE
+             */
+            $dstLarge = imagecreatetruecolor($large[0],$large[1]);
+            imagecopyresampled($dstLarge,$src,0,0,0,0,$large[0],$large[1],$size[0],$size[1]);
+            imagejpeg($dstLarge,$folder."large/".$image_name);
+
+
+            imagedestroy($src);
+            imagedestroy($dstMicro);
+            return true;
+        }catch ( Exception $e){
+            return false;
         }
-        else {
-            $micro = [50*$ratio,50];
-            $small = [250*$ratio,250];
-            $medium = [500*$ratio,500];
-            $large = [800*$ratio,800];
-        }
-        $src = imagecreatefromstring(file_get_contents($img["tmp_name"]));
-
-        /*
-         * FOR MICRO
-         */
-        $dstMicro = imagecreatetruecolor($micro[0],$micro[1]);
-        imagecopyresampled($dstMicro,$src,0,0,0,0,$micro[0],$micro[1],$size[0],$size[1]);
-        imagejpeg($dstMicro,$folder."micro/".$image_name);
-        /*
-         * FOR SMALL
-         */
-        $dstSmall = imagecreatetruecolor($small[0],$small[1]);
-        imagecopyresampled($dstSmall,$src,0,0,0,0,$small[0],$small[1],$size[0],$size[1]);
-        imagejpeg($dstSmall,$folder."small/".$image_name);
-        /*
-         * FOR MEDIUM
-         */
-        $dstMedium = imagecreatetruecolor($medium[0],$medium[1]);
-        imagecopyresampled($dstMedium,$src,0,0,0,0,$medium[0],$medium[1],$size[0],$size[1]);
-        imagejpeg($dstMedium,$folder."medium/".$image_name);
-        /*
-         * FOR LARGE
-         */
-        $dstLarge = imagecreatetruecolor($large[0],$large[1]);
-        imagecopyresampled($dstLarge,$src,0,0,0,0,$large[0],$large[1],$size[0],$size[1]);
-        imagejpeg($dstLarge,$folder."large/".$image_name);
-
-
-        imagedestroy($src);
-        imagedestroy($dstMicro);
 
     }
 

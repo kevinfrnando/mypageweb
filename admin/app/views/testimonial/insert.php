@@ -70,8 +70,9 @@
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Url Image</label>
-                                            <input required type="file" class="form-control col-sm-8" id="main_legend" name="image_url" aria-describedby="urlImageHelp" value="<?php echo $data["image_url"]?>" placeholder="/image.png">
-                                            <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
+                                            <input required type="file" id="image_url" name="image_url" aria-describedby="urlImageHelp" value="<?php echo $data["image_url"]?>" placeholder="/image.png">
+                                            <label for="image_url" class="btn-input btn btn-success btn-block col-sm-8">Upload</label>
+                                            <span class="small col-sm-12 text-right" id="image_name_preview"></span>
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Status</label>

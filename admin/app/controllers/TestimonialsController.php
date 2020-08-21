@@ -74,20 +74,20 @@ class TestimonialsController extends Controller{
                 $image_type = $_FILES["image_url"]["type"];
                 $image_size = $_FILES["image_url"]["size"];
 
+                helpers::imageManagement($_FILES["image_url"], "testimonials");
 
-
-                if( $image_size <= 6000000 && ( $image_type == "image/jpeg" || $image_type == "image/png" || $image_type == "image/jpg" )){
-                    helpers::redimention($_FILES["image_url"]);
-
-                    // Ruta carpeta Destino
-                    $folder = $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/testimonials/";
-                    // SE TRASLADA IMAGEN DEL DIR TEMPORAL A LA CARPETA INDICADA
-                    move_uploaded_file($_FILES["image_url"]["tmp_name"], $folder."original/".$image_name);
-
-
-                }else{
-
-                }
+//                if( $image_size <= 6000000 && ( $image_type == "image/jpeg" || $image_type == "image/png" || $image_type == "image/jpg" )){
+//                    helpers::redimention($_FILES["image_url"]);
+//
+//                    // Ruta carpeta Destino
+////                    $folder = $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/testimonials/";
+////                    // SE TRASLADA IMAGEN DEL DIR TEMPORAL A LA CARPETA INDICADA
+////                    move_uploaded_file($_FILES["image_url"]["tmp_name"], $folder."original/".$image_name);
+////
+//
+//                }else{
+//
+//                }
 
                 $data = [
                     "id" => helpers::decrypt( $id ),
