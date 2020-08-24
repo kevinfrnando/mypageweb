@@ -100,11 +100,13 @@ class helpers{
     }
 
     public function imageManagement( $image , $path ){
+
         $response = [
             "error" => null ,
-            "save" => 0 ,
+            "saved" => false ,
             "message" => "",
-            "exception" => null
+            "exception" => null,
+            "path" => $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/".$path."/"
             ];
         try {
             $image_name = $image["name"];
@@ -115,18 +117,35 @@ class helpers{
             $type = $image_type == "image/jpeg" || $image_type == "image/png" || $image_type == "image/jpg";
 
 
-
+            $response["type"] = $image_type;
+            $response["size"] = $image_size;
             if(  $size && $type ) {
-                helpers::redimention( $image );
-
                 // Ruta carpeta Destino
-                $folder = $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/".$path."/";
+                $folder = $response["path"];
 
                 // Se verifica si existe
 
                 if( ! file_exists( $folder )){
                     mkdir($folder, 0777, true);
                 }
+                if(! file_exists( $folder."large" )){
+                    mkdir($folder."large", 0777, true);
+                }
+                if(! file_exists( $folder."medium" )){
+                    mkdir($folder."medium", 0777, true);
+                }
+                if(! file_exists( $folder."micro" )){
+                    mkdir($folder."micro", 0777, true);
+                }
+                if(! file_exists( $folder."original" )){
+                    mkdir($folder."original", 0777, true);
+                }
+                if(! file_exists( $folder."small" )){
+                    mkdir($folder."small", 0777, true);
+                }
+
+                $response["saved"] = helpers::redimention( $image );
+
 
                 // SE TRASLADA IMAGEN DEL DIR TEMPORAL A LA CARPETA INDICADA
                 move_uploaded_file($_FILES["image_url"]["tmp_name"], $folder."original/".$image_name);

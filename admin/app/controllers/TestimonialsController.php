@@ -6,6 +6,7 @@ class TestimonialsController extends Controller{
     public function __construct(){
         $this->testimonial = $this->model("Testimonials");
         $this->statusModel = $this->model("MainStatus");
+        $this->files = $this->model("Files");
         $this->userModel = $this->model("AuthUser");
         $this->permissionsModel = $this->model("AuthPermissions");
         $sessionPermission = $_SESSION["user"]["permissions"];
@@ -70,50 +71,48 @@ class TestimonialsController extends Controller{
 
         if( $this->permission->about_menu) {
             if( $_SERVER["REQUEST_METHOD"] == "POST") {
-                $image_name = $_FILES["image_url"]["name"];
-                $image_type = $_FILES["image_url"]["type"];
-                $image_size = $_FILES["image_url"]["size"];
-
-                helpers::imageManagement($_FILES["image_url"], "testimonials");
-
-//                if( $image_size <= 6000000 && ( $image_type == "image/jpeg" || $image_type == "image/png" || $image_type == "image/jpg" )){
-//                    helpers::redimention($_FILES["image_url"]);
-//
-//                    // Ruta carpeta Destino
-////                    $folder = $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/testimonials/";
-////                    // SE TRASLADA IMAGEN DEL DIR TEMPORAL A LA CARPETA INDICADA
-////                    move_uploaded_file($_FILES["image_url"]["tmp_name"], $folder."original/".$image_name);
-////
-//
-//                }else{
-//
-//                }
 
                 $data = [
                     "id" => helpers::decrypt( $id ),
-                    "code" => helpers::fieldValidation($_POST["code"]),
                     "description" => helpers::fieldValidation($_POST["description"]),
+                    "code" => helpers::fieldValidation($_POST["code"]),
                     "author" => helpers::fieldValidation($_POST["author"]),
                     "title" => helpers::fieldValidation($_POST["title"]),
-                    "image_url" => "D",
+                    "code" => helpers::fieldValidation($_POST["code"]),
+                    "image_url" => 1,
                     "profile_id" => 1,
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => helpers::fieldValidation($_POST["status_id"])
                 ];
 
-
                 if( $data["id"] == null  ){
                     if( $this->permission->can_create ){
+                        $response = helpers::imageManagement($_FILES["image_url"], "testimonials");
                         $execute = $this->testimonial->insert($data);
+                        if( $response["error"] == null && $response["saved"] && $response["exception"] == null){
+                            $data["folder_path"] = $response["path"];
+                            $data["name"] = "";
+                            $data["type"] = $response["type"];
+                            $data["size"] = $response["size"];
+                            $data["folder_name"] = "testimonials";
 
-                        if( !is_array($execute) ){
-                            //helpers::redirecction("testimonials");
+                            var_dump($this->files->insert($data));
+                            if( !is_array($execute) ){
+                                helpers::redirecction("testimonials");
+                            }else{
+                                $data["error"] = $execute;
+                                $data["statusArray"] = $this->statusModel->getAll();
+
+                                $this->view("testimonial/insert", $data);
+                            }
                         }else{
-                            $data["error"] = $execute;
+                            $data["image_error"] = $response;
                             $data["statusArray"] = $this->statusModel->getAll();
 
                             $this->view("testimonial/insert", $data);
                         }
+
+
                     }else{
                         $this->view("notfound/deneged");
                     }
@@ -125,7 +124,7 @@ class TestimonialsController extends Controller{
                         $execute = $this->testimonial->update($data);
 
                         if( !is_array($execute) ){
-                            //helpers::redirecction("testimonials");
+                            helpers::redirecction("testimonials");
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();

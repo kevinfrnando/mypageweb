@@ -22,7 +22,7 @@
                         About Me
                     </div>
                     <div class="card-body">
-                        <form action="<?php echo _URL."aboutme/update";?>" method="post">
+                        <form action="<?php echo _URL."about/insert";?>" method="post">
                             <div class="row">
                                 <div class="form-group row form-gr col-sm-8">
                                     <input type="text" id="RichText" name="description">
@@ -39,8 +39,7 @@
 
                             <div class="row">
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
-
-                                    Actualizar
+                                    Guardar
                                 </button>
                             </div>
                         </form>

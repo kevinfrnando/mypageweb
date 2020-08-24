@@ -45,6 +45,14 @@
                                         </div>
                                     </div>
                                 <?php } ?>
+                                <?php if( isset($data["image_error"])){ ?>
+                                    <div class="row alert alert-warning alert-dismissible fade show" role="alert">
+                                        <div>
+                                            <strong>Error!</strong> No se puede cargar el archivo
+                                            <p><strong>Razón: </strong> <?php echo $data["image_error"]["message"]?></p>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group row form-gr col-sm-12">

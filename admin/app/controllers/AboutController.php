@@ -26,12 +26,13 @@ class AboutController extends Controller
                 $data = [
                     "id" => helpers::decrypt( $id ),
                     "description" => helpers::fieldValidation($_POST["description"]),
-                    "image_url" => helpers::fieldValidation($_POST["image_url"]),
+                    "image_url" => "",
                     "profile_id" => 1,
-                    "user_id" => $_SESSION["user"]["id"],
-                    "status_id" => helpers::fieldValidation($_POST["status_id"])
+                    "user_id" => $_SESSION["user"]["id"]
                 ];
+                var_dump($_POST);
 
+                $response = helpers::imageManagement($_FILES["image_url"], "about");
 
                 if( $data["id"] == null  ){
                     if( $this->permission->can_create ){
@@ -60,7 +61,7 @@ class AboutController extends Controller
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view("aboutMe/about/insert", $data);
+                            $this->view("aboutMe/about /insert", $data);
                         }
                     }
                 }
