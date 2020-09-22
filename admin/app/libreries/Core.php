@@ -15,12 +15,19 @@
         /**
          * @var mixed|string|null
          */
-
+        private $host = DB_HOST;
+        private $user = DB_USER;
+        private $pass = DB_PASS;
+        private $dbName = DB_NAME;
+        private static $connection;
 
 
 
         public function __construct (){
+            $getConnection = new Connection();
+            self::$connection = $getConnection->connect();
             $url = $this->getUrl();
+
             $controller ="";
             if( $url[0] != null){
                 $controller = ucwords($url[0])."Controller";
@@ -61,6 +68,9 @@
 
         }
 
+        public static function getConnection(){
+            return self::$connection;
+        }
         public function getUrl(){
             if( isset($_GET["url"])){
                 $url = rtrim($_GET["url"], '/');

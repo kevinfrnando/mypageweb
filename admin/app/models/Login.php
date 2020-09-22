@@ -2,7 +2,7 @@
 class Login{
 
     public function __construct(){
-        $this->db = new Connection();
+        $this->db = new DDBBHandler();
     }
 
     public function loginValidation($data){

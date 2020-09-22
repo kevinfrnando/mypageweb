@@ -4,7 +4,7 @@
 class Tabs
 {
     public function __construct(){
-        $this->db = new Connection();
+        $this->db = new DDBBHandler();
     }
 
     public function getData( $start, $limit ){
