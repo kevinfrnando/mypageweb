@@ -8,12 +8,20 @@
                 About Me
             </div>
             <div class="card-body">
+
                 <ul class="list-unstyled">
+                    <?php foreach ( $data["about"] as  $about){ ?>
                     <li class="media">
                         <div class="form-group row form-gr col-sm-12">
-                            <textarea class="form-control col-sm-8" id="exampleFormControlTextarea1" readonly name="bio_profile" rows="3"></textarea>
+                            <textarea class="form-control col-sm-8" id="exampleFormControlTextarea1" readonly name="bio_profile" rows="3"><?php echo  htmlspecialchars_decode( stripslashes($about->description), ENT_QUOTES )?></textarea>
                             <div class="form-control col-sm-2 h-100 d-inline-block" >
-                                <img style="max-height: 100px;" src="https://ximagen.com/images/2018/12/23/imagenes-bonitas-para-compartir-en-esta-navidad.jpg" alt="..." class="img-thumbnail mr-3 rounded mx-auto d-block">
+                                <?php foreach ( $data["fileArray"] as  $file){
+                                    if(  $about->image_url == $file->id ){  ?>
+
+                                        <img style="max-height: 100px;" src="http:\\localhost\media\admin\images\about_me\medium\<?php echo $file->name?>" alt="..." class="img-thumbnail mr-3 rounded mx-auto d-block">
+                                    <?php    }
+                                }
+                                ?>
                             </div>
                             <div class="form-control col-sm-2 h-auto align-items-center">
 
@@ -27,16 +35,15 @@
                             <!--                                <small id="mainLegendHelp" class="form-text text-muted">Biografia General.</small>-->
                         </div>
                     </li>
-                    <li>
-                        <div class="form-group row form-gr col-sm-12">
-                            <a href="<?php echo _URL."about/insert"?>" class="btn btn-primary btn-block btn-sm">
-                                <span class="text">Agregar Nuevo </span>
-                            </a>
-                        </div>
-                    </li>
+                    <?php } ?>
+
                 </ul>
 
-
+                <div class="form-group row form-gr col-sm-12">
+                    <a href="<?php echo _URL."about/insert"?>" class="btn btn-primary btn-block btn-sm">
+                        <span class="text">Agregar Nuevo </span>
+                    </a>
+                </div>
 
             </div>
         </div>

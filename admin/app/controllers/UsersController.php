@@ -8,6 +8,7 @@
             $this->permissionsModel = $this->model("AuthPermissions");
             $sessionPermission = $_SESSION["user"]["permissions"];
             $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
+            $this->path = "users/users";
         }
 
         public function index( $i = 1 ){
@@ -66,7 +67,7 @@
                     "current" => $i
                 ];
 
-                $this->view("users/index", $data);
+                $this->view($this->path."/index", $data);
             }else{
                 $this->view("notfound/deneged");
             }
@@ -103,7 +104,7 @@
                                     helpers::redirecction("users");
                                 }else{
                                     $data["error"] = $execute;
-                                    $this->view("users/insert", $data);
+                                    $this->view($this->path."/insert", $data);
                                 }
                             }else{
                                 $this->view("notfound/deneged");
@@ -128,7 +129,7 @@
                         $data["permissionsArray"] = $this->permission->getAll();
                         $data["statusArray"] = $this->statusModel->getAll();
 
-                        $this->view("users/insert", $data);
+                        $this->view($this->path."/insert", $data);
                     }
 
                 }else if( ($id != null) && ( $_SERVER["REQUEST_METHOD"] != "POST" )){
@@ -154,7 +155,7 @@
                         "passwordError" => false
                     ];
                     if( helpers::canRead()) {
-                        $this->view("users/insert", $data);
+                        $this->view($this->path."/insert", $data);
                     }else{
                         $this->view("notfound/deneged");
                     }
@@ -176,7 +177,7 @@
                         "passwordError" => false
                     ];
 
-                    $this->view("users/insert", $data);
+                    $this->view($this->path."/insert", $data);
                 }
             }
             else {
@@ -220,7 +221,7 @@
                             "created_by" => $this->userModel->getUser($user->created_by),
                             "updated_by" => $this->userModel->getUser($user->updated_by)
                         ];
-                        $this->view("users/show", $data);
+                        $this->view($this->path."/show", $data);
 
                     }else{
                         $this->view("notfound/wrong");

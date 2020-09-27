@@ -10,6 +10,7 @@ class ExperienceController extends Controller
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permissionsModel = $this->model("AuthPermissions");
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
+        $this->path = "formation/experience/";
     }
 
     public function index( $i = 1){
@@ -62,7 +63,7 @@ class ExperienceController extends Controller
                 "permissions" => $this->permission,
                 "usersArray" => $usersArray
             ];
-            $this->view("experience/index", $data);
+            $this->view($this->path."index", $data);
         }else {
             $this->view("notfound/deneged");
         }
@@ -100,7 +101,7 @@ class ExperienceController extends Controller
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view("experience/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }else{
                         $this->view("notfound/deneged");
@@ -118,7 +119,7 @@ class ExperienceController extends Controller
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
 
-                            $this->view("experience/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }
                 }
@@ -141,7 +142,7 @@ class ExperienceController extends Controller
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("experience/insert", $data);
+                $this->view($this->path."insert", $data);
             }else{
 
                 $data = [
@@ -156,7 +157,7 @@ class ExperienceController extends Controller
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("experience/insert", $data);
+                $this->view($this->path."insert", $data);
             }
         }else {
             $this->view("notfound/deneged");

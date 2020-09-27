@@ -23,7 +23,7 @@ class Controller{
 
     public function view( $view, $data = [] ){
         if( file_exists( "../app/views/".$view.".php") ){
-            if($view != "login/index"){
+            if($view != "components/login/index"){
                 require_once _PARTIALS."header.php";
             }else{
                 require_once _PARTIALS."headerLogin.php";
@@ -35,7 +35,10 @@ class Controller{
             require_once _PARTIALS."footer.php";
 
         }else{
-            die("No existe la vista");
+            require_once _PARTIALS."header.php";
+            require_once "../app/views/notfound/index.php";
+            require_once _PARTIALS."footer.php";
+
         }
     }
 

@@ -3,10 +3,11 @@ class MainProfileController extends Controller{
 
     public function __construct(){
         $this->main = $this->model("MainProfile");
+        $this->path = "profile/mainprofile/";
     }
     public function index(){
         $data = $this->main->getData();
-        $this->view("mainprofile/index", $data);
+        $this->view($this->path."index", $data);
     }
 
     public function update(){

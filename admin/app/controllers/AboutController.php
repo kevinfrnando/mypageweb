@@ -5,16 +5,56 @@ class AboutController extends Controller
 {
     public function __construct(){
         $this->about = $this->model("About");
+        $this->files = $this->model("Files");
         $this->statusModel = $this->model("MainStatus");
         $this->userModel = $this->model("AuthUser");
         $this->permissionsModel = $this->model("AuthPermissions");
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
+        $this->path = "aboutMe/about/";
     }
     public function index( $i = 1){
 
         if( $this->permission->about_menu) {
-            $this->view("aboutMe/about/index");
+            $about = $this->about->getData();
+            /**
+             *  Obtenemos los ids de los registros corespondientes a los usuarios para luego obtenerlos en la consulta
+             *
+             *
+             */
+            $usersId = [];
+            $statusId = [];
+            $fileId = [];
+            foreach ( $about as $abt){
+                array_push( $usersId, $abt->created_by);
+                array_push( $usersId, $abt->updated_by == null ? 0 : $abt->updated_by);
+                array_push( $statusId, $abt->status_id);
+                array_push( $fileId, $abt->image_url );
+            }
+
+            /**
+             *  Construcion del parametro para las consultas SQL --- in () ---
+             */
+            $usersId = array_unique( $usersId );
+            $statusId = array_unique( $statusId );
+            $fileId = array_unique( $fileId );
+
+            $usersId = implode(",", $usersId );
+            $statusId = implode(",", $statusId );
+            $fileId = implode(",", $fileId );
+
+            $usersArray = $this->userModel->getUsersIn($usersId);
+            $statusArray = $this->statusModel->getMainStatusIn($statusId);
+            $fileArray = $this->files->getFilesIn($fileId);
+            $data = [
+                "about"=> $about,
+                "statusArray" => $statusArray,
+                "fileArray" => $fileArray,
+                "current" => $i,
+                "permissions" => $this->permission,
+                "usersArray" => $usersArray
+            ];
+            $this->view($this->path."index", $data);
         }else {
             $this->view("notfound/deneged");
         }
@@ -26,26 +66,46 @@ class AboutController extends Controller
                 $data = [
                     "id" => helpers::decrypt( $id ),
                     "description" => helpers::fieldValidation($_POST["description"]),
-                    "image_url" => "",
                     "profile_id" => 1,
-                    "user_id" => $_SESSION["user"]["id"]
+                    "user_id" => $_SESSION["user"]["id"],
+                    "status_id" => 1
                 ];
-                var_dump($_POST);
 
-                $response = helpers::imageManagement($_FILES["image_url"], "about");
+
 
                 if( $data["id"] == null  ){
                     if( $this->permission->can_create ){
-                        $execute = $this->about->insert($data);
+                        $folder = "about_me";
+                        $name  = $folder.$this->files->nextFile($folder);
+                        $response = helpers::imageManagement($_FILES["image_url"], $folder, $name);
+                        if( $response["error"] == null && $response["saved"] && $response["exception"] == null){
 
-                        if( !is_array($execute) ){
-                            helpers::redirecction("projects");
+                            $data["folder_path"] = $response["path"];
+                            $data["folder_name"] = $folder;
+                            $data["type"] = str_replace("image/",".",$response["type"]);
+                            $data["size"] = $response["size"];
+                            $data["name"] = $response["name"];
+                            $this->files->insert($data);
+                            $imgId = $this->files->getLastId();
+                            $data["image_url"] = $imgId;
+
+                            $execute = $this->about->insert($data);
+
+                            if( !is_array($execute) ){
+                                helpers::redirecction("about");
+                            }else{
+                                $data["error"] = $execute;
+                                $data["statusArray"] = $this->statusModel->getAll();
+
+                                $this->view($this->path."insert", $data);
+                            }
                         }else{
-                            $data["error"] = $execute;
+                            $data["image_error"] = $response;
                             $data["statusArray"] = $this->statusModel->getAll();
 
-                            $this->view("aboutMe/about/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
+
                     }else{
                         $this->view("notfound/deneged");
                     }
@@ -61,7 +121,7 @@ class AboutController extends Controller
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view("aboutMe/about /insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }
                 }
@@ -79,7 +139,7 @@ class AboutController extends Controller
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("aboutMe/projects/insert", $data);
+                $this->view($this->path."insert", $data);
             }else{
 
                 $data = [
@@ -89,7 +149,7 @@ class AboutController extends Controller
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("aboutMe/about/insert", $data);
+                $this->view($this->path."insert", $data);
             }
         }else {
             $this->view("notfound/deneged");

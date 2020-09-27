@@ -14,6 +14,7 @@ class Testimonials{
         return $this->db->getAll();
     }
     public function insert( $data ){
+        var_dump($data);
         $this->db->query("call SP_INSERT_TESTIMONIALS(?,?,?,?,?,?,?,?,?)");
         $this->db->bind(1,$data["code"]);
         $this->db->bind(2,$data["description"]);
@@ -59,5 +60,10 @@ class Testimonials{
         $this->db->bind(2,$data["deleted_by"]);
         $this->db->bind(3,$data["id"]);
         return $this->db->executeQuery() ?? false;
+    }
+
+
+    public function getLastId(){
+        return $this->db->getLastInsert();
     }
 }

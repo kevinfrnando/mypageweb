@@ -22,7 +22,23 @@
                         About Me
                     </div>
                     <div class="card-body">
-                        <form action="<?php echo _URL."about/insert";?>" method="post">
+                        <form action="<?php echo _URL."about/insert"; ;?>" method="post" enctype="multipart/form-data">
+                            <?php if( isset($data["image_error"])){ ?>
+                                <div class="row alert alert-warning alert-dismissible fade show" role="alert">
+                                    <div>
+                                        <strong>Error!</strong> No se puede cargar el archivo
+                                        <p><strong>Razón: </strong> <?php echo $data["image_error"]["message"]?></p>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <?php if( isset($data["error"])){ ?>
+                                <div class="row alert alert-warning alert-dismissible fade show" role="alert">
+                                    <div>
+                                        <strong>Error!</strong> No se puede guardar <?php echo ($data["error"]["code"] == 23000 ? "por que ya existe un registro con este Código" : "Error Desconocido" )?>
+                                        <p><strong>Código Sql: </strong> <?php echo $data["error"]["code"]?></p>
+                                    </div>
+                                </div>
+                            <?php } ?>
                             <div class="row">
                                 <div class="form-group row form-gr col-sm-8">
                                     <input type="text" id="RichText" name="description">

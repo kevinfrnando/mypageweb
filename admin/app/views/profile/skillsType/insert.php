@@ -4,7 +4,7 @@
         <div class="col-sm-3 d-flex">
             <?php
             if( isset( $data["id"])){ ?>
-                <a href="<?php echo _URL."socialmedia/insert"?>" class="btn btn-primary btn-icon-split">
+                <a href="<?php echo _URL."skilltype/insert"?>" class="btn btn-primary btn-icon-split">
                         <span class="icon text-white-50">
                           <i class="fa fa-plus"></i>
                         </span>
@@ -14,7 +14,7 @@
 
         </div>
         <div class="col-sm-3 d-flex justify-content-end">
-            <a href="<?php echo _URL."socialmedia"?>" class="btn btn-success btn-icon-split">
+            <a href="<?php echo _URL."skilltype"?>" class="btn btn-success btn-icon-split">
                 <span class="icon text-white-50">
                   <i class="fa fa-arrow-left"></i>
                 </span>
@@ -32,10 +32,10 @@
                 <div class="col-lg-10 mx-auto">
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4"><?php echo $data["id"] ? "Editar" : "Registrar "?> Social Media</h1>
+                            <h1 class="h4 text-gray-900 mb-4"><?php echo $data["id"] ? "Editar" : "Registrar "?> Skill Type</h1>
                         </div>
                         <div class="card-body col-lg-10 mx-auto">
-                            <form action="<?php echo _URL."socialmedia/insert/".helpers::encrypt($data["id"]);?>" method="post">
+                            <form action="<?php echo _URL."skilltype/insert/".helpers::encrypt($data["id"]);?>" method="post">
                                 <input hidden type="text" name="id" value="<?php echo $data["id"]?>">
                                 <?php if( isset($data["error"])){ ?>
                                     <div class="row alert alert-warning alert-dismissible fade show" role="alert">
@@ -48,23 +48,8 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainName" class="col-sm-4 col-form-label">Code</label>
-                                            <input required type="text" class="form-control col-sm-8 " id="main_name" name="code" aria-describedby="codeHelp" value="<?php echo $data["code"]?>" placeholder="Código">
-                                            <!--                                <small id="mainNameHelp" class="form-text text-muted">Nombre que aparece en la página principal.</small>-->
-                                        </div>
-                                        <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Descripción</label>
                                             <input required type="text" class="form-control col-sm-8" id="main_legend" name="description" aria-describedby="descriptionHelp" value="<?php echo $data["description"]?>" placeholder="Descripción">
-                                            <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
-                                        </div>
-                                        <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Url</label>
-                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="url" aria-describedby="urlHelp" value="<?php echo $data["url"]?>" placeholder="https://www.instagram.com/usuario">
-                                            <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
-                                        </div>
-                                        <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Logo</label>
-                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="logo" aria-describedby="logoHelp" value="<?php echo $data["logo"]?>" placeholder="Logo">
                                             <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">

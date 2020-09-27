@@ -102,6 +102,13 @@ class DDBBHandler{
         return $record;
     }
 
+    public function getLastInsert(){
+        $this->query("SELECT LAST_INSERT_ID()");
+        $this->executeQuery();
+        $record = $this->stm->fetchColumn();
+        return $record;
+    }
+
     public function disconect(){
         $this->stm = null;
         $this->dbh = null;

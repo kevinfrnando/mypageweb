@@ -11,6 +11,7 @@ class TestimonialsController extends Controller{
         $this->permissionsModel = $this->model("AuthPermissions");
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
+        $this->path = "aboutMe/testimonial/";
     }
 
     public function index( $i = 1){
@@ -62,7 +63,7 @@ class TestimonialsController extends Controller{
                 "permissions" => $this->permission,
                 "usersArray" => $usersArray
             ];
-            $this->view("testimonial/index", $data);
+            $this->view($this->path."index", $data);
         }else {
             $this->view("notfound/deneged");
         }
@@ -78,8 +79,6 @@ class TestimonialsController extends Controller{
                     "code" => helpers::fieldValidation($_POST["code"]),
                     "author" => helpers::fieldValidation($_POST["author"]),
                     "title" => helpers::fieldValidation($_POST["title"]),
-                    "code" => helpers::fieldValidation($_POST["code"]),
-                    "image_url" => 1,
                     "profile_id" => 1,
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => helpers::fieldValidation($_POST["status_id"])
@@ -88,28 +87,30 @@ class TestimonialsController extends Controller{
                 if( $data["id"] == null  ){
                     if( $this->permission->can_create ){
                         $response = helpers::imageManagement($_FILES["image_url"], "testimonials");
-                        $execute = $this->testimonial->insert($data);
                         if( $response["error"] == null && $response["saved"] && $response["exception"] == null){
                             $data["folder_path"] = $response["path"];
-                            $data["name"] = "";
+                            $data["name"] = $response["name"];
                             $data["type"] = $response["type"];
                             $data["size"] = $response["size"];
                             $data["folder_name"] = "testimonials";
+                            $this->files->insert($data);
+                            $imgId = $this->files->getLastId();
+                            $data["image_url"] = $imgId;
+                            $execute = $this->testimonial->insert($data);
 
-                            var_dump($this->files->insert($data));
                             if( !is_array($execute) ){
                                 helpers::redirecction("testimonials");
                             }else{
                                 $data["error"] = $execute;
                                 $data["statusArray"] = $this->statusModel->getAll();
 
-                                $this->view("testimonial/insert", $data);
+                                $this->view($this->path."insert", $data);
                             }
                         }else{
                             $data["image_error"] = $response;
                             $data["statusArray"] = $this->statusModel->getAll();
 
-                            $this->view("testimonial/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
 
 
@@ -128,7 +129,7 @@ class TestimonialsController extends Controller{
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view("testimonial/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }
                 }
@@ -145,12 +146,12 @@ class TestimonialsController extends Controller{
                     "description" => $testimonial->description,
                     "author" => $testimonial->author,
                     "title" => $testimonial->title,
-                    "image_url" => $testimonial->image_url,
+                    "image_url" => $this->files->getFile($testimonial->image_url),
                     "status_id" => $testimonial->status_id,
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("testimonial/insert", $data);
+                $this->view($this->path."insert", $data);
             }else{
 
                 $data = [
@@ -164,7 +165,7 @@ class TestimonialsController extends Controller{
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("testimonial/insert", $data);
+                $this->view($this->path."insert", $data);
             }
         }else {
             $this->view("notfound/deneged");

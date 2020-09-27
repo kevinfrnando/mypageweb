@@ -11,6 +11,7 @@
 
     // RUTAS DE LA APP
     define('_URL', 'http://localhost/mypageweb/admin/');
+    define("_MEDIA", dirname(dirname(dirname(dirname(dirname(__FILE__)) ))) )."media/";
     define("_ROOT", dirname(dirname(dirname(__FILE__)) ) );
     define("_ROUTE_APP", dirname(dirname(__FILE__)) );
     define("_ROUTE_PUBLIC", _ROOT."public/" );

@@ -28,7 +28,6 @@
                     <thead>
                     <tr>
                         <th hidden>Id</th>
-                        <th><span class="text-nowrap">Code </span></th>
                         <th><span class="text-nowrap">Description </span></th>
                         <th><span class="text-nowrap">Status </span></th>
                         <th><span class="text-nowrap">Acciones </span></th>
@@ -38,7 +37,6 @@
                     <tfoot>
                     <tr>
                         <th hidden>Id</th>
-                        <th><span class="text-nowrap">Code </span></th>
                         <th><span class="text-nowrap">Description </span></th>
                         <th><span class="text-nowrap">Status </span></th>
                         <th><span class="text-nowrap">Acciones </span></th>
@@ -49,7 +47,6 @@
                     <?php foreach ( $data["socialMedia"] as $socialMedia) { ?>
                         <tr>
                             <td hidden> <?php echo $socialMedia->id; ?></td>
-                            <td> <span class="text-nowrap"> <?php echo $socialMedia->code; ?> </span></td>
                             <td> <span class="text-nowrap"> <?php echo $socialMedia->description; ?> </span></td>
                             <td><span class="text-nowrap"> <?php
                                     foreach ($data["statusArray"] as $status){

@@ -99,7 +99,7 @@ class helpers{
         return $permissions->can_read;
     }
 
-    public function imageManagement( $image , $path ){
+    public function imageManagement( $image , $path , $name){
 
         $response = [
             "error" => null ,
@@ -109,7 +109,7 @@ class helpers{
             "path" => $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/".$path."/"
             ];
         try {
-            $image_name = $image["name"];
+            $image_name = $name.str_replace("image/",".",$image["type"]);
             $image_type = $image["type"];
             $image_size = $image["size"];
 
@@ -118,6 +118,7 @@ class helpers{
 
 
             $response["type"] = $image_type;
+            $response["name"] = $image_name;
             $response["size"] = $image_size;
             if(  $size && $type ) {
                 // Ruta carpeta Destino
@@ -144,7 +145,7 @@ class helpers{
                     mkdir($folder."small", 0777, true);
                 }
 
-                $response["saved"] = helpers::redimention( $image );
+                $response["saved"] = helpers::redimention( $image, $path ,$image_name);
 
 
                 // SE TRASLADA IMAGEN DEL DIR TEMPORAL A LA CARPETA INDICADA
@@ -166,15 +167,15 @@ class helpers{
         }
     }
 
-    public function redimention($img){
+    public function redimention($img , $path, $name){
         try {
-            $image_name = $img["name"];
+            $image_name = $name;
             $micro = null;
             $small = null;
             $medium = null;
             $large = null;
 
-            $folder = $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/testimonials/";
+            $folder = $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/".$path."/";
 
 
             /*

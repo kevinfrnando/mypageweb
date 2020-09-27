@@ -5,10 +5,12 @@ class SocialMediaController extends Controller{
     public function __construct(){
         $this->socialMedia = $this->model("SocialMedia");
         $this->statusModel = $this->model("MainStatus");
+        $this->files = $this->model("Files");
         $this->userModel = $this->model("AuthUser");
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permissionsModel = $this->model("AuthPermissions");
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
+        $this->path = "profile/socialmedia/";
     }
     public function index( $i = 1){
 
@@ -61,7 +63,7 @@ class SocialMediaController extends Controller{
                 "permissions" => $this->permission,
                 "usersArray" => $usersArray
             ];
-            $this->view("socialmedia/index", $data);
+            $this->view($this->path."index", $data);
         }else {
             $this->view("notfound/deneged");
         }
@@ -72,10 +74,8 @@ class SocialMediaController extends Controller{
             if( $_SERVER["REQUEST_METHOD"] == "POST") {
                 $data = [
                     "id" => helpers::decrypt( $id ),
-                    "code" => helpers::fieldValidation($_POST["code"]),
                     "description" => helpers::fieldValidation($_POST["description"]),
                     "url" => helpers::fieldValidation($_POST["url"]),
-                    "logo" => helpers::fieldValidation($_POST["logo"]),
                     "profile_id" => 1,
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => helpers::fieldValidation($_POST["status_id"])
@@ -84,15 +84,34 @@ class SocialMediaController extends Controller{
 
                 if( $data["id"] == null  ){
                     if( $this->permission->can_create ){
-                        $execute = $this->socialMedia->insert($data);
+                        $name = "social_media";
+                        $response = helpers::imageManagement($_FILES["image_url"], $name);
+                        if( $response["error"] == null && $response["saved"] && $response["exception"] == null){
+                            $data["folder_path"] = $response["path"];
+                            $data["folder_name"] = $name;
+                            $data["type"] = $response["type"];
+                            $data["size"] = $response["size"];
+                            $data["name"] = $name.$this->files->nextFile("social_media");
+                            $this->files->insert($data);
+                            $imgId = $this->files->getLastId();
+                            $data["image_url"] = $imgId;
 
-                        if( !is_array($execute) ){
-                            helpers::redirecction("socialMedia");
+                            $execute = $this->socialMedia->insert($data);
+
+                            if( !is_array($execute) ){
+                                helpers::redirecction("socialMedia");
+                            }else{
+                                $data["error"] = $execute;
+                                $data["statusArray"] = $this->statusModel->getAll();
+                                $this->view($this->path."insert", $data);
+                            }
                         }else{
-                            $data["error"] = $execute;
+                            $data["image_error"] = $response;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view("socialmedia/insert", $data);
+
+                            $this->view($this->path."insert", $data);
                         }
+
                     }else{
                         $this->view("notfound/deneged");
                     }
@@ -108,7 +127,7 @@ class SocialMediaController extends Controller{
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view("socialmedia/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }
                 }
@@ -121,28 +140,26 @@ class SocialMediaController extends Controller{
 
                 $data = [
                     "id" => $socialMedia->id,
-                    "code" => $socialMedia->code,
                     "description" => $socialMedia->description,
                     "url" => $socialMedia->url,
-                    "logo" => $socialMedia->logo,
+                    "image_url" => $socialMedia->logo,
                     "status_id" => $socialMedia->status_id,
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("socialmedia/insert", $data);
+                $this->view($this->path."insert", $data);
             }else{
 
                 $data = [
                     "id" => null,
-                    "code" => "",
                     "description" => "",
                     "url" => "",
-                    "logo" => "",
+                    "image_url" => "",
                     "status_id" => "",
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("socialmedia/insert", $data);
+                $this->view($this->path."insert", $data);
             }
         }else {
             $this->view("notfound/deneged");

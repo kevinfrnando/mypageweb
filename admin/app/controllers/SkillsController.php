@@ -11,6 +11,7 @@ class SkillsController extends Controller
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permissionsModel = $this->model("AuthPermissions");
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
+        $this->path = "profile/skills/";
     }
     public function index( $i = 1){
 
@@ -56,7 +57,7 @@ class SkillsController extends Controller
 
             $usersArray = $this->userModel->getUsersIn($usersId);
             $statusArray = $this->statusModel->getMainStatusIn($statusId);
-            $skillsTypeArray = $this->skillType->getSkillsTypeIn($statusId);
+            $skillsTypeArray = $this->skillType->getSkillsTypeIn($skillsTypeId);
 
             $data = [
                 "skills"=> $skills,
@@ -67,7 +68,7 @@ class SkillsController extends Controller
                 "permissions" => $this->permission,
                 "usersArray" => $usersArray
             ];
-            $this->view("skills/index", $data);
+            $this->view($this->path."index", $data);
         }else {
             $this->view("notfound/deneged");
         }
@@ -78,7 +79,6 @@ class SkillsController extends Controller
             if( $_SERVER["REQUEST_METHOD"] == "POST") {
                 $data = [
                     "id" => helpers::decrypt( $id ),
-                    "code" => helpers::fieldValidation($_POST["code"]),
                     "description" => helpers::fieldValidation($_POST["description"]),
                     "percentage" => helpers::fieldValidation($_POST["percentage"]),
                     "skills_type_id" => helpers::fieldValidation($_POST["skills_type_id"]),
@@ -99,7 +99,7 @@ class SkillsController extends Controller
                             $data["statusArray"] = $this->statusModel->getAll();
                             $data["skillsTypeArray"] = $this->skillType->getAll();
 
-                            $this->view("skills/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }else{
                         $this->view("notfound/deneged");
@@ -118,8 +118,10 @@ class SkillsController extends Controller
                             $data["statusArray"] = $this->statusModel->getAll();
                             $data["skillsTypeArray"] = $this->skillType->getAll();
 
-                            $this->view("skills/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
+                    }else{
+                        $this->view("notfound/deneged");
                     }
                 }
 
@@ -131,30 +133,30 @@ class SkillsController extends Controller
 
                 $data = [
                     "id" => $skill->id,
-                    "code" => $skill->code,
                     "description" => $skill->description,
                     "percentage" => $skill->percentage,
                     "skills_type_id" => $skill->type_skills_id,
                     "status_id" => $skill->status_id,
+                    "skills_type_count" => $this->skillType->countRows()->count > 0,
                     "statusArray" => $this->statusModel->getAll(),
                     "skillsTypeArray" => $this->skillType->getAll()
                 ];
 
-                $this->view("skills/insert", $data);
+                $this->view($this->path."insert", $data);
             }else{
 
                 $data = [
                     "id" => null,
-                    "code" => "",
                     "description" => "",
                     "percentage" => "",
                     "status_id" => "",
                     "skills_type_id" => "",
+                    "skills_type_count" => $this->skillType->countRows()->count > 0,
                     "statusArray" => $this->statusModel->getAll(),
                     "skillsTypeArray" => $this->skillType->getAll()
                 ];
 
-                $this->view("skills/insert", $data);
+                $this->view($this->path."insert", $data);
             }
         }else {
             $this->view("notfound/deneged");

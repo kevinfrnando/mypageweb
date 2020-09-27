@@ -6,10 +6,11 @@ class loginController extends Controller{
         $this->login = $this->model("Login");
         $this->status = $this->model("MainStatus");
         $this->permission = $this->model("AuthPermissions");
+        $this->path = "components/login";
     }
 
     public function index(){
-        $this->view("login/index");
+            $this->view($this->path."/index");
     }
 
     public function login(){
@@ -46,11 +47,11 @@ class loginController extends Controller{
                 }
 
             }else{
-                $this->view("login/index", $data);
+                $this->view($this->path."index", $data);
             }
 
         }else{
-            helpers::redirecction("login/index");
+            helpers::redirecction($this->path."index");
         }
 
     }
@@ -66,13 +67,13 @@ class loginController extends Controller{
             "user_id" => $_SESSION["user"]["id"]
         ];
         $this->login->login($loginData);
-        helpers::redirecction("login/index");
+        helpers::redirecction($this->path."index");
     }
 
     public function logs(){
         $data = [
             "logs" => $this->login->getLoginLogs()
         ];
-        $this->view("login/logs", $data);
+        $this->view($this->path."logs", $data);
     }
 }

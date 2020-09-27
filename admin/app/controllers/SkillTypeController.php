@@ -10,6 +10,7 @@ class SkillTypeController extends Controller
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permissionsModel = $this->model("AuthPermissions");
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
+        $this->path = "profile/skillsType/";
     }
 
     public function index( $i = 1){
@@ -61,7 +62,7 @@ class SkillTypeController extends Controller
                 "permissions" => $this->permission,
                 "usersArray" => $usersArray
             ];
-            $this->view("skillsType/index", $data);
+            $this->view($this->path."index", $data);
         }else {
             $this->view("notfound/deneged");
         }
@@ -72,7 +73,6 @@ class SkillTypeController extends Controller
             if( $_SERVER["REQUEST_METHOD"] == "POST") {
                 $data = [
                     "id" => helpers::decrypt( $id ),
-                    "code" => helpers::fieldValidation($_POST["code"]),
                     "description" => helpers::fieldValidation($_POST["description"]),
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => helpers::fieldValidation($_POST["status_id"])
@@ -88,7 +88,7 @@ class SkillTypeController extends Controller
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view("skillsType/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }else{
                         $this->view("notfound/deneged");
@@ -104,8 +104,8 @@ class SkillTypeController extends Controller
                             helpers::redirecction("skillType");
                         }else{
                             $data["error"] = $execute;
-                            $data["statusObj"] = $this->statusModelObj;
-                            $this->view("skillstype/insert", $data);
+                            $data["statusArray"] = $this->statusModel->getAll() ;
+                            $this->view($this->path."insert", $data);
                         }
                     }
                 }
@@ -120,24 +120,22 @@ class SkillTypeController extends Controller
 
                 $data = [
                     "id" => $type->id,
-                    "code" => $type->code,
                     "description" => $type->description,
                     "status_id" => $type->status_id,
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("skillsType/insert", $data);
+                $this->view($this->path."insert", $data);
             }else{
 
                 $data = [
                     "id" => null,
-                    "code" => "",
                     "description" => "",
                     "status_id" => "",
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("skillsType/insert", $data);
+                $this->view($this->path."insert", $data);
             }
         }else {
             $this->view("notfound/deneged");

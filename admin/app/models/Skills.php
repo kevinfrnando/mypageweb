@@ -15,15 +15,14 @@ class Skills
         return $this->db->getAll();
     }
     public function insert( $data ){
-        $this->db->query("call SP_INSERT_SKILLS(?,?,?,?,?,?,?,?)");
-        $this->db->bind(1,$data["code"]);
-        $this->db->bind(2,$data["description"]);
-        $this->db->bind(3,$data["percentage"]);
-        $this->db->bind(4,$data["skills_type_id"]);
-        $this->db->bind(5,$data["profile_id"]);
-        $this->db->bind(6,date("Y-m-d H:i:s"));
-        $this->db->bind(7,$data["user_id"]);
-        $this->db->bind(8,$data["status_id"]);
+        $this->db->query("call SP_INSERT_SKILLS(?,?,?,?,?,?,?)");
+        $this->db->bind(1,$data["description"]);
+        $this->db->bind(2,$data["percentage"]);
+        $this->db->bind(3,$data["skills_type_id"]);
+        $this->db->bind(4,$data["profile_id"]);
+        $this->db->bind(5,date("Y-m-d H:i:s"));
+        $this->db->bind(6,$data["user_id"]);
+        $this->db->bind(7,$data["status_id"]);
         return $this->db->executeQuery() ;
     }
 
@@ -39,15 +38,14 @@ class Skills
     }
 
     public function update($data){
-        $this->db->query("call SP_UPDATE_SKILLS(?,?,?,?,?,?,?,?)");
+        $this->db->query("call SP_UPDATE_SKILLS(?,?,?,?,?,?,?)");
         $this->db->bind(1,$data["id"]);
-        $this->db->bind(2,$data["code"]);
-        $this->db->bind(3,$data["description"]);
-        $this->db->bind(4,$data["percentage"]);
-        $this->db->bind(5,$data["skills_type_id"]);
-        $this->db->bind(6,date("Y-m-d H:i:s"));
-        $this->db->bind(7,$data["user_id"]);
-        $this->db->bind(8,$data["status_id"]);
+        $this->db->bind(2,$data["description"]);
+        $this->db->bind(3,$data["percentage"]);
+        $this->db->bind(4,$data["skills_type_id"]);
+        $this->db->bind(5,date("Y-m-d H:i:s"));
+        $this->db->bind(6,$data["user_id"]);
+        $this->db->bind(7,$data["status_id"]);
         return $this->db->executeQuery() ?? false;
     }
 
