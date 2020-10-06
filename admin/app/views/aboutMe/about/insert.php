@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-between">
         <div class="col-sm-12 d-flex justify-content-end">
-            <a href="<?php echo _URL."about"?>" class="btn btn-success btn-icon-split">
+            <a href="<?php echo _URL."about";?> " class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                       <i class="fa fa-arrow-left"></i>
                     </span>
@@ -22,7 +22,7 @@
                         About Me
                     </div>
                     <div class="card-body">
-                        <form action="<?php echo _URL."about/insert"; ;?>" method="post" enctype="multipart/form-data">
+                        <form action="<?php echo _URL."about/insert"; ;?>" id="form_about_me" method="post" enctype="multipart/form-data">
                             <?php if( isset($data["image_error"])){ ?>
                                 <div class="row alert alert-warning alert-dismissible fade show" role="alert">
                                     <div>
@@ -40,16 +40,22 @@
                                 </div>
                             <?php } ?>
                             <div class="row">
+                                <input hidden type="text" name="id" value="<?php echo $data["id"]?>">
                                 <div class="form-group row form-gr col-sm-8">
-                                    <input type="text" id="RichText" name="description">
+                                    <input type="text" id="RichText" name="description" value="<?php echo $data["description"]?>">
                                 </div>
+
                                 <div class="form-group row form-gr col-sm-4">
                                     <div class="col-sm-12">
-                                        <input required type="file" id="image_url" name="image_url" aria-describedby="urlImageHelp" value="<?php echo $data["image_url"]?>" placeholder="/image.png">
+                                        <input hidden type="text" id="image_about_id" value="<?php echo $data["image_url"]->id?>">
+                                        <input required type="file" id="image_url" name="image_url" aria-describedby="urlImageHelp" placeholder="/image.png">
                                         <label for="image_url" class="btn-input btn btn-success btn-block ">Upload</label>
                                     </div>
-                                    <div id="imagePreview"></div>
+                                    <div id="imagePreview">
+<!--                                        <img class="image-preview-app" src="http:\\localhost\media\admin\images\about_me\medium\--><?php //echo $data["image_url"]->name?><!--" alt="..." class="img-thumbnail mr-3 rounded mx-auto d-block">-->
+                                    </div>
                                 </div>
+
                             </div>
 
 
@@ -68,3 +74,6 @@
     </div>
 
 </div>
+
+
+

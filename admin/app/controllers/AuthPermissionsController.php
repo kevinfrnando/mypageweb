@@ -9,7 +9,7 @@ class AuthPermissionsController extends Controller {
         $this->statusModel = $this->model("MainStatus");
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
-
+        $this->path = "users/permissions/";
     }
 
     public function index ( $i = 1){
@@ -57,7 +57,7 @@ class AuthPermissionsController extends Controller {
                 "users" => $usersArray
             ];
 
-            $this->view("permissions/index", $data);
+            $this->view($this->path."index", $data);
         }else {
             $this->view("notfound/deneged");
         }
@@ -92,7 +92,7 @@ class AuthPermissionsController extends Controller {
                             helpers::redirecction("authpermissions");
                         }else{
                             $data["error"] = $execute;
-                            $this->view("permissions/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }
                 }else{
@@ -103,7 +103,7 @@ class AuthPermissionsController extends Controller {
                             helpers::redirecction("authpermissions");
                         }else{
                             $data["error"] = $execute;
-                            $this->view("permissions/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }
 
@@ -154,7 +154,7 @@ class AuthPermissionsController extends Controller {
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("permissions/insert", $data);
+                $this->view($this->path."insert", $data);
             }
         }else {
             $this->view("notfound/deneged");

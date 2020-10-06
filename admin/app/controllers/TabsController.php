@@ -10,8 +10,7 @@ class TabsController extends Controller
         $this->permissionsModel = $this->model("AuthPermissions");
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
-        
-        
+        $this->path = "components/tabs/";
     }
 
     public function index( $i = 1){
@@ -62,7 +61,7 @@ class TabsController extends Controller
                 "current" => $i,
                 "usersArray" => $usersArray
             ];
-            $this->view("tabs/index", $data);
+            $this->view($this->path."index", $data);
         }else {
             $this->view("notfound/deneged");
         }
@@ -88,7 +87,7 @@ class TabsController extends Controller
                         }else{
                             $data["error"] = $execute;
                             $data["statusObj"] = $this->statusModel->getAll();
-                            $this->view("tabs/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }else{
                         $this->view("notfound/deneged");
@@ -105,7 +104,7 @@ class TabsController extends Controller
                         }else{
                             $data["error"] = $execute;
                             $data["statusObj"] = $this->statusModelObj;
-                            $this->view("tabs/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }
                 }
@@ -126,7 +125,7 @@ class TabsController extends Controller
                     "statusObj" => $this->statusModel->getAll()
                 ];
 
-                $this->view("tabs/insert", $data);
+                $this->view($this->path."insert", $data);
             }else{
 
                 $data = [
@@ -137,7 +136,7 @@ class TabsController extends Controller
                     "statusObj" => $this->statusModel->getAll()
                 ];
 
-                $this->view("tabs/insert", $data);
+                $this->view($this->path."insert", $data);
             }
         }else {
             $this->view("notfound/deneged");

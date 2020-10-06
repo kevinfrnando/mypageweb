@@ -2,12 +2,17 @@
 $(document).ready(function(){
 
 
+
+    // $('#form_about_me').onload( function(){
+    //     console.log($('#image_about_id').val())
+    // });
+
     function filePreview( input ){
         if( input.files && input.files[0]){
             var reader = new FileReader();
 
             reader.onload = function( e ){
-                $('#imagePreview').html("<img style='max-width: 300px; max-height: 312px; position: absolute;left: 0;top: 0;right: 0;bottom: 0;margin: auto;' src='"+e.target.result+"'/>")
+                $('#imagePreview').html("<img class='image-preview-app' src='"+e.target.result+"'/>")
             }
             reader.readAsDataURL( input.files[0] );
         }
@@ -34,7 +39,6 @@ $(document).ready(function(){
         maxlength: 1300,
 
     })
-
 
     $('#deleteModal').on('show.bs.modal', function( e ){
         var link = document.getElementById("deleteAnchor").getAttribute("href");

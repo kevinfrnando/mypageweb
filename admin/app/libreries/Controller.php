@@ -29,7 +29,6 @@ class Controller{
                 require_once _PARTIALS."headerLogin.php";
             }
 
-
             require_once "../app/views/".$view.".php";
 
             require_once _PARTIALS."footer.php";

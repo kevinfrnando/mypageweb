@@ -22,3 +22,7 @@
 [type="file"]:focus + label {
     /* File upload focus state button styles */
 }
+
+.image-preview-app{
+    max-width: 300px; max-height: 312px; position: absolute;left: 0;top: 0;right: 0;bottom: 0;margin: auto;
+}

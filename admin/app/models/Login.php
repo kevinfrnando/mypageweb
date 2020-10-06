@@ -35,9 +35,17 @@ class Login{
         return $this->db->getRecord();
     }
 
-    public function getLoginLogs(){
-        $this->db->query("CALL sp_login_logs()");
+    public function getLoginLogs( $start, $limit ){
+        $this->db->query("CALL sp_login_logs(:start, :limit)");
+        $this->db->bind( ":start" , $start);
+        $this->db->bind( ":limit" , $limit);
         return $this->db->getAll();
     }
+
+    public function countRows(){
+        $this->db->query(" CALL sp_count_logs()");
+        return $this->db->getRecord();
+    }
+
 
 }

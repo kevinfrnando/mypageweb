@@ -70,27 +70,23 @@ class AboutController extends Controller
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => 1
                 ];
+                $folder = "about_me";
+                $name  = $folder.$this->files->nextFile($folder);
+                $response = helpers::imageManagement($_FILES["image_url"], $folder, $name);
 
+                if( $response["error"] == null && $response["saved"] && $response["exception"] == null){
 
-
-                if( $data["id"] == null  ){
-                    if( $this->permission->can_create ){
-                        $folder = "about_me";
-                        $name  = $folder.$this->files->nextFile($folder);
-                        $response = helpers::imageManagement($_FILES["image_url"], $folder, $name);
-                        if( $response["error"] == null && $response["saved"] && $response["exception"] == null){
-
-                            $data["folder_path"] = $response["path"];
-                            $data["folder_name"] = $folder;
-                            $data["type"] = str_replace("image/",".",$response["type"]);
-                            $data["size"] = $response["size"];
-                            $data["name"] = $response["name"];
-                            $this->files->insert($data);
-                            $imgId = $this->files->getLastId();
-                            $data["image_url"] = $imgId;
-
+                    $data["folder_path"] = $response["path"];
+                    $data["folder_name"] = $folder;
+                    $data["type"] = str_replace("image/",".",$response["type"]);
+                    $data["size"] = $response["size"];
+                    $data["name"] = $response["name"];
+                    $this->files->insert($data);
+                    $imgId = $this->files->getLastId();
+                    $data["image_url"] = $imgId;
+                    if( $data["id"] == null  ){
+                        if( $this->permission->can_create ){
                             $execute = $this->about->insert($data);
-
                             if( !is_array($execute) ){
                                 helpers::redirecction("about");
                             }else{
@@ -99,43 +95,40 @@ class AboutController extends Controller
 
                                 $this->view($this->path."insert", $data);
                             }
+
                         }else{
-                            $data["image_error"] = $response;
-                            $data["statusArray"] = $this->statusModel->getAll();
-
-                            $this->view($this->path."insert", $data);
+                            $this->view("notfound/deneged");
                         }
-
                     }else{
-                        $this->view("notfound/deneged");
-                    }
+                        if( $this->permission->can_update ){
+                            $execute = $this->about->update($data);
 
-
-
-                }else{
-                    if( $this->permission->can_update ){
-                        $execute = $this->about->update($data);
-
-                        if( !is_array($execute) ){
-                            helpers::redirecction("aboutme");
-                        }else{
-                            $data["error"] = $execute;
-                            $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view($this->path."insert", $data);
+                            if( !is_array($execute) ){
+                                helpers::redirecction("aboutme");
+                            }else{
+                                $data["error"] = $execute;
+                                $data["statusArray"] = $this->statusModel->getAll();
+                                $this->view($this->path."insert", $data);
+                            }
                         }
                     }
+                }else{
+                    $data["image_error"] = $response;
+                    $data["statusArray"] = $this->statusModel->getAll();
+
+                    $this->view($this->path."insert", $data);
                 }
 
             }else if( ($id != null) && ( $_SERVER["REQUEST_METHOD"] != "POST" )){
                 /**
                  * Obtener info desde modelo
                  */
-                $project = $this->about->getProject( helpers::decrypt($id) );
+                $about = $this->about->getAbout( helpers::decrypt($id) );
 
                 $data = [
-                    "id" => $project->id,
-                    "description" => $project->description,
-                    "video_url" => $project->youtube_link,
+                    "id" => $about->id,
+                    "description" => $about->description,
+                    "image_url" => $this->files->getFile($about->image_url),
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
@@ -151,6 +144,7 @@ class AboutController extends Controller
 
                 $this->view($this->path."insert", $data);
             }
+
         }else {
             $this->view("notfound/deneged");
         }
@@ -166,7 +160,7 @@ class AboutController extends Controller
                         "id" => helpers::decrypt($id),
                         "deleted_by" => $_SESSION["user"]["id"]
                     ];
-                    if( $this->projects->delete($data)){
+                    if( $this->about->delete($data)){
                         header("Location: ".$url);
                     }else{
                         die("Algo salio mal");
@@ -177,4 +171,5 @@ class AboutController extends Controller
             $this->view("notfound/deneged");
         }
     }
+
 }

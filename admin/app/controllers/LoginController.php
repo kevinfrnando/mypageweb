@@ -5,12 +5,18 @@ class loginController extends Controller{
     public function __construct(){
         $this->login = $this->model("Login");
         $this->status = $this->model("MainStatus");
-        $this->permission = $this->model("AuthPermissions");
-        $this->path = "components/login";
+        $this->permissionsModel = $this->model("AuthPermissions");
+        if( isset( $_SESSION["user"]["id"]) ){
+            $sessionPermission = $_SESSION["user"]["permissions"];
+            $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
+            $this->userModel = $this->model("AuthUser");
+        }
+
+        $this->path = "components/login/";
     }
 
     public function index(){
-            $this->view($this->path."/index");
+            $this->view($this->path."index");
     }
 
     public function login(){
@@ -30,7 +36,7 @@ class loginController extends Controller{
                     "user_id" => $data["userId"]
                 ];
                 $loginResponse = $this->login->login($loginData);
-                $permissions = $this->permission->getPermission($loginResponse->permissions_id);
+                $permissions = $this->permissionsModel->getPermission($loginResponse->permissions_id);
                 if( $loginResponse ){
 
                     $_SESSION["user"] = array(
@@ -70,10 +76,50 @@ class loginController extends Controller{
         helpers::redirecction($this->path."index");
     }
 
-    public function logs(){
-        $data = [
-            "logs" => $this->login->getLoginLogs()
-        ];
-        $this->view($this->path."logs", $data);
+    public function logs( $i = 1 ){
+
+        if( $this->permission->components_menu) {
+            /**
+             *  Paginacion
+             *  1.- Se obtiene el numero de registros
+             *  2.- Se estalece el inicio con el indice pasado por parametro, por default sera el 1
+             *  3.- Se divide para obtener la cantidad de tabs por todos los registros
+             *
+             */
+            $rowsPerPage = 5;
+            $rowCounts = $this->login->countRows()->count;
+            $start = ( $i - 1) * $rowsPerPage;
+            $totalTabs = ceil($rowCounts / $rowsPerPage);
+            $logs = $this->login->getLoginLogs($start,$rowsPerPage);
+
+
+            /**
+             *  Obtenemos los ids de los registros corespondientes a los usuarios para luego obtenerlos en la consulta
+             *
+             */
+            $usersId = [];
+            foreach ( $logs as $log){
+                array_push( $usersId, $log->user_id);
+            }
+
+            /**
+             *  Construcion del parametro para las consultas SQL --- in () ---
+             */
+            $usersId = array_unique( $usersId );
+
+            $usersId = implode(",", $usersId );
+
+            $usersArray = $this->userModel->getUsersIn($usersId);
+
+            $data = [
+                "logs"=> $logs,
+                "totalTabs" => $totalTabs,
+                "current" => $i,
+                "usersArray" => $usersArray
+            ];
+            $this->view($this->path."logs", $data);
+        }else {
+            $this->view("notfound/deneged");
+        }
     }
 }

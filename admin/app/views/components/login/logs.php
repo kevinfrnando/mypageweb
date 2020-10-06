@@ -53,6 +53,25 @@
                     </tbody>
                 </table>
             </div>
+            <div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item <?php echo ( $data["current"] == 1 )  ? "disabled" : "" ?>">
+                            <a class="page-link" href="<?php echo _URL."login/logs/".( $data["current"] - 1)?>" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <?php
+                        for( $i = 0 ; $i < $data["totalTabs"]; $i ++){ ?>
+                            <li class="page-item <?php echo ( $data["current"] == $i+1) ? "active" : "" ?>">
+                                <a class="page-link" href="<?php echo _URL."login/logs/".( $i + 1)?>"><?php echo $i + 1;?></a>
+                            </li>
+                        <?php }
+                        ?>
+                        <li class="page-item <?php echo ( ($data["totalTabs"] == $data["current"] || $data["totalTabs"] == 0) )  ? "disabled" : "" ?>">
+                            <a class="page-link" href="<?php echo _URL."login/logs/".( $data["current"] + 1)?>">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </div>

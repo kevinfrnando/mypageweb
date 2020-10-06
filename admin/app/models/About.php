@@ -22,4 +22,18 @@ class About
         $this->db->bind(6,$data["image_url"]);
         return $this->db->executeQuery() ;
     }
+
+    public function getAbout($id){
+        $this->db->query("call SP_FIND_ABOUT_ME(?)");
+        $this->db->bind(1, $id);
+        return $this->db->getRecord( );
+    }
+
+    public function delete ( $data ){
+        $this->db->query("call SP_DELETE_ABOUT_PROFILE(?,?,?)");
+        $this->db->bind(1,date("Y-m-d H:i:s"));
+        $this->db->bind(2,$data["deleted_by"]);
+        $this->db->bind(3,$data["id"]);
+        return $this->db->executeQuery() ?? false;
+    }
 }
