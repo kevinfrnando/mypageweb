@@ -11,7 +11,7 @@ class ExperienceDetailsController extends Controller
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permissionsModel = $this->model("AuthPermissions");
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
-        $this->path = "formation/experienceDetails";
+        $this->path = "formation/experienceDetails/";
     }
 
     public function add( $id = null ){
@@ -101,16 +101,12 @@ class ExperienceDetailsController extends Controller
     public function insert( $id = null ){
 
         if( $this->permission->formation_menu) {
-//            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = [
+                "parentId" => helpers::decrypt($id)
+            ];
+            if( $data["parentId"] == null  ) {
 
-                $data = [
-                    "parentId" => helpers::decrypt($id)
-                ];
-                if( $data["parentId"] == null  ) {
-
-                        $this->view($this->path."insert", $data);
-
-//                }
+                    $this->view($this->path."insert", $data);
             }
         }else{
             $this->view("notfound/deneged");

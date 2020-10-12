@@ -75,7 +75,6 @@ class ExperienceController extends Controller
                 $addDetails = isset( $_POST["addDetail"] );
                 $data = [
                     "id" => helpers::decrypt( $id ),
-                    "code" => helpers::fieldValidation($_POST["code"]),
                     "title" => helpers::fieldValidation($_POST["title"]),
                     "company" => helpers::fieldValidation($_POST["company"]),
                     "current" => isset( $_POST["current"] ),
@@ -94,7 +93,7 @@ class ExperienceController extends Controller
                         if( !is_array($execute) ){
                             if( $addDetails ){
                                 $parent = $this->experience->lastInsert()->LastId;
-                                $this->view("experiencedetails/insert", $parent);
+                                helpers::redirecction("experienceDetails/insert/".$parent);
                             }else{
                                 helpers::redirecction("experience");
                             }
@@ -132,7 +131,6 @@ class ExperienceController extends Controller
 
                 $data = [
                     "id" => $experience->id,
-                    "code" => $experience->code,
                     "company" => $experience->company_name,
                     "start" => $experience->date_start,
                     "current" => $experience->current_experience,
@@ -147,7 +145,6 @@ class ExperienceController extends Controller
 
                 $data = [
                     "id" => null,
-                    "code" => "",
                     "company" => "",
                     "start" => "",
                     "current" => "",

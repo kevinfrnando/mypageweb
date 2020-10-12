@@ -51,7 +51,7 @@
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="form-group row ">
                                                     <label for="inputMainLegend" class="text-truncate col-sm-2 col-form-label">Descripción</label>
-                                                    <input required type="text" class="form-control col-sm-10" id="description" name="description" aria-describedby="descriptionHelp" placeholder="Google">
+                                                    <input required type="text" class="form-control col-sm-10" id="description" name="description" placeholder="Google">
                                                     <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                                 </div>
                                             </div>

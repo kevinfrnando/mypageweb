@@ -28,7 +28,6 @@
                     <thead>
                     <tr>
                         <th hidden>Id</th>
-                        <th> <span class="text-nowrap">Code </span></th>
                         <th> <span class="text-nowrap">Titulo </span></th>
                         <th> <span class="text-nowrap">Empresa </span></th>
                         <th> <span class="text-nowrap">Inicio </span></th>
@@ -40,7 +39,6 @@
                     <tfoot>
                     <tr>
                         <th hidden>Id</th>
-                        <th> <span class="text-nowrap">Code </span></th>
                         <th> <span class="text-nowrap">Titulo </span></th>
                         <th> <span class="text-nowrap">Empresa </span></th>
                         <th> <span class="text-nowrap">Inicio </span></th>
@@ -54,7 +52,6 @@
                     foreach ($data["experience"] as $experience) { ?>
                         <tr>
                             <td hidden> <?php echo $experience->id; ?></td>
-                            <td> <span class="text-nowrap"> <?php echo $experience->code; ?> </span></td>
                             <td> <span class="text-nowrap"> <?php echo $experience->title; ?> </span></td>
                             <td> <span class="text-nowrap"> <?php echo $experience->company_name; ?> </span></td>
                             <td> <span class="text-nowrap"> <?php echo $experience->date_start; ?> </span></td>

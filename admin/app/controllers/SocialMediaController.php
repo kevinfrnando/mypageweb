@@ -76,6 +76,7 @@ class SocialMediaController extends Controller{
                     "id" => helpers::decrypt( $id ),
                     "description" => helpers::fieldValidation($_POST["description"]),
                     "url" => helpers::fieldValidation($_POST["url"]),
+                    "ico" => helpers::fieldValidation($_POST["ico"]),
                     "profile_id" => 1,
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => helpers::fieldValidation($_POST["status_id"])
@@ -84,31 +85,13 @@ class SocialMediaController extends Controller{
 
                 if( $data["id"] == null  ){
                     if( $this->permission->can_create ){
-                        $name = "social_media";
-                        $response = helpers::imageManagement($_FILES["image_url"], $name);
-                        if( $response["error"] == null && $response["saved"] && $response["exception"] == null){
-                            $data["folder_path"] = $response["path"];
-                            $data["folder_name"] = $name;
-                            $data["type"] = $response["type"];
-                            $data["size"] = $response["size"];
-                            $data["name"] = $name.$this->files->nextFile("social_media");
-                            $this->files->insert($data);
-                            $imgId = $this->files->getLastId();
-                            $data["image_url"] = $imgId;
+                        $execute = $this->socialMedia->insert($data);
 
-                            $execute = $this->socialMedia->insert($data);
-
-                            if( !is_array($execute) ){
-                                helpers::redirecction("socialMedia");
-                            }else{
-                                $data["error"] = $execute;
-                                $data["statusArray"] = $this->statusModel->getAll();
-                                $this->view($this->path."insert", $data);
-                            }
+                        if( !is_array($execute) ){
+                            helpers::redirecction("socialMedia");
                         }else{
-                            $data["image_error"] = $response;
+                            $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-
                             $this->view($this->path."insert", $data);
                         }
 
@@ -142,7 +125,7 @@ class SocialMediaController extends Controller{
                     "id" => $socialMedia->id,
                     "description" => $socialMedia->description,
                     "url" => $socialMedia->url,
-                    "image_url" => $socialMedia->logo,
+                    "ico" => $socialMedia->ico,
                     "status_id" => $socialMedia->status_id,
                     "statusArray" => $this->statusModel->getAll()
                 ];
@@ -154,7 +137,7 @@ class SocialMediaController extends Controller{
                     "id" => null,
                     "description" => "",
                     "url" => "",
-                    "image_url" => "",
+                    "ico" => "",
                     "status_id" => "",
                     "statusArray" => $this->statusModel->getAll()
                 ];

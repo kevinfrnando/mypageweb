@@ -49,17 +49,10 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="row col-lg-12 ">
-                                            <div class="col-lg-3 col-md-3">
-                                                <div class="form-group row ">
-                                                    <label for="inputMainName" class="text-truncate col-sm-4 col-form-label">Code</label>
-                                                    <input required type="text" class="form-control col-sm-8 " id="main_name" name="code" aria-describedby="codeHelp" value="<?php echo $data["code"]?>" placeholder="Código">
-                                                    <!--                                <small id="mainNameHelp" class="form-text text-muted">Nombre que aparece en la página principal.</small>-->
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7">
+                                            <div class="col-lg-10 col-md-10">
                                                 <div class="form-group row ">
                                                     <label for="inputMainLegend" class="text-truncate col-sm-4 col-form-label">Empresa</label>
-                                                    <input required type="text" class="form-control col-sm-8" id="main_legend" name="company" aria-describedby="descriptionHelp" value="<?php echo $data["company"]?>" placeholder="Google">
+                                                    <input required type="text" class="form-control col-sm-8" id="main_legend" name="company" value="<?php echo $data["company"]?>" placeholder="Google">
                                                     <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                                 </div>
                                             </div>
@@ -72,7 +65,7 @@
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="text-truncate col-lg-4 col-sm-4 col-form-label">Title</label>
-                                            <input required type="text" class="form-control col-lg-8 col-sm-8" id="main_legend" name="title" aria-describedby="descriptionHelp" value="<?php echo $data["title"]?>" placeholder="Developer">
+                                            <input required type="text" class="form-control col-lg-8 col-sm-8" id="main_legend" name="title" value="<?php echo $data["title"]?>" placeholder="Developer">
                                             <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
 
@@ -106,6 +99,28 @@
                                                         <?php echo $status->description;?></option>
                                                 <?php } ?>
                                             </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row col-lg-12">
+                                    <div class="card col-lg-12">
+                                        <div class="card-body col-lg-12">
+                                            <div class="row col-lg-12 ">
+                                                <div class="col-lg-11 col-md-11">
+                                                    <label for="inputMainLegend" class="col-sm-12 form-label">Actividades</label>
+                                                </div>
+                                                <div class="col-lg-1 col-md-1">
+                                                    <button id="add_detail" type="button" class="btn btn-sm btn-info"><span class="icon"><i class="fa fa-plus"></i></span></button>
+                                                </div>
+                                            <div class="row col-lg-12 ">
+                                                <div class="col-lg-11 col-md-11">
+                                                    <input required type="text" class="form-control col-sm-12" id="description" name="description" placeholder="Google">
+                                                </div>
+                                                <div class="col-lg-1 col-md-1">
+                                                    <button id="remove_detail" type="button" class="btn btn-sm btn-danger"><span class="icon"><i class="fa fa-times"></i></span></button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

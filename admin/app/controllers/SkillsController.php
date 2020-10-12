@@ -82,7 +82,6 @@ class SkillsController extends Controller
                     "description" => helpers::fieldValidation($_POST["description"]),
                     "percentage" => helpers::fieldValidation($_POST["percentage"]),
                     "skills_type_id" => helpers::fieldValidation($_POST["skills_type_id"]),
-                    "profile_id" => 1,
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => helpers::fieldValidation($_POST["status_id"])
                 ];
@@ -98,7 +97,7 @@ class SkillsController extends Controller
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
                             $data["skillsTypeArray"] = $this->skillType->getAll();
-
+                            $data["skills_type_count"] = $this->skillType->countRows()->count > 0;
                             $this->view($this->path."insert", $data);
                         }
                     }else{
@@ -117,7 +116,7 @@ class SkillsController extends Controller
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
                             $data["skillsTypeArray"] = $this->skillType->getAll();
-
+                            $data["skills_type_count"] = $this->skillType->countRows()->count > 0;
                             $this->view($this->path."insert", $data);
                         }
                     }else{

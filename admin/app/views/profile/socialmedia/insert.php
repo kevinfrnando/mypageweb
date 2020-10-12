@@ -57,19 +57,18 @@
                                     <div class="col">
                                         <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Descripción</label>
-                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="description" aria-describedby="descriptionHelp" value="<?php echo $data["description"]?>" placeholder="Descripción">
+                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="description" value="<?php echo $data["description"]?>" placeholder="Descripción">
                                             <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Url</label>
-                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="url" aria-describedby="urlHelp" value="<?php echo $data["url"]?>" placeholder="https://www.instagram.com/usuario">
+                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="url" value="<?php echo $data["url"]?>" placeholder="https://www.instagram.com/usuario">
                                             <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Url Image</label>
-                                            <input required type="file" id="image_url" name="image_url" aria-describedby="urlImageHelp" placeholder="/image.png">
-                                            <label for="image_url" class="btn-input btn btn-success btn-block col-sm-8">Upload</label>
-                                            <span class="small col-sm-12 text-right" id="image_name_preview"></span>
+                                            <label for="inputIco" class="col-sm-4 col-form-label">Ico</label>
+                                            <input required type="text" class="form-control col-sm-8" id="ico" name="ico" value="<?php echo $data["ico"]?>" placeholder="ico-font">
+                                            <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Status</label>
