@@ -27,6 +27,18 @@ class helpers{
         return $field;
     }
 
+    public static function fieldArrayValidation($array){
+        $fields = [];
+        foreach ( $array as $field){
+            $field = trim($field);
+            $field = stripcslashes($field);
+            $field = htmlspecialchars($field);
+            array_push( $fields, $field);
+        }
+
+        return $fields;
+    }
+
     public static function redirecction($path){
         header("location: "._URL.$path);
     }

@@ -44,7 +44,6 @@ class DDBBHandler{
                 break;
             }
         }
-
         $this->stm->bindValue($sqlParameter, $value, $type);
     }
 
@@ -103,10 +102,9 @@ class DDBBHandler{
     }
 
     public function getLastInsert(){
-        $this->query("SELECT LAST_INSERT_ID()");
+        $this->query("SELECT LAST_INSERT_ID() as id");
         $this->executeQuery();
-        $record = $this->stm->fetchColumn();
-        return $record;
+        return $this->stm->fetch( PDO::FETCH_OBJ );
     }
 
     public function disconect(){

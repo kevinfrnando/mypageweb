@@ -1,11 +1,35 @@
 
 $(document).ready(function(){
+    var field = $();
+    var addButton = $('.addExperienceDetail'); //Add button selector
+    var wrapper = $('.activitiesContent'); //Input field wrapper
+    var div = "<div id=\"experiencesActivities\" class=\"form-group row wrapperExperience\">\n" +
+        "                                                    <div class=\"row col-sm-12\">\n" +
+        "                                                        <div class=\"col col-lg-11 col-md-11\">\n" +
+        "                                                            <input required type=\"text\" class=\"form-control form-control-sm col-sm-12\" name=\"detailsName[]\">\n" +
+        "                                                        </div>\n" +
+        "                                                        <div class=\"col col-lg-1 col-md-1\">\n" +
+        "                                                            <button type=\"button\" class=\"btn btn-sm btn-danger deleteButtonJs\"><span class=\"icon\"><i class=\"fa fa-times\"></i></span></button>\n" +
+        "                                                        </div>\n" +
+        "                                                    </div>\n" +
+        "                                                </div>";
 
+    $(addButton).click(function(){ //Once add button is clicked
+        console.log("Hola")
+        $(wrapper).append(div);
+    });
 
+    $(wrapper).on('click', '.deleteButtonJs', function(e){ //Once remove button is clicked
+        console.log("Jja");
+        e.preventDefault();
+        $(this).parent().parent().parent().remove(); //Remove field html
+    });
 
-    // $('#form_about_me').onload( function(){
-    //     console.log($('#image_about_id').val())
-    // });
+    $("#remove_detail").click( function ( event ) {
+        console.log("Ja")
+       $( this ).parent().parent().parent().remove();
+    } )
+
 
     function filePreview( input ){
         if( input.files && input.files[0]){

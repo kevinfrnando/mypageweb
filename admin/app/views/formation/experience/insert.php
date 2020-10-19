@@ -104,30 +104,42 @@
                                 </div>
 
                                 <div class="row col-lg-12">
-                                    <div class="card col-lg-12">
-                                        <div class="card-body col-lg-12">
-                                            <div class="row col-lg-12 ">
-                                                <div class="col-lg-11 col-md-11">
-                                                    <label for="inputMainLegend" class="col-sm-12 form-label">Actividades</label>
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-lg-11 col-md-11">
+                                                        <h5>Actividades</h5>
+                                                    </div>
+                                                    <div class="col-lg-1 col-md-1">
+                                                        <button type="button" class="btn btn-sm btn-info addExperienceDetail"><span class="icon"><i class="fa fa-plus"></i></span></button>
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-1 col-md-1">
-                                                    <button id="add_detail" type="button" class="btn btn-sm btn-info"><span class="icon"><i class="fa fa-plus"></i></span></button>
-                                                </div>
-                                            <div class="row col-lg-12 ">
-                                                <div class="col-lg-11 col-md-11">
-                                                    <input required type="text" class="form-control col-sm-12" id="description" name="description" placeholder="Google">
-                                                </div>
-                                                <div class="col-lg-1 col-md-1">
-                                                    <button id="remove_detail" type="button" class="btn btn-sm btn-danger"><span class="icon"><i class="fa fa-times"></i></span></button>
-                                                </div>
+                                            </div>
+                                            <div class="card-body activitiesContent">
+                                                <?php foreach ( $data["details"] as $detail) { ?>
+                                                    <div id="experiencesActivities" class="form-group row wrapperExperience">
+                                                        <div class="row col-sm-12">
+                                                            <div class="col col-lg-11 col-md-11">
+                                                                <input hidden type="text" value="<?php echo $detail->id?>" class="form-control form-control-sm col-sm-12" name="detailsId[]">
+                                                                <input required type="text" value="<?php echo $detail->description?>" class="form-control form-control-sm col-sm-12" name="detailsName[]">
+                                                            </div>
+                                                            <div class="col col-lg-1 col-md-1">
+                                                                <button type="button" class="btn btn-sm btn-danger deleteButtonJs"><span class="icon"><i class="fa fa-times"></i></span></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <?php } ?>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
+                                <br>
                                 <div class="row">
-                                    <a class="btn btn-primary btn-user btn-block" href="#" data-id="<?php echo helpers::encrypt($experience->id) ?>" data-toggle="modal" data-target="#detailsExperienceModal"><?php echo ($data["id"] ? "Actualizar" : "Registrar")?></a>
-
+<!--                                    <a class="btn btn-primary btn-user btn-block" href="#" data-id="--><?php //echo helpers::encrypt($experience->id) ?><!--" data-toggle="modal" data-target="#detailsExperienceModal">--><?php //echo ($data["id"] ? "Actualizar" : "Registrar")?><!--</a>-->
+                                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        <?php echo ($data["id"] ? "Actualizar" : "Registrar")?>
+                                    </button>
                                 </div>
 
 
