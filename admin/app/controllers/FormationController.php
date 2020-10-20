@@ -10,6 +10,7 @@ class FormationController extends Controller
         $this->permissionsModel = $this->model("AuthPermissions");
         $sessionPermission = $_SESSION["user"]["permissions"];
         $this->permission = $this->permissionsModel->getPermission( $sessionPermission->id );
+        $this->path = "formation/formation/";
     }
     public function index( $i = 1){
 
@@ -60,7 +61,7 @@ class FormationController extends Controller
                 "permissions" => $this->permission,
                 "usersArray" => $usersArray
             ];
-            $this->view("formation/formation/index", $data);
+            $this->view($this->path."index", $data);
         }else {
             $this->view("notfound/deneged");
         }
@@ -71,10 +72,11 @@ class FormationController extends Controller
             if( $_SERVER["REQUEST_METHOD"] == "POST") {
                 $data = [
                     "id" => helpers::decrypt( $id ),
-                    "description" => helpers::fieldValidation($_POST["description"]),
-                    "video_url" => helpers::fieldValidation($_POST["video_url"]),
                     "title" => helpers::fieldValidation($_POST["title"]),
-                    "image_url" => helpers::fieldValidation($_POST["image_url"]),
+                    "institute" => helpers::fieldValidation($_POST["institute"]),
+                    "course" => helpers::fieldValidation($_POST["type"]) == 1,
+                    "start" => helpers::fieldValidation($_POST["start"]),
+                    "end" => helpers::fieldValidation($_POST["end"]),
                     "profile_id" => 1,
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => helpers::fieldValidation($_POST["status_id"])
@@ -91,7 +93,7 @@ class FormationController extends Controller
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
 
-                            $this->view("aboutMe/formation/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }else{
                         $this->view("notfound/deneged");
@@ -108,7 +110,7 @@ class FormationController extends Controller
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-                            $this->view("aboutMe/formation/insert", $data);
+                            $this->view($this->path."insert", $data);
                         }
                     }
                 }
@@ -120,21 +122,22 @@ class FormationController extends Controller
                 $project = $this->formation->getProject( helpers::decrypt($id) );
 
                 $data = [
-                    "id" => $project->id,
-                    "description" => $project->description,
-                    "video_url" => $project->youtube_link,
+                    "id" => $project->id ,
                     "title" => $project->title,
-                    "image_url" => $project->image_url,
+                    "institute" => $project->institute,
+                    "type" => $project->course == 1,
+                    "start" => $project->start_formation,
+                    "start" => $project->start_formation,
+                    "end" => $project->end_formation,
                     "status_id" => $project->status_id,
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("aboutMe/formation/insert", $data);
+                $this->view($this->path."insert", $data);
             }else{
 
                 $data = [
                     "id" => null,
-                    "description" => "",
                     "course" => "",
                     "title" => "",
                     "start" => "",
@@ -144,7 +147,7 @@ class FormationController extends Controller
                     "statusArray" => $this->statusModel->getAll()
                 ];
 
-                $this->view("formation/formation/insert", $data);
+                $this->view($this->path."insert", $data);
             }
         }else {
             $this->view("notfound/deneged");

@@ -4,7 +4,7 @@
     <!-- Page Heading -->
     <div class="d-flex justify-content-between">
         <div class="col-sm-8">
-            <h1 class="h3 mb-2 text-gray-800">Profile Formation</h1>
+            <h1 class="h3 mb-2 text-gray-800">Experiencia Académica</h1>
         </div>
         <div class="col-sm-4 d-flex justify-content-end">
             <?php if( $data["permissions"]->can_create ) { ?>

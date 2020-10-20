@@ -147,7 +147,6 @@ class ExperienceController extends Controller
                                         "user_id" => $data["user_id"],
                                         "ids" => $ids
                                     ];
-
                                     if( $ids != "0"){
                                         $executeDetail = $this->experienceDetails->deleteIn( $detailNotIn );
                                     }
@@ -189,7 +188,7 @@ class ExperienceController extends Controller
                                 }
 
                             }else{
-                                if( count( $data["detailsId"] ) == 0 && count( $data["detailsDescription"] ) == 0){
+                                if( count( $data["detailsId"] ) == 0 && ( count( $data["detailsDescription"] ) == 0 || count( $data["detailsDescription"] ) > 0 )){
                                     $detailNotIn = [
                                         "experience_id" => $data["id"],
                                         "user_id" => $data["user_id"],
