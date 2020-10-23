@@ -74,6 +74,8 @@
                 <a class="collapse-item" href="<?php echo _URL."about/"?>">Principal</a>
                 <a class="collapse-item" href="<?php echo _URL."projects/"?>">Proyectos </a>
                 <a class="collapse-item" href="<?php echo _URL."testimonials/"?>">Testimonial </a>
+                <a class="collapse-item" href="<?php echo _URL."coversnavs/"?>">Covers Nav Items</a>
+                <a class="collapse-item" href="<?php echo _URL."covers/"?>">Covers </a>
 
             </div>
         </div>
