@@ -14,6 +14,11 @@ class CoversNavs
         $this->db->bind( ":limit" , $limit);
         return $this->db->getAll();
     }
+
+    public function getAll( ){
+        $this->db->query("call SP_GET_ALL_NAVS_COVER( )");
+        return $this->db->getAll();
+    }
     public function insert( $data ){
         $this->db->query("call SP_INSERT_NAVS_COVER(?,?,?,?,?)");
         $this->db->bind(1,$data["description"]);
@@ -28,6 +33,12 @@ class CoversNavs
         $this->db->query("call SP_FIND_NAVS_COVER(?)");
         $this->db->bind(1, $id);
         return $this->db->getRecord( );
+    }
+
+    public function getCoversNavIn($id){
+        $this->db->query("call SP_GET_NAVS_COVERS_IN(?)");
+        $this->db->bind(1, $id);
+        return $this->db->getAll( );
     }
 
     public function countRows(){

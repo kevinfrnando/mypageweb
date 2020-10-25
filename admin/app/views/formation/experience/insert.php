@@ -51,7 +51,7 @@
                                         <div class="row col-lg-12 ">
                                             <div class="col-lg-10 col-md-10">
                                                 <div class="form-group row ">
-                                                    <label for="inputMainLegend" class="text-truncate col-sm-4 col-form-label">Empresa</label>
+                                                    <label class="text-truncate col-sm-4 col-form-label">Empresa</label>
                                                     <input required type="text" class="form-control col-sm-8" id="main_legend" name="company" value="<?php echo $data["company"]?>" placeholder="Google">
                                                     <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                                 </div>
@@ -64,7 +64,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainLegend" class="text-truncate col-lg-4 col-sm-4 col-form-label">Title</label>
+                                            <label class="text-truncate col-lg-4 col-sm-4 col-form-label">Title</label>
                                             <input required type="text" class="form-control col-lg-8 col-sm-8" id="main_legend" name="title" value="<?php echo $data["title"]?>" placeholder="Developer">
                                             <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
                                         </div>
@@ -90,7 +90,7 @@
                                         </div>
 
                                         <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainLegend" class="col-sm-4 col-form-label">Status</label>
+                                            <label class="col-sm-4 col-form-label">Status</label>
                                             <select class="form-control form-control-sm form-control col-sm-8" name="status_id">
                                                 <?php foreach ( $data["statusArray"] as $status) {?>
                                                     <option
