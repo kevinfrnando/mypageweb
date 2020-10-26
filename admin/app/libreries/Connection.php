@@ -8,6 +8,7 @@ class Connection
     private $pass = DB_PASS;
     private $dbName = DB_NAME;
     private $dbh;
+    private $error;
 
 
     public function connect(){
@@ -24,7 +25,6 @@ class Connection
             $this->dbh->exec("set names utf8");
         }catch ( PDOException $e ){
             $this->error = $e->getMessage();
-            echo $this->error;
         }
 
         return $this->dbh;

@@ -1,12 +1,18 @@
 <?php
 class MainProfile{
 
-    public function __construct(){
-        $this->db = new DDBBHandler();
+    public function __construct( $con = null ){
+        $this->db = new DDBBHandler( $con );
     }
 
     public function getData(){
         $this->db->query("CALL SP_FIND_MAIN_PROFILE(?)");
+        $this->db->bind(1, 1);
+        return $this->db->getRecord();
+    }
+
+    public function getProfileData(){
+        $this->db->query("CALL SP_GET_MAIN_PROFILE(?)");
         $this->db->bind(1, 1);
         return $this->db->getRecord();
     }

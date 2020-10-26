@@ -4,5 +4,5 @@
     RewriteBase /mypageweb/
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ index.html
+    RewriteRule ^(.*)$ index.php
 </IfModule>

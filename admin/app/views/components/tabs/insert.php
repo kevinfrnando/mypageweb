@@ -48,14 +48,12 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group row form-gr col-sm-12">
-                                            <label for="inputMainName" class="col-sm-4 col-form-label">Code</label>
-                                            <input required type="text" class="form-control col-sm-8 " id="main_name" name="code" aria-describedby="codeHelp" value="<?php echo $data["code"]?>" placeholder="Código">
-                                            <!--                                <small id="mainNameHelp" class="form-text text-muted">Nombre que aparece en la página principal.</small>-->
+                                            <label for="inputMainName" class="col-sm-4 col-form-label">Href</label>
+                                            <input required type="text" class="form-control col-sm-8 " name="href" value="<?php echo $data["href"]?>" placeholder="about">
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Descripción</label>
-                                            <input required type="text" class="form-control col-sm-8" id="main_legend" name="description" aria-describedby="descriptionHelp" value="<?php echo $data["description"]?>" placeholder="Descripción">
-                                            <!--                                <small id="mainLegendHelp" class="form-text text-muted">Legenda que aparece en la página principal.</small>-->
+                                            <input required type="text" class="form-control col-sm-8" name="description" value="<?php echo $data["description"]?>" placeholder="Descripción">
                                         </div>
                                         <div class="form-group row form-gr col-sm-12">
                                             <label for="inputMainLegend" class="col-sm-4 col-form-label">Status</label>

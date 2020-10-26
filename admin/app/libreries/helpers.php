@@ -42,6 +42,9 @@ class helpers{
     public static function redirecction($path){
         header("location: "._URL.$path);
     }
+    public static function connectionError( ){
+        header("location: "._ERROR_PAGE);
+    }
 
     public static function getBrowser($user_agent){
 

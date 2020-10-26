@@ -12,6 +12,7 @@ class About
         $this->db->query("CALL SP_GET_ABOUT_ME()");
         return $this->db->getAll();
     }
+
     public function insert( $data ){
         $this->db->query("CALL SP_INSERT_ABOUT_ME(?,?,?,?,?,?)");
         $this->db->bind(1,$data["description"]);

@@ -26,7 +26,7 @@
                 <table class="table table-bordered table-striped table-hover table-sm" id="dataTable" cellspacing="0">
                     <thead>
                     <tr>
-                        <th><span class="text-nowrap"> Code </span></th>
+                        <th><span class="text-nowrap"> href </span></th>
                         <th><span class="text-nowrap"> Description </span></th>
                         <th><span class="text-nowrap"> Version </span></th>
                         <th><span class="text-nowrap"> Fecha Creación </span></th>
@@ -39,7 +39,7 @@
                     </thead>
                     <tfoot>
                     <tr>
-                        <th>Code</th>
+                        <th>href</th>
                         <th>Description</th>
                         <th>Version</th>
                         <th>Fecha Creación</th>
@@ -54,7 +54,7 @@
                     <?php
                     foreach ( $data["tabs"] as $tab) { ?>
                         <tr>
-                            <td><span class="text-nowrap"> <?php echo $tab->code; ?></span></td>
+                            <td><span class="text-nowrap"> <?php echo $tab->href; ?></span></td>
                             <td><span class="text-nowrap"> <?php echo $tab->description; ?></span></td>
                             <td><span class="text-nowrap"> <?php echo $tab->version; ?></span></td>
                             <td><span class="text-nowrap"> <?php echo $tab->created_on; ?></span></td>

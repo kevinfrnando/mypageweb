@@ -3,15 +3,27 @@
 
 class Skills
 {
-    public function __construct(){
-        $this->db = new DDBBHandler();
+    public function __construct( $con = null ){
+        $this->db = new DDBBHandler( $con );
     }
-
 
     public function getData( $start, $limit ){
         $this->db->query("call SP_GET_SKILLS( :start, :limit)");
         $this->db->bind( ":start" , $start);
         $this->db->bind( ":limit" , $limit);
+        return $this->db->getAll();
+    }
+
+    public function getPageSkills( $skillsType ){
+        $ids = [];
+        foreach ( $skillsType as $type){
+            array_push( $ids, $type->id );
+        }
+        $ids = array_unique( $ids);
+        $ids = implode(",", $ids );
+        $this->db->query("call SP_GET_PAGE_SKILLS( :ids )");
+        $this->db->bind( ":ids" , $ids);
+
         return $this->db->getAll();
     }
     public function insert( $data ){

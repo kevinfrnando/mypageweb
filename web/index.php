@@ -1,3 +1,15 @@
+<?php
+require_once "../admin/app/controllers/PageController.php";
+try {
+
+    $page = new PageController();
+    $page = $page->getData();
+}catch ( Exception $e){
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +17,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Kevin Vergara</title>
+  <title><?php echo $page["profile"]->main_name?></title>
   <meta content="" name="descriptison">
   <meta content="" name="keywords">
 
@@ -35,29 +47,28 @@
   <header id="header" class="header-tops">
     <div class="container">
 
-      <h1><a href="index.html">Kevin Vergara</a></h1>
+      <h1><a href="#"><?php echo $page["profile"]->main_name?></a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-      <h2>Baterista desde los 16 años, desarrollador Web </h2>
+      <h2><?php echo $page["profile"]->main_legend?></h2>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="active"><a href="#header">Inicio</a></li>
-          <li><a href="#about">Perfil</a></li>
-          <li><a href="#resume">Formación</a></li>
-          <li><a href="#services">Sobre Mi</a></li>
-          <li><a href="#portfolio">Covers</a></li>
-          <li><a href="#contact">Contáctame</a></li>
+            <ul>
+
+                <?php $i = 0;
+                foreach ($page["tabs"] as $tab ) { ?>
+                    <li <?php echo $i== 0? "class='active'" : '' ?>><a href="#<?php echo $tab->href?>"><?php echo $tab->description ?></a></li>
+                    <?php $i = $i + 1; } ?>
+            </ul>
+
         </ul>
       </nav><!-- .nav-menu -->
 
       <div class="social-links">
-        <a href="https://twitter.com/kevinfrnando" target="_blank"><i class="icofont-twitter"></i></a>
-        <a href="https://www.facebook.com/kevinfrnando" target="_blank"><i class="icofont-facebook"></i></a>
-        <a href="https://www.instagram.com/kevinfrnandov"><i class="icofont-instagram"></i></a>
-        <a href="https://github.com/kevinfrnando" target="_blank"><i class="icofont-github"></i></a>
-        <a href="https://www.linkedin.com/in/kevinfrnando/" target="_blank"><i class="icofont-linkedin"></i></a>
-        <a href="https://www.youtube.com/channel/UCYq_3vVqH6D_e6EGdhSnyqQ" target="_blank"><i class="icofont-youtube-play"></i></a>
+          <?php foreach ( $page["socialMedia"] as $media ) { ?>
+            <a href="<?php echo $media->url; ?>" target="_blank"><i class="<?php echo $media->ico?>"></i></a>
+          <?php } ?>
       </div>
 
     </div>
@@ -79,30 +90,30 @@
           <img src="assets/img/Profile/me.jpg" class="img-fluid" alt="">
         </div>
         <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
-          <h3>Desarrollador Web JR </h3>
+          <h3><?php echo $page["profile"]->bio_title;?></h3>
           <p class="font-italic">
-            "Lo que no se define no se puede medir. Lo que no se mide, no se puede mejorar".
+            "<?php echo $page["profile"]->bio_legend?>".
           </p>
           <hr>
           <div class="row">
             <div class="col-lg-6">
               <ul>
-                <li><i class="icofont-rounded-right"></i> <strong>Nacimiento:</strong> 30 Septiembre 1994</li>
-                <li><i class="icofont-rounded-right"></i> <strong>Nacionalidad:</strong> Ecuatoriano</li>
-                <li><i class="icofont-rounded-right"></i> <strong>Residencia:</strong> Guayaquil, Ecuador</li>
+                <li><i class="icofont-rounded-right"></i> <strong>Nacimiento:</strong> <?php echo $page["profile"]->birthday;?></li>
+                <li><i class="icofont-rounded-right"></i> <strong>Nacionalidad:</strong> <?php echo $page["profile"]->nationality;?></li>
+                <li><i class="icofont-rounded-right"></i> <strong>Residencia:</strong> <?php echo $page["profile"]->residency;?></li>
               </ul>
             </div>
             <div class="col-lg-6">
               <ul>
-                <li><i class="icofont-rounded-right"></i> <strong>Profesión:</strong> Desarrollador</li>
-                <li><i class="icofont-rounded-right"></i> <strong>Freelance:</strong> Disponible</li>
-                <li><i class="icofont-rounded-right"></i> <strong>Sangre:</strong> O+</li>
+                <li><i class="icofont-rounded-right"></i> <strong>Profesión:</strong> <?php echo $page["profile"]->profession;?></li>
+                <li><i class="icofont-rounded-right"></i> <strong>Freelance:</strong> <?php echo $page["profile"]->freelance;?></li>
+                <li><i class="icofont-rounded-right"></i> <strong>Sangre:</strong> <?php echo $page["profile"]->blood;?></li>
               </ul>
             </div>
           </div>
           <hr>
           <p>
-            Graduado de la Universidad de Guayaquil. Autodidacta en gran parte, a través de los 5 años que estuve en  el  ámbito  académico  adquirí  habilidades  y  competencias  en  diversos lenguajes de programación y que a la fecha continúo mejorándolas. Considero que el aprendizaje colectivo es muy útil en este mundo del desarrollo de software. Poseo habilidades para el trabajo en equipo y me considero una persona pro-activa con ganas de crecer profesional y personalmente.
+              <?php echo $page["profile"]->bio_profile;?>
           </p>
         </div>
       </div>
@@ -112,365 +123,30 @@
 
     <!-- ======= Skills  ======= -->
     <div class="skills container">
-
-      <div class="section-title">
-        <h2>Skills</h2>
-      </div>
-
-      <div class="row skills-content">
-
-        <div class="col-lg-6">
-          <div class="progress">
-            <span class="skill">PHP <i class="val">90%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+        <?php foreach ($page["skillsType"] as $type) { ?>
+            <div class="section-title">
+                <h2> <?php echo $type->description ?></h2>
             </div>
-          </div>
 
-          <div class="progress">
-            <span class="skill">JAVA <i class="val">80%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="row skills-content">
+            <?php foreach ( $page["skills"] as $skill ) {
+                if( $skill->type_skills_id == $type->id ) { ?>
+            <div class="col-lg-6">
+                <div class="progress">
+                    <span class="skill"><?php echo $skill->description; ?> <i class="val"><?php echo $skill->percentage;?>%</i></span>
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $skill->percentage;?>" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">C# <i class="val">80%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">VB.NET <i class="val">60%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
+            <?php } } ?>
         </div>
+        <br>
+        <?php } ?>
 
-        <div class="col-lg-6">
-          <div class="progress">
-            <span class="skill">CSS <i class="val">90%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">HTML <i class="val">90%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">JavaScript <i class="val">75%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">Jquery <i class="val">80%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
 
     </div>
     <!-- End Skills -->
-
-    <!-- DDBB -->
-    <div class="skills container">
-
-      <div class="section-title">
-        <h2>DDBB</h2>
-      </div>
-
-      <div class="row skills-content">
-
-        <div class="col-lg-6">
-          <div class="progress">
-            <span class="skill">MySql <i class="val">70%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">PostgreSql <i class="val">75%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6">
-          <div class="progress">
-            <span class="skill">MsSql Server <i class="val">80%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-    <!-- End DDBB -->
-
-
-    <!-- FRAMEWORKS -->
-    <div class="skills container">
-
-      <div class="section-title">
-        <h2>Frameworks</h2>
-      </div>
-
-      <div class="row skills-content">
-
-        <div class="col-lg-6">
-          <div class="progress">
-            <span class="skill">Symfony <i class="val">50%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="progress">
-            <span class="skill">Angular(V7) <i class="val">85%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="progress">
-            <span class="skill">Angular Material<i class="val">80%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="progress">
-            <span class="skill">Axelor <i class="val">70%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="col-lg-6">
-          <div class="progress">
-            <span class="skill">Laravel <i class="val">75%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">AngularJs <i class="val">70%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="progress">
-            <span class="skill">Bootstrap <i class="val">85%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="progress">
-            <span class="skill">Ionic <i class="val">30%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-    <!-- End FRAMEWORKS -->
-
-    <!-- OTHER SKILLS -->
-    <div class="skills container">
-
-      <div class="section-title">
-        <h2>Herramientas y Otros</h2>
-      </div>
-
-      <div class="row skills-content">
-
-        <div class="col-lg-6">
-          <div class="progress">
-            <span class="skill">NPM (Node.JS) <i class="val">40%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="progress">
-            <span class="skill">GIT <i class="val">75%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="progress">
-            <span class="skill">PHOTOSHOP <i class="val">60%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="col-lg-6">
-          <div class="progress">
-            <span class="skill">WordPress <i class="val">75%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="progress">
-            <span class="skill">CPanel <i class="val">85%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-    <!-- OTHER SKILLS -->
-
-    <!-- ======= Interests ======= -->
-    <div class="interests container">
-
-      <div class="section-title">
-        <h2>Frameworks </h2>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-3 col-md-4">
-          <div class="icon-box">
-            <i class="ri-store-line" style="color: #ffbb2c;"></i>
-            <h3>Lorem Ipsum</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-          <div class="icon-box">
-            <i class="ri-bar-chart-box-line" style="color: #5578ff;"></i>
-            <h3>Dolor Sitema</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-          <div class="icon-box">
-            <i class="ri-calendar-todo-line" style="color: #e80368;"></i>
-            <h3>Sed perspiciatis</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
-          <div class="icon-box">
-            <i class="ri-paint-brush-line" style="color: #e361ff;"></i>
-            <h3>Magni Dolores</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-database-2-line" style="color: #47aeff;"></i>
-            <h3>Nemo Enim</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-gradienter-line" style="color: #ffa76e;"></i>
-            <h3>Eiusmod Tempor</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-file-list-3-line" style="color: #11dbcf;"></i>
-            <h3>Midela Teren</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-price-tag-2-line" style="color: #4233ff;"></i>
-            <h3>Pira Neve</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-anchor-line" style="color: #b2904f;"></i>
-            <h3>Dirada Pack</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-disc-line" style="color: #b20969;"></i>
-            <h3>Moton Ideal</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-base-station-line" style="color: #ff5828;"></i>
-            <h3>Verdo Park</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-fingerprint-line" style="color: #29cc61;"></i>
-            <h3>Flavor Nivelanda</h3>
-          </div>
-        </div>
-        <hr>
-      </div>
-
-    </div><!-- End Interests -->
-
-    <!-- ======= Counts ======= -->
-    <div class="counts container">
-
-      <div class="row">
-
-        <div class="col-lg-3 col-md-6">
-          <div class="count-box">
-            <i class="icofont-simple-smile"></i>
-            <span data-toggle="counter-up">232</span>
-            <p>Happy Clients</p>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
-          <div class="count-box">
-            <i class="icofont-document-folder"></i>
-            <span data-toggle="counter-up">521</span>
-            <p>Projects</p>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-          <div class="count-box">
-            <i class="icofont-live-support"></i>
-            <span data-toggle="counter-up">1,463</span>
-            <p>Hours Of Support</p>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-          <div class="count-box">
-            <i class="icofont-users-alt-5"></i>
-            <span data-toggle="counter-up">15</span>
-            <p>Hard Workers</p>
-          </div>
-        </div>
-
-      </div>
-
-    </div><!-- End Counts -->
 
 
   </section><!-- End About Section -->
@@ -592,7 +268,7 @@
   </section><!-- End Resume Section -->
 
   <!-- ======= Sobre Mi ======= -->
-  <section id="services" class="services">
+  <section id="aboutme" class="services">
     <div class="container">
 
       <div class="section-title">
@@ -820,7 +496,7 @@
   </section><!-- Sobre mi -->
 
   <!-- ======= Portfolio Section ======= -->
-  <section id="portfolio" class="portfolio">
+  <section id="covers" class="portfolio">
     <div class="container">
 
       <div class="section-title">
@@ -997,12 +673,9 @@
             <i class="bx bx-share-alt"></i>
             <h3>Redes Sociales</h3>
             <div class="social-links">
-              <a href="https://twitter.com/kevinfrnando" target="_blank" class="twitter"><i class="icofont-twitter"></i></a>
-              <a href="https://www.facebook.com/kevinfrnando" target="_blank" class="facebook"><i class="icofont-facebook"></i></a>
-              <a href="https://www.instagram.com/kevinfrnandov" target="_blank" class="instagram"><i class="icofont-instagram"></i></a>
-              <a href="https://github.com/kevinfrnando" target="_blank" class="github"><i class="icofont-github"></i></a>
-              <a href="https://www.linkedin.com/in/kevinfrnando/" target="_blank" class="linkedin"><i class="icofont-linkedin"></i></a>
-              <a href="https://www.youtube.com/channel/UCYq_3vVqH6D_e6EGdhSnyqQ" target="_blank" class="youtube"><i class="icofont-youtube-play"></i></a>
+                <?php foreach ( $page["socialMedia"] as $media ) { ?>
+                    <a href="<?php echo $media->url; ?>" target="_blank" class="<?php echo $media->description?>"><i class="<?php echo $media->ico?>"></i></a>
+                <?php } ?>
             </div>
           </div>
         </div>

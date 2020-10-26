@@ -6,8 +6,8 @@ class DDBBHandler{
     private $stm;
 
 
-    public function __construct(){
-        $this->dbh = Core::getConnection();
+    public function __construct( $con = null ){
+        $this->dbh = $con != null ? $con : Core::getConnection();
     }
 
     /**

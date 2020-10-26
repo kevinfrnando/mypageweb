@@ -3,12 +3,17 @@
 
 class SkillType
 {
-    public function __construct(){
-        $this->db = new DDBBHandler();
+    public function __construct( $con = null ){
+        $this->db = new DDBBHandler( $con );
     }
 
     public function getAll(){
         $this->db->query("CALL SP_GET_ALL_SKILL_TYPE");
+        return $this->db->getAll();
+    }
+    public function getPageSkillsType( $id ){
+        $this->db->query("CALL SP_GET_PAGE_SKILL_TYPE( ? )");
+        $this->db->bind( 1 , $id);
         return $this->db->getAll();
     }
 

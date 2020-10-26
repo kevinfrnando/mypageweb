@@ -3,8 +3,8 @@
 
 class Tabs
 {
-    public function __construct(){
-        $this->db = new DDBBHandler();
+    public function __construct( $con = null ){
+        $this->db = new DDBBHandler( $con );
     }
 
     public function getData( $start, $limit ){
@@ -14,9 +14,14 @@ class Tabs
         return $this->db->getAll();
     }
 
+    public function getPageTabs(){
+        $this->db->query("CALL SP_GET_PAGE_TABS()");
+        return $this->db->getAll();
+    }
+
     public function insert( $data ){
         $this->db->query("call sp_insert_tab(?,?,?,?,?,?)");
-        $this->db->bind(1,$data["code"]);
+        $this->db->bind(1,$data["href"]);
         $this->db->bind(2,$data["description"]);
         $this->db->bind(3,1);
         $this->db->bind(4,date("Y-m-d H:i:s"));
@@ -39,7 +44,7 @@ class Tabs
     public function update($data){
         $this->db->query("call sp_update_tab(?,?,?,?,?,?,?)");
         $this->db->bind(1,$data["id"]);
-        $this->db->bind(2,$data["code"]);
+        $this->db->bind(2,$data["href"]);
         $this->db->bind(3,$data["description"]);
         $this->db->bind(4,1);
         $this->db->bind(5,date("Y-m-d H:i:s"));

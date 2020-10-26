@@ -26,6 +26,10 @@
         public function __construct (){
             $getConnection = new Connection();
             self::$connection = $getConnection->connect();
+            if( self::$connection == null ){
+                helpers::connectionError();
+            }
+
             $url = $this->getUrl();
 
             $controller ="";

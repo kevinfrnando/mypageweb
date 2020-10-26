@@ -72,7 +72,7 @@ class TabsController extends Controller
             if( $_SERVER["REQUEST_METHOD"] == "POST") {
                 $data = [
                     "id" => helpers::decrypt( $id ),
-                    "code" => helpers::fieldValidation($_POST["code"]),
+                    "href" => helpers::fieldValidation($_POST["href"]),
                     "description" => helpers::fieldValidation($_POST["description"]),
                     "user_id" => $_SESSION["user"]["id"],
                     "status_id" => helpers::fieldValidation($_POST["status_id"])
@@ -119,7 +119,7 @@ class TabsController extends Controller
 
                 $data = [
                     "id" => $tab->id,
-                    "code" => $tab->code,
+                    "href" => $tab->href,
                     "description" => $tab->description,
                     "status_id" => $tab->status_id,
                     "statusObj" => $this->statusModel->getAll()
@@ -130,7 +130,7 @@ class TabsController extends Controller
 
                 $data = [
                     "id" => null,
-                    "code" => "",
+                    "href" => "",
                     "description" => "",
                     "status_id" => "",
                     "statusObj" => $this->statusModel->getAll()

@@ -9,4 +9,7 @@ class NotfoundController extends Controller{
     public function noAuthorized(){
         $this->view("notfound/deneged");
     }
+    public function noConnection(){
+        $this->view("notfound/noconected");
+    }
 }
