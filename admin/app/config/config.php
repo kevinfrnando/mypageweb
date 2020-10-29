@@ -1,11 +1,15 @@
 <?php
 
-    // DDBB CONFIG
-    define("DB_HOST","localhost");
-    define("DB_USER","root");
-    define("DB_PASS","");
-    define("DB_NAME","karikum");
+//
+//    define("DB_HOST","localhost");
+//    define("DB_USER","root");
+//    define("DB_PASS","");
+//    define("DB_NAME","karikum");
 
+define("DB_HOST","161.97.124.87:3306");
+define("DB_USER","kevinver_root");
+define("DB_PASS","Romanos1202");
+define("DB_NAME","kevinver_karikum");
 
     define("APP_NAME","ADMIN PAGE");
 

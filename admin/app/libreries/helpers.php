@@ -68,23 +68,14 @@ class helpers{
             return 'No hemos podido detectar su navegador';
     }
 
-    public static function getRealIP() {
-        $ipaddress = '';
-        if (getenv('HTTP_CLIENT_IP'))
-            $ipaddress = getenv('HTTP_CLIENT_IP');
-        else if(getenv('HTTP_X_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-        else if(getenv('HTTP_X_FORWARDED'))
-            $ipaddress = getenv('HTTP_X_FORWARDED');
-        else if(getenv('HTTP_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_FORWARDED_FOR');
-        else if(getenv('HTTP_FORWARDED'))
-            $ipaddress = getenv('HTTP_FORWARDED');
-        else if(getenv('REMOTE_ADDR'))
-            $ipaddress = getenv('REMOTE_ADDR');
-        else
-            $ipaddress = 'UNKNOWN';
-        return $ipaddress;
+    function getRealIP() {
+        if (!empty($_SERVER['HTTP_CLIENT_IP']))
+            return $_SERVER['HTTP_CLIENT_IP'];
+
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+        return $_SERVER['REMOTE_ADDR'];
     }
 
     public static function encryptPass( $pass ){
@@ -121,7 +112,7 @@ class helpers{
             "saved" => false ,
             "message" => "",
             "exception" => null,
-            "path" => $_SERVER["DOCUMENT_ROOT"]."/media/admin/images/".$path."/"
+            "path" => $_SERVER["DOCUMENT_ROOT"]."/media/images/".$path."/"
             ];
         try {
             $image_name = $name.str_replace("image/",".",$image["type"]);

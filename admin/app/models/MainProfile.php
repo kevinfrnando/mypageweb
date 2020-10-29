@@ -32,7 +32,9 @@ class MainProfile{
                 :residency, 
                 :profession, 
                 :freelance,
-                :blood)");
+                :blood,
+                :email,
+                :movil)");
         $this->db->bind(":main_name" , $data["main_name"]);
         $this->db->bind(":main_legend" , $data["main_legend"]);
         $this->db->bind(":bio_title" , $data["bio_title"]);
@@ -46,6 +48,8 @@ class MainProfile{
         $this->db->bind(":profession" , $data["profession"]);
         $this->db->bind(":freelance" , $data["freelance"]);
         $this->db->bind(":blood" , $data["blood"]);
+        $this->db->bind(":email" , $data["email"]);
+        $this->db->bind(":movil" , $data["movil"]);
         $this->db->bind(":id" , $data["id"]);
 
         return $this->db->executeQuery() ?? false;

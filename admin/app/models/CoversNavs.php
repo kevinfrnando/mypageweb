@@ -3,11 +3,15 @@
 
 class CoversNavs
 {
-    public function __construct(){
-        $this->db = new DDBBHandler();
+    public function __construct( $con = null ){
+        $this->db = new DDBBHandler( $con );
     }
+    public function getPageCoversNav( $id ){
+        $this->db->query("CALL SP_GET_PAGES_COVERS_NAV( :id )");
+        $this->db->bind( ":id" , $id);
+        return $this->db->getAll();
 
-
+    }
     public function getData( $start, $limit ){
         $this->db->query("call SP_GET_NAVS_COVER( :start, :limit)");
         $this->db->bind( ":start" , $start);

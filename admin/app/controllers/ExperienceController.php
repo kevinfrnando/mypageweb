@@ -76,7 +76,7 @@ class ExperienceController extends Controller
                 $addDetails = isset( $_POST["addDetail"] );
                 $data = [
                     "id" => helpers::decrypt( $id ),
-                    "detailsId" => isset( $_POST["detailsId"] ) ? helpers::fieldArrayValidation($_POST["detailsId"]) : [],
+                    "details" => isset( $_POST["detailsId"] ) ? helpers::fieldArrayValidation($_POST["detailsId"]) : [],
                     "detailsDescription" => isset($_POST["detailsName"]) ? helpers::fieldArrayValidation($_POST["detailsName"]) : [],
                     "title" => helpers::fieldValidation($_POST["title"]),
                     "company" => helpers::fieldValidation($_POST["company"]),
@@ -121,13 +121,13 @@ class ExperienceController extends Controller
                     if( $this->permission->can_update ){
                         $execute = $this->experience->update($data);
                         if( !is_array($execute) ){
-                            if( count( $data["detailsId"] ) > 0 ){
+                            if( count( $data["details"] ) > 0 ){
 
-                                if( count( $data["detailsId"] ) == count( $data["detailsDescription"] ) ){
-                                    $keys = array_keys($data["detailsId"]);
+                                if( count( $data["details"] ) == count( $data["detailsDescription"] ) ){
+                                    $keys = array_keys($data["details"]);
                                     $ids = [];
                                     foreach($keys as $detailId){
-                                        $id = $data["detailsId"][$detailId];
+                                        $id = $data["details"][$detailId];
                                         if( $id > 0){
                                             array_push( $ids, $id);
                                         }
@@ -150,13 +150,13 @@ class ExperienceController extends Controller
                                     if( $ids != "0"){
                                         $executeDetail = $this->experienceDetails->deleteIn( $detailNotIn );
                                     }
-                                }elseif ( count( $data["detailsId"] ) < count( $data["detailsDescription"] ) ){
+                                }elseif ( count( $data["details"] ) < count( $data["detailsDescription"] ) ){
                                     $keys = array_keys($data["detailsDescription"]);
 
-                                    $keysId = array_keys($data["detailsId"]);
+                                    $keysId = array_keys($data["details"]);
                                     $ids = [];
                                     foreach($keysId as $detailId){
-                                        $id = $data["detailsId"][$detailId];
+                                        $id = $data["details"][$detailId];
                                         if( $id > 0){
                                             array_push( $ids, $id);
                                         }
@@ -171,7 +171,7 @@ class ExperienceController extends Controller
                                         $executeDetail = $this->experienceDetails->deleteIn( $detailNotIn );
                                     }
                                     foreach($keys as $_description){
-                                        $id = isset($data["detailsId"][$_description]) ? $data["detailsId"][$_description] : null ;
+                                        $id = isset($data["details"][$_description]) ? $data["details"][$_description] : null ;
 
                                         $descriptionDetail = $data["detailsDescription"][$_description];
                                         $detail = [
@@ -188,7 +188,7 @@ class ExperienceController extends Controller
                                 }
 
                             }else{
-                                if( count( $data["detailsId"] ) == 0 && ( count( $data["detailsDescription"] ) == 0 || count( $data["detailsDescription"] ) > 0 )){
+                                if( count( $data["details"] ) == 0 && ( count( $data["detailsDescription"] ) == 0 || count( $data["detailsDescription"] ) > 0 )){
                                     $detailNotIn = [
                                         "experience_id" => $data["id"],
                                         "user_id" => $data["user_id"],
@@ -211,7 +211,6 @@ class ExperienceController extends Controller
                         }else{
                             $data["error"] = $execute;
                             $data["statusArray"] = $this->statusModel->getAll();
-
                             $this->view($this->path."insert", $data);
                         }
 

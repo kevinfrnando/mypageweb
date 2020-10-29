@@ -3,10 +3,9 @@
 
 class Formation
 {
-    public function __construct(){
-        $this->db = new DDBBHandler();
+    public function __construct( $con = null ){
+        $this->db = new DDBBHandler( $con );
     }
-
 
     public function getData( $start, $limit ){
         $this->db->query("call SP_GET_PROFILE_FORMATION( :start, :limit)");
@@ -14,6 +13,13 @@ class Formation
         $this->db->bind( ":limit" , $limit);
         return $this->db->getAll();
     }
+
+    public function getPageFormation( $id ){
+        $this->db->query("CALL SP_GET_PAGE_PROFILE_FORMATION( ? )");
+        $this->db->bind( 1 , $id);
+        return $this->db->getAll();
+    }
+
     public function insert( $data ){
         $this->db->query("call SP_INSERT_PROFILE_FORMATION(?,?,?,?,?,?,?,?,?)");
         $this->db->bind(1,$data["title"]);

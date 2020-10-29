@@ -30,6 +30,8 @@ class MainProfileController extends Controller{
                         "residency" =>   helpers::fieldValidation($_POST["residency"]),
                         "freelance" =>   helpers::fieldValidation($_POST["freelance"]),
                         "blood" =>   helpers::fieldValidation($_POST["blood"]),
+                        "email" =>   helpers::fieldValidation($_POST["email"]),
+                        "movil" =>   helpers::fieldValidation($_POST["movil"]),
                         "user_id" => $_SESSION["user"]["id"]
                     ]   ;
 

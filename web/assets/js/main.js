@@ -135,3 +135,27 @@
   });
 
 })(jQuery);
+//
+// document.addEventListener("DOMContentLoaded",
+//     function() {
+//       var v = document.getElementsByClassName("reproductor");
+//       for (var n = 0; n < v.length; n++) {
+//         var p = document.createElement("div");
+//         p.innerHTML = labnolThumb(v[n].dataset.id);
+//         p.onclick = labnolIframe;
+//         v[n].appendChild(p);
+//       }
+//     });
+// function labnolThumb(id) {
+//   return '<img class="imagen-previa" src="/i.ytimg.com/vi/' + id + '/hqdefault.jpg"><div class="youtube-play"></div>';
+// }
+// function labnolIframe() {
+//   var iframe = document.createElement("iframe");
+//   iframe.setAttribute("src", "//www.youtube.com/embed/" + this.parentNode.dataset.id);
+//   iframe.setAttribute("frameborder", "0");
+//   iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
+//   iframe.setAttribute("id", "youtube-iframe");
+//   iframe.setAttribute("allowfullscreen", true);
+//   this.parentNode.replaceChild(iframe, this);
+// }
+//

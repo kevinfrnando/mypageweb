@@ -4,12 +4,18 @@
 class About
 {
 
-    public function __construct(){
-        $this->db = new DDBBHandler();
+    public function __construct( $con = null ){
+        $this->db = new DDBBHandler( $con );
     }
 
     public function getData(){
         $this->db->query("CALL SP_GET_ABOUT_ME()");
+        return $this->db->getAll();
+    }
+
+    public function getPageAbout( $id ){
+        $this->db->query("CALL SP_GET_PAGES_ABOUT( :id)");
+        $this->db->bind(":id",$id);
         return $this->db->getAll();
     }
 

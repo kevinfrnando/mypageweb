@@ -3,10 +3,9 @@
 
 class Covers
 {
-    public function __construct(){
-        $this->db = new DDBBHandler();
+    public function __construct( $con = null ){
+        $this->db = new DDBBHandler( $con );
     }
-
 
     public function getData( $start, $limit ){
         $this->db->query("call SP_GET_COVERS( :start, :limit)");
@@ -14,6 +13,11 @@ class Covers
         $this->db->bind( ":limit" , $limit);
         return $this->db->getAll();
     }
+    public function getPageCovers( ){
+        $this->db->query("CALL SP_GET_PAGES_COVERS( )");
+        return $this->db->getAll();
+    }
+
     public function insert( $data ){
         $this->db->query("call SP_INSERT_COVER(?,?,?,?,?,?,?)");
         $this->db->bind(1,$data["title"]);

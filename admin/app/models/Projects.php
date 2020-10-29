@@ -3,10 +3,9 @@
 
 class Projects
 {
-    public function __construct(){
-        $this->db = new DDBBHandler();
+    public function __construct( $con = null ){
+        $this->db = new DDBBHandler( $con );
     }
-
 
     public function getData( $start, $limit ){
         $this->db->query("call SP_GET_MUSICAL_PROJECTS( :start, :limit)");
@@ -14,6 +13,14 @@ class Projects
         $this->db->bind( ":limit" , $limit);
         return $this->db->getAll();
     }
+
+    public function getPageProjects( $id ){
+        $this->db->query("CALL SP_GET_PAGE_MUSICAL_PROJECTS( ? )");
+        $this->db->bind( 1 , $id);
+        return $this->db->getAll();
+    }
+
+
     public function insert( $data ){
         $this->db->query("call SP_INSERT_MUSICAL_PROJECT(?,?,?,?,?,?,?,?)");
         $this->db->bind(1,$data["title"]);

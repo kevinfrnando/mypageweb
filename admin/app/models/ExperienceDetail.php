@@ -3,12 +3,17 @@
 
 class ExperienceDetail
 {
-    public function __construct(){
-        $this->db = new DDBBHandler();
+    public function __construct( $con = null ){
+        $this->db = new DDBBHandler( $con );
     }
 
     public function getData( $experienceId ){
         $this->db->query("call SP_GET_EXPERIENCE_DETAILS(:_experience_id)");
+        $this->db->bind( ":_experience_id" , $experienceId);
+        return $this->db->getAll();
+    }
+    public function getPageExperienceDetails( $experienceId ){
+        $this->db->query("call SP_GET_PAGE_EXPERIENCE_DETAILS(:_experience_id)");
         $this->db->bind( ":_experience_id" , $experienceId);
         return $this->db->getAll();
     }

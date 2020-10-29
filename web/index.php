@@ -87,7 +87,7 @@ try {
 
       <div class="row">
         <div class="col-lg-4" data-aos="fade-right">
-          <img src="assets/img/Profile/me.jpg" class="img-fluid" alt="">
+          <img src="../../media/images/web/profile/espontaneo.jpg" class="img-fluid" alt="">
         </div>
         <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
           <h3><?php echo $page["profile"]->bio_title;?></h3>
@@ -163,103 +163,43 @@ try {
       <div class="row">
         <div class="col-lg-6">
           <h3 class="resume-title">Experiencia Profesional</h3>
-          <div class="resume-item">
-            <h4>Desarrollador Jr.</h4>
-            <h5>Mayo 2019 - Present</h5>
-            <p><em>VAOS GROUP  </em></p>
-            <p>
-            <ul>
-              <li>Mantenimiento de DDBB Postgresql.</li>
-              <li>Mantenimiento y desarrollo de mejoras y validaciones.</li>
-              <li>Desarrollo de Módulos, funciones y validaciones.</li>
-              <li>Apoyo en migración de Data de Base de Datos.</li>
-            </ul>
-            </p>
-          </div>
-          <div class="resume-item">
-            <h4>Programador Front-End </h4>
-            <h5>Noviembre 2018 – Mayo 2019</h5>
-            <p><em>Platino Marketing </em></p>
-            <p>
-            <ul>
-              <li>Desarrollo de DashBoard y componentes Front-End en AngularJs.</li>
-              <li>Implementación de Charts con Chart-Js.</li>
-              <li>Implementación de Angular Material.</li>
-              <li>Migración de Aplicacion en AngularJs a Angular (v. 7).</li>
-              <li>Consumo de API REST FULL (php-Laravel) con AngularJs y Angular (v. 7).</li>
-              <li>Implementación de Charts con NgX-Charts con Angular (v. 7)</li>
-              <li>Mantenimiento de API REST FULL (PHP-Laravel).</li>
-              <li>Manejo de WordPress.</li>
-              <li>Administración y creación de correos en Cpanel.</li>
-            </ul>
-            </p>
-          </div>
-          <div class="resume-item">
-            <h4>Programador Jr SQL (Eventual). </h4>
-            <h5>Junio 2018 – Agosto  2018</h5>
-            <p><em>Relative Engine  </em></p>
-            <p>
-            <ul>
-              <li>Creación de tablas y relaciones en MsSql.</li>
-              <li>Ejecución de scripts de validación y completitud.</li>
-              <li>Migración de información de base de Datos Oracle a Sql server</li>
-            </ul>
-            </p>
-          </div>
-          <div class="resume-item">
-            <h4>Pasante Programador Jr. </h4>
-            <h5>Febrero 2018 - Junio 2018</h5>
-            <p><em>Lubrilaca – Golden Bear  </em></p>
-            <p>
-            <ul>
-              <li>Soporte a usuarios. </li>
-              <li>Programador Jr. .Net, Sql Server & PHP.</li>
-              <li>Supervisión y monitoreo de servidor.</li>
-            </ul>
-            </p>
-          </div>
-          <div class="resume-item">
-            <h4>Practicante, Asistente Sistemas </h4>
-            <h5>Agosto 2017 – Diciembre 2017</h5>
-            <p><em>Ecuasanitas  </em></p>
-            <p>
-            <ul>
-              <li>Help Desk y Soporte remoto.</li>
-              <li>Mantenimiento Preventivo y Correctivo de Equipos.</li>
-              <li>Inventario de equipos de cómputo.</li>
-            </ul>
-            </p>
-          </div>
+            <?php foreach ( $page["experience"] as $experience ) { ?>
+                <div class="resume-item">
+                    <h4> <?php echo $experience->title?></></h4>
+                    <h5><?php echo $experience->date_start;?> - <?php echo $experience->current_experience ? 'Present' : $experience->date_end ;  ?></h5>
+                    <p><em><?php echo $experience->company_name?> </em></p>
+                    <p>
+                    <ul>
+                        <?php foreach ($experience->details as $detail ) { ?>
+                        <li><?php echo  $detail->description ?></li>
+                        <?php } ?>
+                    </ul>
+                    </p>
+                </div>
+            <?php } ?>
         </div>
 
         <div class="col-lg-6">
-          <h3 class="resume-title">Educación</h3>
-          <div class="resume-item">
-            <h4>Ingeniero en Sistemas Adm. Computarizados</h4>
-            <h5>2012 - 2018</h5>
-            <p><em>UNIVERSIDAD DE GUAYAQUIL</em></p>
-          </div>
-          <div class="resume-item">
-            <h4>Bachiler en Administración en Sistemas</h4>
-            <h5>2006 - 2012</h5>
-            <p><em>Francisco Huerta Rendon</em></p>
-<!--            <p>Quia nobis sequi est occaecati aut. Repudiandae et iusto quae reiciendis et quis Eius vel ratione eius unde vitae rerum voluptates asperiores voluptatem Earum molestiae consequatur neque etlon sader mart dila</p>-->
-          </div>
+            <h3 class="resume-title">Educación</h3>
+            <?php foreach ( $page["formation"] as $formation ) {
+                if ( !$formation->course ) { ?>
 
-<!--          <h3 class="resume-title">Sumary</h3>-->
-<!--          <div class="resume-item pb-0">-->
-<!--            <h4>Alice Barkley</h4>-->
-<!--            <p><em>Innovative and deadline-driven Graphic Designer with 3+ years of experience designing and developing user-centered digital/print marketing material from initial concept to final, polished deliverable.</em></p>-->
-<!--            <p>-->
-<!--            <ul>-->
-<!--              <li>Portland par 127,Orlando, FL</li>-->
-<!--              <li>(123) 456-7891</li>-->
-<!--              <li>alice.barkley@example.com</li>-->
-<!--            </ul>-->
-<!--            </p>-->
-<!--          </div>-->
-
-
+                    <div class="resume-item">
+                    <h4><?php echo $formation->title ?></h4>
+                    <h5><?php echo $formation->start_formation." - ".$formation->end_formation; ?></h5>
+                    <p><em> <?php echo $formation->institute; ?></em></p>
+                  </div>
+                <?php } }?>
+            <br>
+            <h3 class="resume-title">Cursos Realizados</h3>
+            <?php foreach ( $page["formation"] as $formation ) {
+                if ( $formation->course ) { ?>
+                        <div class="resume-item">
+                        <h4><?php echo $formation->title ?></h4>
+                        <h5><?php echo $formation->start_formation." - ".$formation->end_formation; ?></h5>
+                        <p><em> <?php echo $formation->institute; ?></em></p>
+                    </div>
+            <?php } } ?>
         </div>
 
       </div>
@@ -275,104 +215,55 @@ try {
         <h2>Más de mi</h2>
         <p>Yo como Baterista</p>
       </div>
+      <?php foreach ( $page["about"] as $about ) { ?>
+          <div class="row">
+              <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+                  <?php echo $about->description ?>
+              </div>
+              <div class="col-lg-4" data-aos="fade-right">
+                  <img src="../../media/images/web/profile/aboutme.jpg" class="img-fluid" alt="">
+              </div>
+          </div>
+      <?php } ?>
 
-      <div class="row">
-        <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
-          <p>Baterista desde los 16 años, empece viendo y admirando mucho desde entonces hasta a la actualidad a
-              <a href="http://www.daveweckl.com/" target="_blank">Dave Weckl</a>, sin duda es la motivación que siempre
-              tuve para desarrollar este instrumento de una manera mas técnica, cada vez que veía algun video de el o
-              escuchaba su música me motivaba y me inspiraba a practicar más y más, inclusive en la actualidad escucho
-              constantemente su música y estoy al tanto de sus proyectos.
-          </p>
-          <p>Di mis primeros pasos en la bateria tocando en la iglesia a la que asisto desde muy temprana edad hasta
-              ahora, aprendiendo poco a poco por mi propia cuenta, con los recursos y materiales que podia conseguir en
-              aquel entonces en la red mediante videos de YouTube o Blogs, esto siempre hacia que me empujara a mi mismo
-              a ser autodidacta, virtud que puedo gozar no solo en la música, sino en varias areas de mi vida
-          </p>
-          <p>A pesar de ser una persona autodidacta y que he aprendido de este intrumento por mis propios meritos, llegue
-              a un punto que necesitaba de una orientacion musical adecuada, entonces opté por tomar clases particulares
-              junto a <a href="https://www.instagram.com/juan_ordonezg/?hl=es-la" target="_blank">Juan Ordoñez</a> un conocido
-              baterista de Guayaquil, lo cual ha sido una decision muy valiosa e importante ya que he podido corregir muchos
-              errores propios de una persona autodidacta que aprende por su cuenta.
-          </p>
-        </div>
-        <div class="col-lg-4" data-aos="fade-right">
-          <img src="assets/img/aboutMe/me_drums2.jpg" class="img-fluid" alt="">
-        </div>
-      </div>
-        <div class="row">
-        <div class="col-lg-4" data-aos="fade-right">
-            <img src="assets/img/aboutMe/me_drums.jpg" class="img-fluid" alt="">
-        </div>
-        <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
-            <p>Baterista desde los 16 años, empece viendo y admirando mucho desde entonces hasta a la actualidad a
-                <a href="http://www.daveweckl.com/" target="_blank">Dave Weckl</a>, sin duda es la motivación que siempre
-                tuve para desarrollar este instrumento de una manera mas técnica, cada vez que veía algun video de el o
-                escuchaba su música me motivaba y me inspiraba a practicar más y más, inclusive en la actualidad escucho
-                constantemente su música y estoy al tanto de sus proyectos.
-            </p>
-            <p>Di mis primeros pasos en la bateria tocando en la iglesia a la que asisto desde muy temprana edad hasta
-                ahora, aprendiendo poco a poco por mi propia cuenta, con los recursos y materiales que podia conseguir en
-                aquel entonces en la red mediante videos de YouTube o Blogs, esto siempre hacia que me empujara a mi mismo
-                a ser autodidacta, virtud que puedo gozar no solo en la música, sino en varias areas de mi vida
-            </p>
-            <p>A pesar de ser una persona autodidacta y que he aprendido de este intrumento por mis propios meritos, llegue
-                a un punto que necesitaba de una orientacion musical adecuada, entonces opté por tomar clases particulares
-                junto a <a href="https://www.instagram.com/juan_ordonezg/?hl=es-la" target="_blank">Juan Ordoñez</a> un conocido
-                baterista de Guayaquil, lo cual ha sido una decision muy valiosa e importante ya que he podido corregir muchos
-                errores propios de una persona autodidacta que aprende por su cuenta.
-            </p>
-        </div>
-        </div>
 
-        <div class="section-title">
-            <p>Jarrin</p>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left">
-                <p>Baterista desde los 16 años, empece viendo y admirando mucho desde entonces hasta a la actualidad a
-                    <a href="http://www.daveweckl.com/" target="_blank">Dave Weckl</a>, sin duda es la motivación que siempre
-                    tuve para desarrollar este instrumento de una manera mas técnica, cada vez que veía algun video de el o
-                    escuchaba su música me motivaba y me inspiraba a practicar más y más, inclusive en la actualidad escucho
-                    constantemente su música y estoy al tanto de sus proyectos.
-                </p>
-                <p>Di mis primeros pasos en la bateria tocando en la iglesia a la que asisto desde muy temprana edad hasta
-                    ahora, aprendiendo poco a poco por mi propia cuenta, con los recursos y materiales que podia conseguir en
-                    aquel entonces en la red mediante videos de YouTube o Blogs, esto siempre hacia que me empujara a mi mismo
-                    a ser autodidacta, virtud que puedo gozar no solo en la música, sino en varias areas de mi vida
-                </p>
-            </div>
-            <div class="col-lg-6" data-aos="fade-right">
-                <div class="embed-container">
-                    <iframe width="auto" height="315" src="https://www.youtube.com/embed/G087Dx0qxLs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        <?php
+        $i = 1 ;
+        foreach ( $page["projects"] as $project ){
+            if( $i % 2 == 0) { ?>
+                <div class="section-title">
+                    <p><?php echo $project->title?></p>
                 </div>
-            </div>
-        </div>
-
-
-        <div class="section-title">
-            <p>Kike Ceron</p>
-        </div>
-        <div class="row">
-            <div class="col-lg-6" data-aos="fade-left">
-                <div class="embed-container">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Ey2v9I3G5Bk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="row">
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <div class="embed-container">
+                            <iframe width="560" height="315" src="<?php echo $project->youtube_link?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-right">
+                        <p><?php echo $project->description;?>
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-right">
-                <p>Baterista desde los 16 años, empece viendo y admirando mucho desde entonces hasta a la actualidad a
-                    <a href="http://www.daveweckl.com/" target="_blank">Dave Weckl</a>, sin duda es la motivación que siempre
-                    tuve para desarrollar este instrumento de una manera mas técnica, cada vez que veía algun video de el o
-                    escuchaba su música me motivaba y me inspiraba a practicar más y más, inclusive en la actualidad escucho
-                    constantemente su música y estoy al tanto de sus proyectos.
-                </p>
-                <p>Di mis primeros pasos en la bateria tocando en la iglesia a la que asisto desde muy temprana edad hasta
-                    ahora, aprendiendo poco a poco por mi propia cuenta, con los recursos y materiales que podia conseguir en
-                    aquel entonces en la red mediante videos de YouTube o Blogs, esto siempre hacia que me empujara a mi mismo
-                    a ser autodidacta, virtud que puedo gozar no solo en la música, sino en varias areas de mi vida
-                </p>
-            </div>
-        </div>
+            <?php } else{ ?>
+                <div class="section-title">
+                    <p><?php echo $project->title?></p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left">
+                        <p><?php echo $project->description;?>
+                        </p>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <div class="embed-container">
+                            <iframe width="auto" height="315" src="<?php echo $project->youtube_link?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+        <?php } $i++; } ?>
+
+
       <!-- ======= Testimonials ======= -->
       <div class="testimonials container">
 
@@ -381,273 +272,73 @@ try {
         </div>
 
         <div class="owl-carousel testimonials-carousel">
+            <?php foreach ($page["testimonials"] as $testimonial ) {?>
+                <div class="testimonial-item">
+                    <p>
+                        <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                        <?php echo $testimonial->description; ?>
+                        <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                    </p>
+                    <img src="../../media/images/web/testimonials/<?php echo $testimonial->image_name?>.jpg" class="testimonial-img" alt="">
+                    <h3><?php echo $testimonial->author?></h3>
+                    <h4><?php echo $testimonial->title?></h4>
+                </div>
+            <?php } ?>
 
-          <div class="testimonial-item">
-            <p>
-              <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                Persona dedicada a su trabajo, decidido a cumplir su meta. Se esfuerza mucho hasta cumplir el éxito. La honestidad en el es algo natural. Siempre es transparente en todas su desicones.
-              <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-            </p>
-            <img src="assets/img/testimonials/juan.jpg" class="testimonial-img" alt="">
-            <h3>Juan Ordoñez</h3>
-            <h4>Baterista</h4>
-          </div>
 
-          <div class="testimonial-item">
-            <p>
-              <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-              Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-              <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-            </p>
-            <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-            <h3>Sara Wilsson</h3>
-            <h4>Designer</h4>
-          </div>
 
-          <div class="testimonial-item">
-            <p>
-              <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-              Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-              <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-            </p>
-            <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-            <h3>Jena Karlis</h3>
-            <h4>Store Owner</h4>
-          </div>
-
-          <div class="testimonial-item">
-            <p>
-              <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-              Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-              <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-            </p>
-            <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-            <h3>Matt Brandon</h3>
-            <h4>Freelancer</h4>
-          </div>
-
-          <div class="testimonial-item">
-            <p>
-              <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-              Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-              <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-            </p>
-            <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-            <h3>John Larson</h3>
-            <h4>Entrepreneur</h4>
-          </div>
-
-        </div>
-
-      </div><!-- End Testimonials  -->
-<!--
-      <div class="row">
-        <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-          <div class="icon-box">
-            <div class="icon"><i class="bx bxl-dribbble"></i></div>
-            <h4><a href="">Lorem Ipsum</a></h4>
-            <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-          <div class="icon-box">
-            <div class="icon"><i class="bx bx-file"></i></div>
-            <h4><a href="">Sed ut perspiciatis</a></h4>
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
-          <div class="icon-box">
-            <div class="icon"><i class="bx bx-tachometer"></i></div>
-            <h4><a href="">Magni Dolores</a></h4>
-            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-          <div class="icon-box">
-            <div class="icon"><i class="bx bx-world"></i></div>
-            <h4><a href="">Nemo Enim</a></h4>
-            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-          <div class="icon-box">
-            <div class="icon"><i class="bx bx-slideshow"></i></div>
-            <h4><a href="">Dele cardo</a></h4>
-            <p>Quis consequatur saepe eligendi voluptatem consequatur dolor consequuntur</p>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-          <div class="icon-box">
-            <div class="icon"><i class="bx bx-arch"></i></div>
-            <h4><a href="">Divera don</a></h4>
-            <p>Modi nostrum vel laborum. Porro fugit error sit minus sapiente sit aspernatur</p>
-          </div>
         </div>
 
       </div>
--->
+    <!-- End Testimonials  -->
+
     </div>
   </section><!-- Sobre mi -->
 
-  <!-- ======= Portfolio Section ======= -->
+
   <section id="covers" class="portfolio">
     <div class="container">
 
       <div class="section-title">
-        <h2>Media</h2>
-        <p>Galeria </p>
+        <h2>Videos</h2>
+        <p>En YouTube </p>
       </div>
 
       <div class="row">
         <div class="col-lg-12 d-flex justify-content-center">
           <ul id="portfolio-flters">
             <li data-filter="*" class="filter-active">All</li>
-            <li data-filter=".filter-app">Covers</li>
-            <li data-filter=".filter-app">Transcripciones</li>
-            <li data-filter=".filter-card">Drumline</li>
-            <li data-filter=".filter-card">Imágenes</li>
+            <?php foreach ( $page["coversNav"] as $nav ) { ?>
+              <li data-filter=".filter-<?php echo $nav->id?>"><?php echo $nav->description?></li>
+            <?php } ?>
           </ul>
         </div>
       </div>
 
+
+
       <div class="row portfolio-container">
 
-        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>A Danzar - Barak</h4>
-              <p>Cover</p>
-              <div class="portfolio-links">
-                <a href="https://www.youtube.com/watch?v=SYp6Mbt5yO8" data-gall="portfolioGallery" class="venobox" title="App 1"><i class="bx bx-plus"></i></a>
-                <a href="https://www.youtube.com/watch?v=SYp6Mbt5yO8" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
+          <?php foreach ( $page["covers"] as $cover) { ?>
 
-        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Web 3</h4>
-              <p>Web</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-2.jpg" data-gall="portfolioGallery" class="venobox" title="Web 3"><i class="bx bx-plus"></i></a>
-                <a href="#" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
+              <div class="col-lg-4 col-md-6 portfolio-item filter-<?php echo $cover->nav_cover_id?>">
+                  <div class="portfolio-wrap">
+                      <img class="img-fluid" height="315" alt="" src="http://i.ytimg.com/vi/<?php echo $cover->id_url?>/hqdefault.jpg">
+                      <div class="portfolio-info">
+                          <div class="icon-box">
+                              <h4><a href="<?php echo $cover->url?>" target="_blank"><?php echo $cover->title?></a></h4>
 
-        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>App 2</h4>
-              <p>App</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-3.jpg" data-gall="portfolioGallery" class="venobox" title="App 2"><i class="bx bx-plus"></i></a>
-                <a href="#" title="More Details"><i class="bx bx-link"></i></a>
+                          </div>
+                      </div>
+                  </div>
               </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Card 2</h4>
-              <p>Card</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-4.jpg" data-gall="portfolioGallery" class="venobox" title="Card 2"><i class="bx bx-plus"></i></a>
-                <a href="#" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Web 2</h4>
-              <p>Web</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-5.jpg" data-gall="portfolioGallery" class="venobox" title="Web 2"><i class="bx bx-plus"></i></a>
-                <a href="#" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>App 3</h4>
-              <p>App</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-6.jpg" data-gall="portfolioGallery" class="venobox" title="App 3"><i class="bx bx-plus"></i></a>
-                <a href="#" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Card 1</h4>
-              <p>Card</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-7.jpg" data-gall="portfolioGallery" class="venobox" title="Card 1"><i class="bx bx-plus"></i></a>
-                <a href="#" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-8.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Card 3</h4>
-              <p>Card</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-8.jpg" data-gall="portfolioGallery" class="venobox" title="Card 3"><i class="bx bx-plus"></i></a>
-                <a href="#" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Web 3</h4>
-              <p>Web</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-9.jpg" data-gall="portfolioGallery" class="venobox" title="Web 3"><i class="bx bx-plus"></i></a>
-                <a href="#" title="More Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
+          <?php } ?>
 
       </div>
 
     </div>
-  </section><!-- End Portfolio Section -->
+  </section>
 
   <!-- ======= Contact Section ======= -->
   <section id="contact" class="contact">
@@ -664,7 +355,7 @@ try {
           <div class="info-box">
             <i class="bx bx-map"></i>
             <h3>Mi dirección</h3>
-            <p>Guayaquil, Ecuador</p>
+            <p><?php echo $page["profile"]->residency?></p>
           </div>
         </div>
 
@@ -684,14 +375,14 @@ try {
           <div class="info-box">
             <i class="bx bx-envelope"></i>
             <h3>Escribeme</h3>
-            <p>info@kevinvergara.com</p>
+            <p><?php echo $page["profile"]->email?></p>
           </div>
         </div>
         <div class="col-md-6 mt-4 d-flex align-items-stretch">
           <div class="info-box">
             <i class="bx bx-phone-call"></i>
             <h3>Llamame</h3>
-            <p>+593 985219251</p>
+            <p><?php echo $page["profile"]->movil?></p>
           </div>
         </div>
       </div>

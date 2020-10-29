@@ -89,6 +89,7 @@ class DDBBHandler{
 
     public function getRecord(){
         $this->executeQuery();
+
         $record = $this->stm->fetch(PDO::FETCH_OBJ);
         $this->stm->closeCursor();
         return $record;
